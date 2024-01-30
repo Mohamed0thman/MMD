@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/NotoKufiArabic-Black.ttf",
+      "sha1": "22fe0ce97f8a3106ee00e2938d33b595429efdc6"
+    },
+    {
+      "path": "src/assets/fonts/NotoKufiArabic-Bold.ttf",
+      "sha1": "61eba00b743361a4cc74890d4f3d2147d4978163"
+    },
+    {
+      "path": "src/assets/fonts/NotoKufiArabic-Regular.ttf",
+      "sha1": "7de76d2fd2cfc4c8b1ee02cc6b72f1cdeb8f33ab"
+    },
+    {
+      "path": "src/assets/fonts/NotoKufiArabic-SemiBold.ttf",
+      "sha1": "68f34d0f9e2ed97b188e0a1e0197a5afd230d513"
+    }
+  ]
+}

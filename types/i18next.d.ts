@@ -1,9 +1,6 @@
 import locales from '../src/localization/locales';
-import translation from '../src/localization/locales/en';
 
-const resources = {
-  translation,
-} as const;
+const resources = locals as const;
 
 // const resources = locales as const;
 
