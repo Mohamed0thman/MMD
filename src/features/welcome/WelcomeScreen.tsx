@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {RootScreen} from '../../layout';
 import {COLORS, IMAGES, SCALE, FONTS} from '../../constants';
@@ -6,6 +6,7 @@ import {Button, Icons} from '../../components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {UnAuthStackParamList} from '../../navigation/UnAuthStack';
 import {useTranslation} from 'react-i18next';
+import {hideMessage, showMessage} from '../../components/Message';
 
 type Props = NativeStackScreenProps<UnAuthStackParamList, 'Welcome'> & {};
 
@@ -29,7 +30,7 @@ const WelcomeScreen = ({navigation}: Props) => {
         />
       </View>
       <View style={{flex: 0.6}}>
-        <Text>{t('app.')}</Text>
+        <Text>{t('')}</Text>
         <Text>مرحباااا, هيا نبدأ</Text>
         <Text>أختر شخصية</Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
@@ -53,6 +54,14 @@ const WelcomeScreen = ({navigation}: Props) => {
           ))}
         </View>
       </View>
+
+      <TouchableOpacity onPress={showMessage}>
+        <Text>dasdsadsadsadsadw</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={hideMessage}>
+        <Text>dasdsadsadsadsadw</Text>
+      </TouchableOpacity>
 
       <Button
         title={'أبدأ'}
