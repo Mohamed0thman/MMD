@@ -1,17 +1,17 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import {RootScreen} from '../../layout';
-import {COLORS, IMAGES, SCALE, FONTS} from '../../constants';
-import {Button, Icons} from '../../components';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {UnAuthStackParamList} from '../../navigation/UnAuthStack';
-import {useTranslation} from 'react-i18next';
-import {hideMessage, showMessage} from '../../components/Message';
+import { RootScreen } from '../../../../layout';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { UnAuthStackParamList } from '../../../../navigation/UnAuthStack';
+import { useTranslation } from 'react-i18next';
+import { COLORS, IMAGES } from '../../../../constants';
+import { Button, Icons } from '../../../../components';
+import { hideMessage, showMessage } from '../../../../components/Message';
 
 type Props = NativeStackScreenProps<UnAuthStackParamList, 'Welcome'> & {};
 
-const WelcomeScreen = ({navigation}: Props) => {
-  const {t} = useTranslation();
+const WelcomeScreen = ({ navigation }: Props) => {
+  const { t } = useTranslation();
   return (
     <RootScreen
       statusBarConfig={{
@@ -29,14 +29,14 @@ const WelcomeScreen = ({navigation}: Props) => {
           }}
         />
       </View>
-      <View style={{flex: 0.6}}>
+      <View style={{ flex: 0.6 }}>
         <Text>{t('')}</Text>
         <Text>مرحباااا, هيا نبدأ</Text>
         <Text>أختر شخصية</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
           {[
-            {id: 1, title: 'فتاه', icon: 'girl-head'},
-            {id: 2, title: 'صبي', icon: 'boy-head'},
+            { id: 1, title: 'فتاه', icon: 'girl-head' },
+            { id: 2, title: 'صبي', icon: 'boy-head' },
           ].map(item => (
             <View key={item.id}>
               <View
@@ -47,7 +47,7 @@ const WelcomeScreen = ({navigation}: Props) => {
                 }}>
                 <Icons varinat={item.icon} width={72} height={72} />
               </View>
-              <Text style={{textAlign: 'center', marginTop: 10}}>
+              <Text style={{ textAlign: 'center', marginTop: 10 }}>
                 {item.title}
               </Text>
             </View>
@@ -71,7 +71,7 @@ const WelcomeScreen = ({navigation}: Props) => {
   );
 };
 
-export {WelcomeScreen};
+export { WelcomeScreen };
 
 const styles = StyleSheet.create({
   imageContainer: {
