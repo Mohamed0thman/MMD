@@ -11,18 +11,15 @@ import {
 } from '../../../../components';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { OnboardingNavigationScreenParamsList } from '../../navigation';
 
 import { useTranslation } from 'react-i18next';
 
 import { IMAGES } from '../../../../constants';
 import { useSettingStore } from '../../../../store';
 import { useRestyleTheme } from '../../../../style/theme';
+import { RootStackParamList } from '../../../../navigation/RootNavigation';
 
-type Props = NativeStackScreenProps<
-  OnboardingNavigationScreenParamsList,
-  'Welcome'
-> & {};
+type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'> & {};
 
 const WelcomeScreen = ({ navigation }: Props) => {
   const { t } = useTranslation();

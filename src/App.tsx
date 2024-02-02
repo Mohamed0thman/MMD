@@ -5,8 +5,8 @@
  * @format
  */
 
-import React, { useState } from 'react';
-import { StyleSheet, Switch } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 
 import RootNavigation from './navigation/RootNavigation';
 
@@ -15,9 +15,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@shopify/restyle';
 import { theme, pinkTheme } from './style/theme';
 
-import './localization';
-import { Box } from './components';
 import { useSettingStore } from './store';
+
+import './localization';
 
 export const queryClient = new QueryClient();
 
