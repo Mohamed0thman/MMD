@@ -1,7 +1,6 @@
 import {
   StyleSheet,
   Text,
-  View,
   Pressable,
   PressableProps,
   StyleProp,
@@ -9,44 +8,36 @@ import {
 } from 'react-native';
 import React from 'react';
 
-//
-import {Icons} from '.';
-//
-import {COLORS, ICONS, FONTS} from '../constants';
+import { Box, Icons, StyledText } from '.';
+import { COLORS, ICONS, FONTS } from '../constants';
 
 type Varinat = 'text' | 'icon';
 
 type Props = PressableProps & {
   varinat?: Varinat;
   title?: String;
-  Iconvarinat?: keyof typeof ICONS;
+  icon?: keyof typeof ICONS;
   style?: StyleProp<ViewStyle>;
 };
 
-const Button = ({
-  style,
-  varinat = 'text',
-  title,
-  Iconvarinat,
-  onPress,
-}: Props) => {
-  let content;
-  switch (varinat) {
-    case 'icon':
-      content = <Icons varinat={Iconvarinat || 'boy-head'} />;
-      break;
-    default:
-      content = <Text style={styles.label}>{title}</Text>;
-      break;
-  }
+const Button = ({ style, title, icon, onPress }: Props) => {
   return (
-    <Pressable onPress={onPress}>
-      <View style={[styles.container, style]}>{content}</View>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}>
+      <Box
+        style={[styles.container, style]}
+        flexDirection="row"
+        justifyContent="center"
+        alignItems="center">
+        {icon && <Icons varinat={icon} />}
+        {title && <StyledText>{title}</StyledText>}
+      </Box>
     </Pressable>
   );
 };
 
-export {Button};
+export { Button };
 
 const styles = StyleSheet.create({
   container: {

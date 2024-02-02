@@ -5,7 +5,7 @@ import {
 } from 'reactotron-react-query';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { queryClient } from './src/App';
+import { queryClient } from './App';
 
 const queryClientManager = new QueryClientManager({
   queryClient,

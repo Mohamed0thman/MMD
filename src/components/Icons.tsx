@@ -1,18 +1,18 @@
-import {View} from 'react-native';
 import React from 'react';
-import {SvgProps} from 'react-native-svg';
-import {ICONS} from '../constants';
+import { SvgProps } from 'react-native-svg';
+import { ICONS } from '../constants';
+import { Box } from '.';
 
 type Props = SvgProps & {
   varinat: keyof typeof ICONS | string;
 };
 
-const Icons = ({varinat, ...reset}: Props) => {
+const Icons = ({ varinat, ...reset }: Props) => {
   return (
-    <View>
+    <Box>
       {React.createElement(ICONS[varinat as keyof typeof ICONS], reset)}
-    </View>
+    </Box>
   );
 };
 
-export {Icons};
+export { Icons };

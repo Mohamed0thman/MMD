@@ -1,14 +1,20 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Text } from 'react-native';
 import React from 'react';
-import { RootScreen } from '../../../../layout';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { UnAuthStackParamList } from '../../../../navigation/UnAuthStack';
-import { useTranslation } from 'react-i18next';
-import { COLORS, IMAGES } from '../../../../constants';
-import { Button, Icons } from '../../../../components';
-import { hideMessage, showMessage } from '../../../../components/Message';
 
-type Props = NativeStackScreenProps<UnAuthStackParamList, 'Welcome'> & {};
+import { RootScreen } from '../../../../layout';
+import { Box, Button, Icons, StyledText } from '../../../../components';
+
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { OnboardingNavigationScreenParamsList } from '../../navigation';
+
+import { useTranslation } from 'react-i18next';
+
+import { COLORS, IMAGES } from '../../../../constants';
+
+type Props = NativeStackScreenProps<
+  OnboardingNavigationScreenParamsList,
+  'Welcome'
+> & {};
 
 const WelcomeScreen = ({ navigation }: Props) => {
   const { t } = useTranslation();
@@ -19,7 +25,11 @@ const WelcomeScreen = ({ navigation }: Props) => {
         backgroundColor: 'transparent',
         barStyle: 'light-content',
       }}>
-      <View style={styles.imageContainer}>
+      <Box
+        justifyContent="center"
+        alignItems="center"
+        flex={0.4}
+        backgroundColor="primary">
         <Image
           source={IMAGES.whiteLogo}
           resizeMode="contain"
@@ -28,40 +38,32 @@ const WelcomeScreen = ({ navigation }: Props) => {
             height: 190,
           }}
         />
-      </View>
-      <View style={{ flex: 0.6 }}>
+      </Box>
+      <Box style={{ flex: 0.6 }}>
         <Text>{t('')}</Text>
-        <Text>مرحباااا, هيا نبدأ</Text>
-        <Text>أختر شخصية</Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <StyledText>مرحباااا, هيا نبدأ</StyledText>
+        <StyledText>أختر شخصية</StyledText>
+        <Box style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
           {[
             { id: 1, title: 'فتاه', icon: 'girl-head' },
             { id: 2, title: 'صبي', icon: 'boy-head' },
           ].map(item => (
-            <View key={item.id}>
-              <View
+            <Box key={item.id}>
+              <Box
                 style={{
                   padding: 30,
                   borderColor: COLORS.darkGrey,
                   borderWidth: 1,
                 }}>
                 <Icons varinat={item.icon} width={72} height={72} />
-              </View>
-              <Text style={{ textAlign: 'center', marginTop: 10 }}>
+              </Box>
+              <StyledText style={{ textAlign: 'center', marginTop: 10 }}>
                 {item.title}
-              </Text>
-            </View>
+              </StyledText>
+            </Box>
           ))}
-        </View>
-      </View>
-
-      <TouchableOpacity onPress={showMessage}>
-        <Text>dasdsadsadsadsadw</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={hideMessage}>
-        <Text>dasdsadsadsadsadw</Text>
-      </TouchableOpacity>
+        </Box>
+      </Box>
 
       <Button
         title={'أبدأ'}
@@ -72,14 +74,3 @@ const WelcomeScreen = ({ navigation }: Props) => {
 };
 
 export { WelcomeScreen };
-
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 0.4,
-    backgroundColor: COLORS.primary,
-    borderBottomStartRadius: 50,
-    borderBottomEndRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
