@@ -1,7 +1,7 @@
 import {Text, View} from 'react-native';
 import React, {useEffect, useImperativeHandle, useRef, useState} from 'react';
 
-import {flashMessageManager, MessageHelpers} from '../utiles/flashmanger';
+import {flashMessageManager, MessageHelpers} from '../utils/flashmanger';
 
 type Props = {};
 

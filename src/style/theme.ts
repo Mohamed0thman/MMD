@@ -1,6 +1,12 @@
 import { createTheme, useTheme } from '@shopify/restyle';
 
 const palette = {
+  bluePrimary: '#0477C0',
+  blueSecondary: '#7CCCFF',
+
+  pinkPrimary: '#F16C91',
+  pinkSecondary: '#FAC4D3',
+
   purpleLight: '#8C6FF7',
   purplePrimary: '#5A31F4',
   purpleDark: '#3F22AB',
@@ -23,6 +29,8 @@ const palette = {
 const theme = createTheme({
   colors: {
     mainBackground: palette.white,
+    primaryBackground: palette.bluePrimary,
+    secondaryBackground: palette.blueSecondary,
     cardPrimaryBackground: palette.purplePrimary,
     cardRegularBackground: palette.white,
     textInputBorderColor: palette.greyLight,
@@ -64,7 +72,7 @@ const theme = createTheme({
     },
     labelL: {
       fontSize: 16,
-      fontWeight: 500,
+      fontWeight: '500',
     },
     labelM: {
       fontSize: 14,
@@ -133,12 +141,29 @@ const theme = createTheme({
     },
     focused: {},
   },
+  iconVariants: {
+    defaults: {
+      fill: 'black',
+    },
+
+    fouce: { fill: palette.bluePrimary },
+    blur: { fill: palette.bluePrimary },
+  },
 });
 
 export type Theme = typeof theme;
+
+const pinkTheme: Theme = {
+  ...theme,
+  colors: {
+    ...theme.colors,
+    primaryBackground: palette.pinkPrimary,
+    secondaryBackground: palette.pinkSecondary,
+  },
+};
 
 const useRestyleTheme = () => {
   return useTheme<Theme>();
 };
 
-export { theme, useRestyleTheme };
+export { theme, pinkTheme, useRestyleTheme };
