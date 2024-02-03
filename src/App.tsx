@@ -18,6 +18,8 @@ import { theme, pinkTheme } from './style/theme';
 import { useSettingStore } from './store';
 
 import './localization';
+import { RootScreen } from './layout';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export const queryClient = new QueryClient();
 
@@ -36,9 +38,13 @@ function App(): React.JSX.Element {
 
   return (
     <ThemeProvider theme={themes[themeName as keyof typeof themes]}>
-      <QueryClientProvider client={queryClient}>
-        <RootNavigation />
-      </QueryClientProvider>
+      <SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+          <RootScreen>
+            <RootNavigation />
+          </RootScreen>
+        </QueryClientProvider>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }

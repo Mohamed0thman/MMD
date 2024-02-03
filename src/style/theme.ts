@@ -17,6 +17,7 @@ const palette = {
 
   greyLight: '#d6d6d6',
   grey700: '#7A7A7A',
+  grey200: '#EAECF0',
 
   redLight: '#F44336',
 
@@ -145,9 +146,11 @@ const theme = createTheme({
     defaults: {
       fill: 'black',
     },
-
     fouce: { fill: palette.bluePrimary },
     blur: { fill: palette.bluePrimary },
+  },
+  buttonVariants: {
+    defaults: {},
   },
 });
 

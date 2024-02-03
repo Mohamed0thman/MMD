@@ -1,11 +1,12 @@
 import { Text, View } from 'react-native';
 import React from 'react';
+import { RootScreen } from '../../../../layout';
 
 const LevelsScreen = () => {
   return (
-    <View>
+    <RootScreen>
       <Text>index</Text>
-    </View>
+    </RootScreen>
   );
 };
 

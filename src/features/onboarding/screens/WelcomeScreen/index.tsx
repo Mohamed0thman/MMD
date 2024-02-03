@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Pressable } from 'react-native';
+import { Image, Pressable, StatusBar } from 'react-native';
 
 import { RootScreen } from '../../../../layout';
 import {
@@ -46,7 +46,7 @@ const WelcomeScreen = ({ navigation }: Props) => {
     },
   ];
 
-  const renderOptionItem = (item: (typeof options)[0]) => (
+  const renderOptionItem = (item: any) => (
     <Pressable
       style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
       onPress={() => changeTheme(item.theme)}>
@@ -79,12 +79,14 @@ const WelcomeScreen = ({ navigation }: Props) => {
   );
 
   return (
-    <RootScreen
-      statusBarConfig={{
-        translucent: true,
-        backgroundColor: 'transparent',
-        barStyle: 'light-content',
-      }}>
+    <>
+      <StatusBar
+        translucent
+        backgroundColor={
+          themeName === 'blue' ? colors.bluePrimary : colors.pinkPrimary
+        }
+        barStyle={'light-content'}
+      />
       <Box flex={1} backgroundColor="primaryBackground">
         <Box
           justifyContent="center"
@@ -106,10 +108,16 @@ const WelcomeScreen = ({ navigation }: Props) => {
           borderTopRightRadius="xl"
           backgroundColor="mainBackground"
           padding="l">
-          <StyledText variant="headingL" color="bluePrimary" textAlign="center">
+          <StyledText
+            variant="headingL"
+            color="primaryBackground"
+            textAlign="center">
             مرحباااا, هيا نبدأ
           </StyledText>
-          <StyledText variant="headingL" color="black" marginVertical="l">
+          <StyledText
+            variant="headingL"
+            color="primaryBackground"
+            marginVertical="l">
             أختر شخصية
           </StyledText>
           <Box
@@ -118,14 +126,21 @@ const WelcomeScreen = ({ navigation }: Props) => {
             alignItems="center">
             <MappingList data={options} renderItem={renderOptionItem} />
           </Box>
-
-          <Button
-            label={'أبدأ'}
-            onPress={() => navigation.navigate('Onboarding')}
-          />
+          <Box
+            style={{ marginTop: 'auto' }}
+            borderTopColor="grey200"
+            borderTopWidth={1}
+            paddingVertical="l"
+            paddingHorizontal="l"
+            gap="l">
+            <Button
+              label={'أبدأ'}
+              onPress={() => navigation.navigate('Onboarding')}
+            />
+          </Box>
         </Box>
       </Box>
-    </RootScreen>
+    </>
   );
 };
 

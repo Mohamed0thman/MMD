@@ -7,10 +7,11 @@ import {
   PresonalInfoScreen,
   RegisterScreen,
 } from './screens';
+import { Header } from './components/Header';
 
 type AuthNavigationScreenParamsList = {
   Login: undefined;
-  Register: undefined;
+  Register: { first_name: string; last_name: string } | undefined;
   ForgetPassword: undefined;
   Otp: undefined;
   PresonalInfo: undefined;
@@ -24,23 +25,43 @@ const AuthNavigationScreens: {
   {
     name: 'Login',
     component: LoginScreen,
+    options: {
+      header: props => <Header {...props} />,
+      title: 'تسجيل الدخول',
+    },
   },
   {
     name: 'Register',
     component: RegisterScreen,
+    options: {
+      header: props => <Header {...props} />,
+      title: 'انشاء حساب',
+    },
   },
   {
     name: 'ForgetPassword',
     component: ForgetPasswordScreen,
+    options: {
+      header: props => <Header {...props} />,
+      title: 'نسيت كلمة السر',
+    },
   },
 
   {
     name: 'Otp',
     component: OtpScreen,
+    options: {
+      header: props => <Header {...props} />,
+      title: 'تأكيد الحساب',
+    },
   },
   {
     name: 'PresonalInfo',
     component: PresonalInfoScreen,
+    options: {
+      header: props => <Header {...props} />,
+      title: 'انشاء حساب',
+    },
   },
 ];
 

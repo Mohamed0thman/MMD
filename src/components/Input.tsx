@@ -10,12 +10,13 @@ import { useController } from 'react-hook-form';
 import { Theme, useRestyleTheme } from '../style/theme';
 
 import { Box, StyledText } from '.';
+import { TextField } from './TextField';
 
 type InputVariants = VariantProps<Theme, 'inputVariants'>;
 type InputVariant = InputVariants['variant'];
 type InputValue = string | null;
 type InputProps = TextInputProps & {
-  label?: string;
+  label: string;
   inputVariant?: InputVariant;
   radioListData?: string[];
   onChange?: (value?: InputValue) => void;
@@ -51,21 +52,19 @@ const Input = forwardRef(function Input(
   const { colors } = useRestyleTheme();
 
   return (
-    <Box gap="xs">
-      <InputContainer variant={inputVariant}>
-        {label && <StyledText variant="inputLabel">{label}</StyledText>}
-        <TextInput
-          style={{
-            height: 45,
-            paddingVertical: 0,
-            backgroundColor: 'red',
-          }}
-          placeholderTextColor={colors.textInputPlaceholderColor}
-          onChangeText={onChange}
-          {...inputProps}
-        />
-      </InputContainer>
-      <StyledText variant="inputLabel" color="error" fontWeight="500">
+    <Box gap="xs" marginBottom="l">
+      <TextField
+        label={label}
+        onChangeText={onChange}
+        placeholderTextColor={colors.textInputPlaceholderColor}
+        value={value}
+        {...inputProps}
+      />
+      <StyledText
+        marginHorizontal="m"
+        variant="headingS"
+        color="error"
+        fontWeight="500">
         {error || ' '}
       </StyledText>
     </Box>

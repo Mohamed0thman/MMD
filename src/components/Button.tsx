@@ -1,41 +1,4 @@
-// import { Pressable, PressableProps } from 'react-native';
-// import React from 'react';
-
-// import { Box, Icons, StyledText } from '.';
-// import { ICONS } from '../constants';
-
-// type Varinat = 'text' | 'icon';
-
-// type Props = PressableProps & {
-//   varinat?: Varinat;
-//   title?: String;
-// icon?: keyof typeof ICONS;
-// };
-
-// const Button = ({ title, icon, onPress }: Props) => {
-//   return (
-// <Pressable
-//   onPress={onPress}
-//   style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}>
-//       <Box
-// flexDirection="row"
-// justifyContent="center"
-// alignItems="center"
-// backgroundColor="primaryBackground">
-// {icon && <Icons icon={icon} />}
-// {title && (
-//   <StyledText color="white" variant="headingM" paddingVertical="m">
-//     {title}
-//   </StyledText>
-// )}
-//       </Box>
-//     </Pressable>
-//   );
-// };
-
-// export { Button };
-
-import { Pressable } from 'react-native';
+import { ActivityIndicator, Pressable } from 'react-native';
 import {
   useRestyle,
   spacing,
@@ -64,9 +27,10 @@ type Props = RestyleProps & {
   onPress: () => void;
   label: string;
   icon?: keyof typeof ICONS;
+  loading?: boolean;
 };
 
-const Button = ({ onPress, label, icon, ...rest }: Props) => {
+const Button = ({ onPress, label, icon, loading, ...rest }: Props) => {
   const props = useRestyle(restyleFunctions, rest);
 
   return (
@@ -78,12 +42,19 @@ const Button = ({ onPress, label, icon, ...rest }: Props) => {
         justifyContent="center"
         alignItems="center"
         backgroundColor="primaryBackground"
+        borderRadius="m"
         {...props}>
-        {icon && <Icons icon={icon} />}
-        {label && (
-          <StyledText color="white" variant="headingM" paddingVertical="m">
-            {label}
-          </StyledText>
+        {loading ? (
+          <ActivityIndicator size={'small'} color={'#fff'} />
+        ) : (
+          <>
+            {icon && <Icons icon={icon} />}
+            {label && (
+              <StyledText color="white" variant="headingM" paddingVertical="m">
+                {label}
+              </StyledText>
+            )}
+          </>
         )}
       </Box>
     </Pressable>
