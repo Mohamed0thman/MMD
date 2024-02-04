@@ -1,62 +1,64 @@
+import { ActivityIndicator, Pressable } from 'react-native';
 import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  PressableProps,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
-import React from 'react';
+  useRestyle,
+  spacing,
+  border,
+  backgroundColor,
+  SpacingProps,
+  BorderProps,
+  BackgroundColorProps,
+  composeRestyleFunctions,
+} from '@shopify/restyle';
+import { Theme } from '../style/theme';
+import { Box, Icons, StyledText } from '.';
+import { ICONS } from '../constants';
 
-//
-import {Icons} from '.';
-//
-import {COLORS, ICONS, FONTS} from '../constants';
+type RestyleProps = SpacingProps<Theme> &
+  BorderProps<Theme> &
+  BackgroundColorProps<Theme>;
 
-type Varinat = 'text' | 'icon';
+const restyleFunctions = composeRestyleFunctions<Theme, RestyleProps>([
+  spacing,
+  border,
+  backgroundColor,
+]);
 
-type Props = PressableProps & {
-  varinat?: Varinat;
-  title?: String;
-  Iconvarinat?: keyof typeof ICONS;
-  style?: StyleProp<ViewStyle>;
+type Props = RestyleProps & {
+  onPress: () => void;
+  label: string;
+  icon?: keyof typeof ICONS;
+  loading?: boolean;
 };
 
-const Button = ({
-  style,
-  varinat = 'text',
-  title,
-  Iconvarinat,
-  onPress,
-}: Props) => {
-  let content;
-  switch (varinat) {
-    case 'icon':
-      content = <Icons varinat={Iconvarinat || 'boy-head'} />;
-      break;
-    default:
-      content = <Text style={styles.label}>{title}</Text>;
-      break;
-  }
+const Button = ({ onPress, label, icon, loading, ...rest }: Props) => {
+  const props = useRestyle(restyleFunctions, rest);
+
   return (
-    <Pressable onPress={onPress}>
-      <View style={[styles.container, style]}>{content}</View>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}>
+      <Box
+        flexDirection="row"
+        justifyContent="center"
+        alignItems="center"
+        backgroundColor="primaryBackground"
+        borderRadius="m"
+        {...props}>
+        {loading ? (
+          <ActivityIndicator size={'small'} color={'#fff'} />
+        ) : (
+          <>
+            {icon && <Icons icon={icon} />}
+            {label && (
+              <StyledText color="white" variant="headingM" paddingVertical="m">
+                {label}
+              </StyledText>
+            )}
+          </>
+        )}
+      </Box>
     </Pressable>
   );
 };
 
-export {Button};
-
-const styles = StyleSheet.create({
-  container: {
-    height: 45,
-    backgroundColor: COLORS.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  label: {
-    color: COLORS.white,
-    ...FONTS.h3,
-  },
-});
+export { Button };
