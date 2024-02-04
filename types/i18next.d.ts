@@ -1,11 +1,10 @@
 import locales from '../src/localization/locales';
-
-const resources = locals as const;
-
-// const resources = locales as const;
+import en from '../src/localization/locales/en/app.json';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
-    resources: typeof resources;
+    resources: {
+      translation: typeof en;
+    };
   }
 }

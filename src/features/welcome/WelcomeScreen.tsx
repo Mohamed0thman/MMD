@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {RootScreen} from '../../layout';
-import {COLORS, IMAGES, SCALE, FONTS} from '../../constants';
+import {COLORS, IMAGES} from '../../constants';
 import {Button, Icons} from '../../components';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {UnAuthStackParamList} from '../../navigation/UnAuthStack';
@@ -29,7 +29,7 @@ const WelcomeScreen = ({navigation}: Props) => {
         />
       </View>
       <View style={{flex: 0.6}}>
-        <Text>{t('app.')}</Text>
+        <Text>{t('name')}</Text>
         <Text>مرحباااا, هيا نبدأ</Text>
         <Text>أختر شخصية</Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
