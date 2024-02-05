@@ -2,29 +2,33 @@ import { createTheme, useTheme } from '@shopify/restyle';
 
 const palette = {
   bluePrimary: '#0477C0',
-  blueSecondary: '#7CCCFF',
+  blueSecondary: '#5F93D0',
 
   pinkPrimary: '#F16C91',
   pinkSecondary: '#FAC4D3',
 
-  purpleLight: '#8C6FF7',
-  purplePrimary: '#5A31F4',
-  purpleDark: '#3F22AB',
+  success100: '#E3FCEC',
+  success300: '#92F2B8',
+  success500: '#067647',
 
-  greenLight: '#56DCBA',
-  greenPrimary: '#0ECD9D',
-  greenDark: '#0A906E',
+  negative100: '#FFECEB',
+  negative300: '#E7A29D',
+  negative500: '#AD342B',
+  negative600: '#932C25',
 
-  greyLight: '#d6d6d6',
-  grey700: '#7A7A7A',
-  grey200: '#EAECF0',
+  gray50: '#FFFFFF',
+  gray100: '#F7F7F7',
+  gray200: '#EBEBEB',
+  gray300: '#0A0A0A1F',
+  gray400: '#AFAFAF',
+  gray700: '#7A7A7A',
+  gray800: '#666666',
+  gray900: '#0A0A0A',
 
-  redLight: '#F44336',
-
-  orangeDark: '#E9742B',
-
-  black: '#0B0B0B',
+  black: '#000000',
   white: '#FFFFFF',
+
+  transparent: 'transparent',
 };
 
 const theme = createTheme({
@@ -32,15 +36,10 @@ const theme = createTheme({
     mainBackground: palette.white,
     primaryBackground: palette.bluePrimary,
     secondaryBackground: palette.blueSecondary,
-    cardPrimaryBackground: palette.purplePrimary,
     cardRegularBackground: palette.white,
-    textInputBorderColor: palette.greyLight,
     textInputBackground: palette.white,
-    textInputPlaceholderColor: palette.greyLight,
     textInputLabel: palette.black,
-    error: palette.redLight,
-    primary: palette.orangeDark,
-    transparent: 'transparent',
+    error: palette.negative500,
     ...palette,
   },
   spacing: {
@@ -49,8 +48,79 @@ const theme = createTheme({
     m: 16,
     l: 24,
     xl: 40,
+    auto: 'auto',
   },
+  buttonVariants: {
+    primary: {
+      backgroundColor: 'primaryBackground',
+    },
+    secondary: {
+      backgroundColor: 'transparent',
+      borderColor: 'primaryBackground',
+      borderWidth: 1,
+    },
+    negative: {
+      backgroundColor: 'negative500',
+    },
+    negativeTertiary: {
+      backgroundColor: 'transparent',
+    },
+  },
+  buttonVariantsDisabled: {
+    primary: {
+      backgroundColor: 'gray300',
+    },
+    secondary: {
+      backgroundColor: 'transparent',
+      borderColor: 'gray300',
+    },
+    negative: {
+      backgroundColor: 'gray100',
+    },
+    negativeTertiary: {
+      backgroundColor: 'transparent',
+    },
+  },
+  buttonVariantsPressed: {
+    //CAUTION: Please add colors from palette not the attributes inside theme
+    primary: {
+      backgroundColor: 'primaryBackground',
+    },
+    secondary: {
+      backgroundColor: palette.white,
+      borderColor: 'primaryBackground',
+    },
+    negative: {
+      backgroundColor: palette.negative600,
+    },
+    negativeTertiary: {
+      backgroundColor: palette.negative100,
+    },
+  },
+  buttonTextVariants: {
+    defaults: {
+      fontSize: 14,
+      fontWeight: 'bold',
+    },
+    primary: {
+      color: 'white',
+    },
+    secondary: {
+      color: 'primaryBackground',
+    },
+    negative: {
+      color: 'white',
+    },
+    negativeTertiary: {
+      color: 'negative500',
+    },
+    disabled: {
+      color: 'gray400',
+    },
+  },
+
   textVariants: {
+    defaults: {},
     headingXL: {
       fontSize: 32,
       fontWeight: 'bold',
@@ -77,7 +147,7 @@ const theme = createTheme({
     },
     labelM: {
       fontSize: 14,
-      fontWeight: 500,
+      fontWeight: '500',
     },
     labelMB: {
       fontSize: 14,
@@ -85,44 +155,24 @@ const theme = createTheme({
     },
     labelS: {
       fontSize: 12,
-      fontWeight: 500,
+      fontWeight: '500',
     },
     paragraphsL: {
       fontSize: 16,
-      fontWeight: 400,
+      fontWeight: '400',
     },
     paragraphsM: {
       fontSize: 14,
-      fontWeight: 400,
+      fontWeight: '400',
     },
     paragraphsS: {
       fontSize: 12,
-      fontWeight: 500,
-    },
-    inputLabel: {
-      fontSize: 10,
-      color: 'textInputLabel',
-      fontWeight: 'bold',
-    },
-    header: {
-      fontWeight: 'bold',
-      fontSize: 34,
-    },
-    headerLight: {
-      fontSize: 20,
-      fontWeight: 400,
-    },
-    body: {
-      fontSize: 16,
-      lineHeight: 24,
-    },
-    defaults: {
-      // We can define a default text variant here.
+      fontWeight: '500',
     },
   },
   borderRadii: {
     s: 4,
-    m: 9,
+    m: 8,
     l: 14,
     xl: 20,
   },
@@ -142,16 +192,7 @@ const theme = createTheme({
     },
     focused: {},
   },
-  iconVariants: {
-    defaults: {
-      fill: 'black',
-    },
-    fouce: { fill: palette.bluePrimary },
-    blur: { fill: palette.bluePrimary },
-  },
-  buttonVariants: {
-    defaults: {},
-  },
+  iconVariants: { default: {} },
 });
 
 export type Theme = typeof theme;

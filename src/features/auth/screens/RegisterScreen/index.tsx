@@ -1,20 +1,18 @@
 import { ScrollView, StyleSheet } from 'react-native';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Box, Button } from '../../../../components';
+import { Box, Button, StyledText } from '../../../../components';
 import { ControlledInput } from '../../../../components/Input';
 import { convertObjectToObjectWithKeys } from '../../../../utils/Formats';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../../navigation/RootNavigation';
 import { useRegisterMutation } from '../../hooks/useRegisterMutation';
 import * as Keychain from 'react-native-keychain';
-import {
-  PresonalInfoValid,
-  RegisterValid,
-} from '../../../../utils/validations';
+import { RegisterValid } from '../../../../utils/validations';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { string } from 'yup';
-import axios from 'axios';
+import { ButtonDock } from '../../../../components/Button';
+import { showMessage } from 'react-native-flash-message';
+import { useAuthStore } from '../../../../store/authSlice';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'> & {};
 
@@ -31,18 +29,29 @@ const RegisterScreen = ({ navigation, route }: Props) => {
     first_name: string;
     last_name: string;
   };
+
+  const { setToken } = useAuthStore();
+
   const formMethods = useForm({
     defaultValues: FormValues,
     resolver: yupResolver(RegisterValid),
   });
 
   const { isPending, mutate: register } = useRegisterMutation({
-    onSuccess(data) {
-      Keychain.setGenericPassword(data.data.name, data.token);
-      navigation.navigate('Otp');
+    async onSuccess(data) {
+      if (data.success) {
+        await Keychain.setGenericPassword(data.data.name, data.token);
+        setToken(data.token);
+        navigation.navigate('Otp', { ...data.data });
+      } else {
+        console.log(data.errors);
+      }
     },
     onError(error) {
-      console.log('err', error);
+      showMessage({
+        message: error.response?.data.message as string,
+        type: 'danger',
+      });
     },
   });
 
@@ -51,12 +60,19 @@ const RegisterScreen = ({ navigation, route }: Props) => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      keyboardShouldPersistTaps="handled">
-      <Box flex={1} backgroundColor="mainBackground">
+    <Box flex={1} backgroundColor="mainBackground">
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled">
+        <StyledText
+          variant="headingL"
+          color="black"
+          marginHorizontal="m"
+          mt="m">
+          أهلا بك {first_name} {'\n'} في منصة MMD
+        </StyledText>
         <FormProvider {...formMethods}>
-          <Box flex={1} justifyContent="center" paddingHorizontal="l">
+          <Box flex={1} justifyContent="center" paddingHorizontal="m">
             <ControlledInput
               label="البريد الالكتروني"
               fieldName={FORM_VALUES.email}
@@ -70,22 +86,16 @@ const RegisterScreen = ({ navigation, route }: Props) => {
               fieldName={FORM_VALUES.password_confirmation}
             />
           </Box>
-
-          <Box
-            style={{ marginTop: 'auto' }}
-            borderTopColor="grey200"
-            borderTopWidth={1}
-            paddingVertical="l"
-            paddingHorizontal="l">
+          <ButtonDock>
             <Button
-              label="تم"
-              loading={isPending}
+              title="تم"
+              isLoading={isPending}
               onPress={formMethods.handleSubmit(handleOnSubmit)}
             />
-          </Box>
+          </ButtonDock>
         </FormProvider>
-      </Box>
-    </ScrollView>
+      </ScrollView>
+    </Box>
   );
 };
 

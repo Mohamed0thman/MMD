@@ -3,6 +3,6 @@ import { Button } from './Button';
 import { StyledText } from './StyledText';
 import { Box } from './Box';
 import { MappingList } from './MappingList';
-import { Divider } from './Divider';
+import { CountdownTimer } from './CountdownTimer';
 
-export { Icons, Button, StyledText, Box, MappingList, Divider };
+export { Icons, Button, StyledText, Box, MappingList, CountdownTimer };

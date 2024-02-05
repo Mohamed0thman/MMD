@@ -9,6 +9,7 @@ import { convertObjectToObjectWithKeys } from '../../../../utils/Formats';
 import { ScrollView } from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PresonalInfoValid } from '../../../../utils/validations';
+import { ButtonDock } from '../../../../components/Button';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'PresonalInfo'> & {};
 
@@ -47,17 +48,12 @@ const PresonalInfoScreen = ({ navigation }: Props) => {
               // error={formMethods.formState.errors.lastName?.message}
             />
           </Box>
-          <Box
-            style={{ marginTop: 'auto' }}
-            borderTopColor="grey200"
-            borderTopWidth={1}
-            paddingVertical="l"
-            paddingHorizontal="l">
+          <ButtonDock>
             <Button
-              label="تم"
+              title="التالي"
               onPress={formMethods.handleSubmit(handleOnSubmit)}
             />
-          </Box>
+          </ButtonDock>
         </Box>
       </FormProvider>
     </ScrollView>

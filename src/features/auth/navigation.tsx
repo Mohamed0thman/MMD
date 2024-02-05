@@ -13,7 +13,7 @@ type AuthNavigationScreenParamsList = {
   Login: undefined;
   Register: { first_name: string; last_name: string } | undefined;
   ForgetPassword: undefined;
-  Otp: undefined;
+  Otp: User | undefined;
   PresonalInfo: undefined;
 };
 

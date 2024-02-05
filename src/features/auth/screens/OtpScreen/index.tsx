@@ -1,6 +1,6 @@
 import { StyleSheet, Text } from 'react-native';
 import React, { useState } from 'react';
-import { Box, Button } from '../../../../components';
+import { Box, Button, CountdownTimer } from '../../../../components';
 import { RootStackParamList } from '../../../../navigation/RootNavigation';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
@@ -11,12 +11,18 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import { useRestyleTheme } from '../../../../style/theme';
+import { useVerifyMutation } from '../../hooks/useVerifyMutation';
+import { showMessage } from 'react-native-flash-message';
+import { useAuthStore } from '../../../../store/authSlice';
+import { useResendCodeMutation } from '../../hooks/useResendCode';
+import { ButtonDock } from '../../../../components/Button';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Otp'> & {};
 
 const CELL_COUNT = 4;
 
-const OtpScreen = ({ navigation }: Props) => {
+const OtpScreen = ({ navigation, route }: Props) => {
+  const user = route.params as User;
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -25,6 +31,58 @@ const OtpScreen = ({ navigation }: Props) => {
   });
 
   const { colors } = useRestyleTheme();
+
+  const { setUser } = useAuthStore();
+
+  const { isPending, mutate: verify } = useVerifyMutation({
+    async onSuccess(data) {
+      if (data.success) {
+        showMessage({
+          message: data.message,
+          type: 'success',
+        });
+        setUser({ ...user, email_verified_at: new Date() });
+        navigation.replace('main');
+      } else {
+        showMessage({
+          message: data.message,
+          type: 'danger',
+        });
+      }
+    },
+    onError(error) {
+      showMessage({
+        message: error.response?.data.message as string,
+        type: 'danger',
+      });
+    },
+  });
+
+  const { isPending: resendLoading, mutate: resend } = useResendCodeMutation({
+    async onSuccess(data) {
+      if (data.success) {
+        showMessage({
+          message: data.message,
+          type: 'success',
+        });
+      } else {
+        showMessage({
+          message: data.message,
+          type: 'danger',
+        });
+      }
+    },
+    onError(error) {
+      showMessage({
+        message: error.response?.data.message as string,
+        type: 'danger',
+      });
+    },
+  });
+
+  const handleOnSubmit = () => {
+    verify({ code: value });
+  };
 
   return (
     <Box flex={1} backgroundColor="mainBackground">
@@ -56,15 +114,12 @@ const OtpScreen = ({ navigation }: Props) => {
             </Text>
           )}
         />
+
+        <CountdownTimer duration={30} onResendCode={resend} />
       </Box>
-      <Box
-        style={{ marginTop: 'auto' }}
-        borderTopColor="grey200"
-        borderTopWidth={1}
-        paddingVertical="l"
-        paddingHorizontal="l">
-        <Button label="تم" onPress={() => navigation.navigate('Login')} />
-      </Box>
+      <ButtonDock>
+        <Button isLoading={isPending} title="تم" onPress={handleOnSubmit} />
+      </ButtonDock>
     </Box>
   );
 };

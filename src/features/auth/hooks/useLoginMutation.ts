@@ -4,15 +4,12 @@ import { AxiosError } from 'axios';
 import { apiClient } from '../../../services/axios/apiClient';
 import { APIError } from '../../../../types/api';
 
-type RegisterMutationParams = {
-  first_name: string;
-  last_name: string;
+type LoginMutationParams = {
   email: string;
   password: string;
-  password_confirmation: string;
 };
 
-type RegiserResponse = {
+type LoginResponse = {
   success: boolean;
   data: {
     id: number;
@@ -27,19 +24,19 @@ type RegiserResponse = {
   token: string;
 };
 
-const regiserUser = async (body: RegisterMutationParams) => {
-  return await apiClient.post<RegiserResponse>('/register', body);
+const loginUser = async (body: LoginMutationParams) => {
+  return await apiClient.post<LoginResponse>('/login', body);
 };
 
-export const useRegisterMutation = ({
+export const useLoginMutation = ({
   onError,
   onSuccess,
 }: {
   onError?: (error: AxiosError<APIError>) => void;
-  onSuccess?: (data: RegiserResponse) => void;
+  onSuccess?: (data: LoginResponse) => void;
 } = {}) =>
   useMutation({
-    mutationFn: (params: RegisterMutationParams) => regiserUser(params),
+    mutationFn: (params: LoginMutationParams) => loginUser(params),
     onError(error) {
       onError?.(error as AxiosError<APIError>);
     },

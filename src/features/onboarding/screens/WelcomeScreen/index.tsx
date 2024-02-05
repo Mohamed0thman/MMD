@@ -18,6 +18,7 @@ import { IMAGES } from '../../../../constants';
 import { useSettingStore } from '../../../../store';
 import { useRestyleTheme } from '../../../../style/theme';
 import { RootStackParamList } from '../../../../navigation/RootNavigation';
+import { ButtonDock } from '../../../../components/Button';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'> & {};
 
@@ -107,37 +108,34 @@ const WelcomeScreen = ({ navigation }: Props) => {
           borderTopLeftRadius="xl"
           borderTopRightRadius="xl"
           backgroundColor="mainBackground"
-          padding="l">
-          <StyledText
-            variant="headingL"
-            color="primaryBackground"
-            textAlign="center">
-            مرحباااا, هيا نبدأ
-          </StyledText>
-          <StyledText
-            variant="headingL"
-            color="primaryBackground"
-            marginVertical="l">
-            أختر شخصية
-          </StyledText>
-          <Box
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center">
-            <MappingList data={options} renderItem={renderOptionItem} />
+          justifyContent="space-between">
+          <Box paddingHorizontal="m" paddingTop="m">
+            <StyledText
+              variant="headingL"
+              color="primaryBackground"
+              textAlign="center">
+              مرحباااا, هيا نبدأ
+            </StyledText>
+            <StyledText
+              variant="headingL"
+              color="primaryBackground"
+              marginVertical="l">
+              أختر شخصية
+            </StyledText>
+            <Box
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center">
+              <MappingList data={options} renderItem={renderOptionItem} />
+            </Box>
           </Box>
-          <Box
-            style={{ marginTop: 'auto' }}
-            borderTopColor="grey200"
-            borderTopWidth={1}
-            paddingVertical="l"
-            paddingHorizontal="l"
-            gap="l">
+
+          <ButtonDock>
             <Button
-              label={'أبدأ'}
+              title="أبدا"
               onPress={() => navigation.navigate('Onboarding')}
             />
-          </Box>
+          </ButtonDock>
         </Box>
       </Box>
     </>

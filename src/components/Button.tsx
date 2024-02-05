@@ -1,64 +1,137 @@
-import { ActivityIndicator, Pressable } from 'react-native';
+import React, { createElement, FC, PropsWithChildren } from 'react';
 import {
-  useRestyle,
-  spacing,
-  border,
-  backgroundColor,
-  SpacingProps,
-  BorderProps,
-  BackgroundColorProps,
-  composeRestyleFunctions,
+  VariantProps,
+  createBox,
+  createRestyleComponent,
+  createVariant,
 } from '@shopify/restyle';
-import { Theme } from '../style/theme';
-import { Box, Icons, StyledText } from '.';
-import { ICONS } from '../constants';
+import {
+  ActivityIndicator,
+  Pressable,
+  PressableProps,
+  Text,
+  TextProps,
+} from 'react-native';
+import { SvgProps } from 'react-native-svg';
 
-type RestyleProps = SpacingProps<Theme> &
-  BorderProps<Theme> &
-  BackgroundColorProps<Theme>;
+import { Theme, useRestyleTheme } from '../style/theme';
 
-const restyleFunctions = composeRestyleFunctions<Theme, RestyleProps>([
-  spacing,
-  border,
-  backgroundColor,
-]);
+import { Box, PressableBox } from './Box';
 
-type Props = RestyleProps & {
-  onPress: () => void;
-  label: string;
-  icon?: keyof typeof ICONS;
-  loading?: boolean;
+type Props = React.ComponentProps<typeof PressableBox> & {
+  isLoading?: boolean;
+  disabled?: boolean;
+  icon?: FC<SvgProps>;
+  title?: string;
+  variant?: keyof Theme[BUTTON_THEME.VARIANTS_THEME];
+  variantDisabled?: keyof Theme[BUTTON_THEME.VARIANTS_DISABLED_THEME];
 };
 
-const Button = ({ onPress, label, icon, loading, ...rest }: Props) => {
-  const props = useRestyle(restyleFunctions, rest);
+enum BUTTON_THEME {
+  VARIANTS_THEME = 'buttonVariants',
+  VARIANTS_DISABLED_THEME = 'buttonVariantsDisabled',
+  VARIANTS_PRESSED_THEME = 'buttonVariantsPressed',
+  VARIANTS_TEXT_THEME = 'buttonTextVariants',
+  VARIANT = 'variant',
+  VARIANT_DISABLED = 'variantDisabled',
+  VARIANT_PRESSED = 'variantPressed',
+}
 
+const BaseButton = createBox<Theme, PressableProps>(Pressable);
+const BaseButtonText = createBox<Theme, TextProps>(Text);
+
+const ButtonVariant = createVariant<
+  Theme,
+  BUTTON_THEME.VARIANTS_THEME,
+  BUTTON_THEME.VARIANT
+>({
+  property: BUTTON_THEME.VARIANT,
+  themeKey: BUTTON_THEME.VARIANTS_THEME,
+  defaults: {
+    flexDirection: 'row',
+    borderRadius: 'm',
+    paddingVertical: 'm',
+    paddingHorizontal: 'l',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 's',
+  },
+});
+
+const ButtonVariantDisabled = createVariant<
+  Theme,
+  BUTTON_THEME.VARIANTS_DISABLED_THEME,
+  BUTTON_THEME.VARIANT_DISABLED
+>({
+  property: BUTTON_THEME.VARIANT_DISABLED,
+  themeKey: BUTTON_THEME.VARIANTS_DISABLED_THEME,
+  defaults: {},
+});
+
+const ButtonTextVariant = createVariant<
+  Theme,
+  BUTTON_THEME.VARIANTS_TEXT_THEME
+>({
+  themeKey: BUTTON_THEME.VARIANTS_TEXT_THEME,
+  defaults: {},
+});
+
+const ButtonPrimitive = createRestyleComponent<
+  VariantProps<Theme, BUTTON_THEME.VARIANTS_THEME, BUTTON_THEME.VARIANT> &
+    VariantProps<
+      Theme,
+      BUTTON_THEME.VARIANTS_DISABLED_THEME,
+      BUTTON_THEME.VARIANT_DISABLED
+    > &
+    React.ComponentProps<typeof BaseButton>,
+  Theme
+>([ButtonVariant, ButtonVariantDisabled], BaseButton);
+
+const ButtonText = createRestyleComponent<
+  VariantProps<Theme, BUTTON_THEME.VARIANTS_TEXT_THEME> &
+    React.ComponentProps<typeof BaseButtonText>,
+  Theme
+>([ButtonTextVariant], BaseButtonText);
+
+export function Button({
+  variant = 'primary',
+  isLoading,
+  disabled = false,
+  icon,
+  title,
+  ...props
+}: Props) {
+  const { buttonVariantsPressed, buttonTextVariants, colors } =
+    useRestyleTheme();
+  const titleColor =
+    colors[buttonTextVariants[variant].color as keyof Theme['colors']];
   return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}>
-      <Box
-        flexDirection="row"
-        justifyContent="center"
-        alignItems="center"
-        backgroundColor="primaryBackground"
-        borderRadius="m"
-        {...props}>
-        {loading ? (
-          <ActivityIndicator size={'small'} color={'#fff'} />
-        ) : (
-          <>
-            {icon && <Icons icon={icon} />}
-            {label && (
-              <StyledText color="white" variant="headingM" paddingVertical="m">
-                {label}
-              </StyledText>
-            )}
-          </>
-        )}
-      </Box>
-    </Pressable>
+    <ButtonPrimitive
+      {...props}
+      disabled={disabled}
+      variant={variant}
+      variantDisabled={disabled ? variant : undefined}
+      style={({ pressed }) =>
+        pressed && !isLoading ? buttonVariantsPressed[variant] : {}
+      }>
+      {icon &&
+        createElement(icon, { width: 24, height: 24, color: titleColor })}
+      <ButtonText variant={disabled ? 'disabled' : variant}>
+        {isLoading ? <ActivityIndicator color={titleColor} /> : title}
+      </ButtonText>
+    </ButtonPrimitive>
   );
-};
+}
 
-export { Button };
+export function ButtonDock({ children }: PropsWithChildren) {
+  return (
+    <Box
+      paddingHorizontal={'m'}
+      paddingVertical="l"
+      gap="m"
+      borderTopWidth={1}
+      borderTopColor="gray200">
+      {children}
+    </Box>
+  );
+}

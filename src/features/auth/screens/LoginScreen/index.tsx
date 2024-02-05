@@ -7,6 +7,11 @@ import { Box, Button } from '../../../../components';
 import { RootScreen } from '../../../../layout';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../../navigation/RootNavigation';
+import { ButtonDock } from '../../../../components/Button';
+import { useLoginMutation } from '../../hooks/useLoginMutation';
+import { useAuthStore } from '../../../../store/authSlice';
+import * as Keychain from 'react-native-keychain';
+import { showMessage } from 'react-native-flash-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'> & {};
 
@@ -21,6 +26,34 @@ const LoginScreen = ({ navigation }: Props) => {
   const formMethods = useForm({
     defaultValues: FormValues,
   });
+  const { setToken, setUser } = useAuthStore();
+
+  const { isPending, mutate: login } = useLoginMutation({
+    async onSuccess(data) {
+      if (data.success) {
+        await Keychain.setGenericPassword(data.data.name, data.token);
+        setToken(data.token);
+
+        if (!data.data.email_verified_at)
+          return navigation.navigate('Otp', { ...data.data });
+
+        setUser(data.data);
+        navigation.navigate('main');
+      } else {
+        console.log(data.errors);
+      }
+    },
+    onError(error) {
+      showMessage({
+        message: error.response?.data.message as string,
+        type: 'danger',
+      });
+    },
+  });
+
+  const handleOnSubmit = (data: typeof FormValues) => {
+    login(data);
+  };
 
   return (
     <ScrollView
@@ -39,18 +72,13 @@ const LoginScreen = ({ navigation }: Props) => {
             />
           </Box>
 
-          <Box
-            style={{ marginTop: 'auto' }}
-            borderTopColor="grey200"
-            borderTopWidth={1}
-            paddingVertical="l"
-            paddingHorizontal="l"
-            gap="l">
+          <ButtonDock>
             <Button
-              label="انشاء حساب"
-              onPress={() => navigation.navigate('main')}
+              title="تسجيل الدخول"
+              onPress={formMethods.handleSubmit(handleOnSubmit)}
+              isLoading={isPending}
             />
-          </Box>
+          </ButtonDock>
         </Box>
       </FormProvider>
     </ScrollView>

@@ -2,13 +2,14 @@ import React from 'react';
 import { Box, Button, StyledText } from '../../../../components';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../../navigation/RootNavigation';
+import { ButtonDock } from '../../../../components/Button';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Onboarding'> & {};
 
 const OnboardingScreen = ({ navigation }: Props) => {
   return (
-    <Box flex={1} paddingHorizontal="m" backgroundColor="mainBackground">
-      <Box flex={1} justifyContent="center">
+    <Box flex={1} backgroundColor="mainBackground">
+      <Box flex={1} paddingHorizontal="m" justifyContent="center">
         <StyledText
           variant="headingL"
           textAlign="center"
@@ -22,23 +23,24 @@ const OnboardingScreen = ({ navigation }: Props) => {
           عمليه سريعه تمكنك {'\n'}استخدام جميع الدروس
         </StyledText>
       </Box>
-
-      <Box
-        style={{ marginTop: 'auto' }}
-        borderTopColor="grey200"
-        borderTopWidth={1}
-        paddingVertical="l"
-        paddingHorizontal="l"
-        gap="l">
+      <ButtonDock>
         <Button
-          label="انشاء حساب"
+          title="انشاء حساب"
           onPress={() => navigation.navigate('PresonalInfo')}
         />
         <Button
-          label="لدي حساب بالفعل"
+          title="لدي حساب بالفعل"
           onPress={() => navigation.navigate('Login')}
+          variant="secondary"
         />
-      </Box>
+      </ButtonDock>
+      {/* <Box
+        style={{ marginTop: 'auto' }}
+        borderTopColor="gray200"
+        borderTopWidth={1}
+        paddingVertical="l"
+        paddingHorizontal="l"
+        gap="l"></Box> */}
     </Box>
   );
 };

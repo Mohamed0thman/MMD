@@ -56,7 +56,7 @@ const Input = forwardRef(function Input(
       <TextField
         label={label}
         onChangeText={onChange}
-        placeholderTextColor={colors.textInputPlaceholderColor}
+        placeholderTextColor={colors.gray700}
         value={value}
         {...inputProps}
       />
