@@ -1,9 +1,11 @@
 import React, { useCallback, useRef, useState } from 'react';
 import {
   Box,
+  Button,
   CustomBottomSheet,
   Icons,
   PressableBox,
+  RadioIndicator,
   StyledText,
 } from '../../../../components';
 import { useRestyleTheme } from '../../../../style/theme';
@@ -13,10 +15,10 @@ import { FlatList } from 'react-native-gesture-handler';
 import { useForm } from 'react-hook-form';
 import {
   ExamSettingDataKey,
-  ExamSettingKey,
   examSettingData,
   examSittings,
 } from '../../examSettingData';
+import { useExamSettingStore } from '../../../../store/examSetting';
 
 const FormValues = {
   digits: 1,
@@ -30,13 +32,16 @@ const FormValues = {
 };
 
 const ExamScreen = () => {
-  const { colors } = useRestyleTheme();
+  const { colors, spacing } = useRestyleTheme();
   const [selectedOption, setSelectedOtion] =
-    useState<null | ExamSettingDataKey>(null);
+    useState<ExamSettingDataKey>('digits');
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const { setValue, getValues } = useForm({
-    defaultValues: FormValues,
+
+  const { changeExamSettings, examSettings } = useExamSettingStore();
+
+  const { control } = useForm({
+    defaultValues: examSettings,
   });
   const handlePresentModalPress = useCallback((key: ExamSettingDataKey) => {
     setSelectedOtion(key);
@@ -44,32 +49,85 @@ const ExamScreen = () => {
     bottomSheetModalRef.current?.present();
   }, []);
 
-  const selectOption = (name: keyof typeof FormValues, value: any) => {
-    setValue(name, value);
-    bottomSheetModalRef.current?.dismiss();
-  };
+  console.log('examSettings', examSettings);
 
   const renderItem = ({ item }: { item: (typeof examSittings)[0] }) => {
     return (
-      <Box>
+      <Box
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center">
+        <Box flex={0.8}>
+          <StyledText variant="headingL" color="black">
+            {item.title}
+          </StyledText>
+        </Box>
+
         {item.type === 'options' ? (
           <PressableBox
-            onPress={() =>
-              handlePresentModalPress(item.name as ExamSettingDataKey)
-            }
+            borderWidth={1}
+            borderColor="primaryBackground"
+            padding="m"
+            flex={0.2}
+            justifyContent="center"
+            alignItems="center"
+            onPress={() => {
+              handlePresentModalPress(item.name as ExamSettingDataKey);
+            }}
             style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}>
-            <StyledText></StyledText>
+            <StyledText variant="headingM" color="primaryBackground">
+              {examSettings[item.name as keyof typeof examSettings]}
+            </StyledText>
           </PressableBox>
         ) : (
           <Switch
-            value={getValues(item.name as keyof typeof FormValues) as boolean}
-            onValueChange={value =>
-              selectOption(item.name as keyof typeof FormValues, value)
+            value={
+              examSettings[item.name as keyof typeof examSettings] as boolean
+            }
+            onValueChange={switchValue => {
+              changeExamSettings({
+                [item.name]: switchValue,
+              });
+            }}
+            thumbColor={
+              examSettings[item.name as keyof typeof examSettings]
+                ? colors.primaryBackground
+                : colors.white
             }
           />
         )}
-        <StyledText>{item.title}</StyledText>
       </Box>
+    );
+  };
+
+  const renderSelection = (
+    item: { label: string; value: number },
+    selectedSetting: string,
+  ) => {
+    return (
+      <PressableBox
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        onPress={() => {
+          changeExamSettings({
+            [selectedSetting]: item.value,
+          });
+
+          bottomSheetModalRef.current?.dismiss();
+        }}>
+        <StyledText variant="headingM" color="black">
+          {item.label}
+        </StyledText>
+        <RadioIndicator
+          status={
+            examSettings[selectedSetting as keyof typeof examSettings] ==
+            item.value
+              ? 'active'
+              : 'inactive'
+          }
+        />
+      </PressableBox>
     );
   };
 
@@ -92,15 +150,29 @@ const ExamScreen = () => {
         keyExtractor={item => `exam-setting-${item.id}`}
         data={examSittings}
         renderItem={renderItem}
+        contentContainerStyle={{
+          paddingHorizontal: spacing.m,
+          paddingTop: spacing.l,
+          paddingBottom: 200,
+        }}
+        ItemSeparatorComponent={() => <Box mb="l" />}
+        ListFooterComponent={() => <Button title="أبدأ" mt="l" />}
+        showsVerticalScrollIndicator={false}
       />
 
       <CustomBottomSheet ref={bottomSheetModalRef}>
         <FlatList
+          keyExtractor={(_item, index) => `setting-selection${index}`}
           data={
             examSettingData[selectedOption as keyof typeof examSettingData] ||
             []
           }
-          renderItem={() => <></>}
+          renderItem={({ item }) => renderSelection(item, selectedOption)}
+          contentContainerStyle={{
+            paddingHorizontal: spacing.m,
+            paddingBottom: 100,
+          }}
+          ItemSeparatorComponent={() => <Box mb="l" />}
         />
       </CustomBottomSheet>
     </Box>

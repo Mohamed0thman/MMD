@@ -2,7 +2,7 @@
 const arrayFromTo = (start: number, end: number) => {
   const result: { label: string; value: number }[] = [];
   for (let i = start; i <= end; i++) {
-    result.push({ label: 'مستوي', value: i });
+    result.push({ label: 'مستوي' + ' ' + i, value: i });
   }
   return result;
 };
@@ -20,8 +20,8 @@ export const examSittings = [
 
 export const examSettingData = {
   digits: arrayFromTo(1, 9),
-  showDelay: arrayFromTo(3, 9),
-  clearDelay: arrayFromTo(3, 9),
+  showDelay: arrayFromTo(3, 15),
+  clearDelay: arrayFromTo(3, 15),
   numOfOperations: arrayFromTo(1, 15),
   level: [
     { label: 'بسيط', value: 0 },

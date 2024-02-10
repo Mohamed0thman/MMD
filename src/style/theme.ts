@@ -197,7 +197,7 @@ const theme = createTheme({
   radioIndicatorVariants: {
     defaults: {},
     active: {
-      backgroundColor: 'brand500',
+      backgroundColor: 'primaryBackground',
     },
     inactive: {
       backgroundColor: 'transparent',

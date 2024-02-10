@@ -20,7 +20,7 @@ const variant = createVariant<Theme, RADIO_THEME.VARIANTS_THEME>({
     height: 24,
     borderWidth: 2,
     borderRadius: 'xl',
-    borderColor: 'gray200',
+    borderColor: 'secondaryBackground',
   },
 });
 

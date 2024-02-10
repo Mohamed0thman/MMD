@@ -1,3 +1,4 @@
+export { RadioIndicator } from './RadioIndicator';
 export { Icons } from './Icons';
 export { Button } from './Button';
 export { StyledText } from './StyledText';

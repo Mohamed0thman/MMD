@@ -49,8 +49,8 @@ function App(): React.JSX.Element {
 
   return (
     <ThemeProvider theme={themes[themeName as keyof typeof themes]}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaProvider>
+      <SafeAreaProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
           <BottomSheetModalProvider>
             <QueryClientProvider client={queryClient}>
               <RootScreen>
@@ -59,8 +59,8 @@ function App(): React.JSX.Element {
               </RootScreen>
             </QueryClientProvider>
           </BottomSheetModalProvider>
-        </SafeAreaProvider>
-      </GestureHandlerRootView>
+        </GestureHandlerRootView>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }
