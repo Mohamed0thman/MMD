@@ -21,14 +21,16 @@ const ExamNavigationScreens: {
     name: 'ExamSettings',
     component: ExamSettingsScreen,
     options: {
-      title: 'exam',
+      headerLeft: () =>
+        BackHeaderIcon({ title: 'اعدادات الأختبار', icon: 'boy-head' }),
     },
   },
   {
     name: 'ExamPlayground',
     component: ExamPlaygroundScreen,
     options: {
-      title: 'exam',
+      headerLeft: () =>
+        BackHeaderIcon({ title: ' الأختبار', icon: 'boy-head' }),
     },
   },
 ];
@@ -36,11 +38,7 @@ const ExamNavigationScreens: {
 const Stack = createNativeStackNavigator<ExamNavigationScreenParamsList>();
 
 const ExamStack = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerLeft: BackHeaderIcon,
-    }}
-    initialRouteName="ExamSettings">
+  <Stack.Navigator initialRouteName="ExamSettings">
     {ExamNavigationScreens.map((screen, index) => (
       <Stack.Screen
         key={index}
