@@ -53,26 +53,6 @@ const CoursesStack = ({ navigation }: Props) => {
     <Stack.Navigator
       screenOptions={{
         headerLeft: BackHeaderIcon,
-      }}
-      screenListeners={{
-        focus: e => {
-          console.log('sssssssssssss', e.target?.split('-')[0]);
-
-          if (
-            (e.target?.split(
-              '-',
-            )[0] as keyof CoursesNavigationScreenParamsList) === 'Lesson'
-          ) {
-            console.log('ddddddddddddddddddddd');
-
-            navigation.setOptions({
-              tabBarStyle: {
-                display: 'none',
-              },
-              tabBarShowLabel: false,
-            });
-          }
-        },
       }}>
       {CoursesNavigationScreens.map((screen, index) => (
         <Stack.Screen

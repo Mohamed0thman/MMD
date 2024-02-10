@@ -1,11 +1,19 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { Dimensions, StyleSheet } from 'react-native';
+import React, { useLayoutEffect } from 'react';
 import { Box } from '../../../../components';
 import Pdf from 'react-native-pdf';
 import { useRouteNavigation } from '../../navigation';
+import { useAppStore } from '../../../../store/appStore';
 
 const LessonScreen = () => {
   const { lesson } = useRouteNavigation('Lesson').params;
+
+  const { toggleTabBar } = useAppStore();
+
+  useLayoutEffect(() => {
+    toggleTabBar(true);
+    return () => toggleTabBar(false);
+  }, []);
 
   return (
     <Box style={styles.container}>

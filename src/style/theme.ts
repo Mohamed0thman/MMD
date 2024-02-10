@@ -194,6 +194,15 @@ const theme = createTheme({
     focused: {},
   },
   iconVariants: { default: {} },
+  radioIndicatorVariants: {
+    defaults: {},
+    active: {
+      backgroundColor: 'brand500',
+    },
+    inactive: {
+      backgroundColor: 'transparent',
+    },
+  },
 });
 
 export type Theme = typeof theme;

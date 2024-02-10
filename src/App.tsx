@@ -22,6 +22,8 @@ import { RootScreen } from './layout';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import FlashMessage from 'react-native-flash-message';
 import { useAuthStore, useUserStore } from './store/authStore';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 export const queryClient = new QueryClient();
 
@@ -47,14 +49,18 @@ function App(): React.JSX.Element {
 
   return (
     <ThemeProvider theme={themes[themeName as keyof typeof themes]}>
-      <SafeAreaProvider>
-        <QueryClientProvider client={queryClient}>
-          <RootScreen>
-            <RootNavigation />
-            <FlashMessage />
-          </RootScreen>
-        </QueryClientProvider>
-      </SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <BottomSheetModalProvider>
+            <QueryClientProvider client={queryClient}>
+              <RootScreen>
+                <RootNavigation />
+                <FlashMessage />
+              </RootScreen>
+            </QueryClientProvider>
+          </BottomSheetModalProvider>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 }

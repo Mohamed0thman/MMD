@@ -10,6 +10,7 @@ import { HomeStack } from '../../features/home/navigation';
 import { ExamStack } from '../../features/exam/navigation';
 import { StackActions } from '@react-navigation/routers';
 import { useRestyleTheme } from '../../style/theme';
+import { useAppStore } from '../../store/appStore';
 
 export type TabParamList = {
   Courses: undefined;
@@ -23,6 +24,7 @@ const Tab = createBottomTabNavigator<TabParamList>();
 
 const TabNavigator: React.FC = () => {
   const { colors } = useRestyleTheme();
+  const { hideTabBar } = useAppStore();
 
   const resetStackOnTabPress = ({ navigation }: any) => ({
     tabPress: (e: any) => {
@@ -54,14 +56,12 @@ const TabNavigator: React.FC = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { display: 'none' },
       }}
-      tabBar={props => <TabBar {...props} />}
+      tabBar={props => (hideTabBar ? null : <TabBar {...props} />)}
       initialRouteName={'Main'}>
       <Tab.Screen
         options={{
           tabBarItemStyle: { borderTopLeftRadius: s(24) },
-
           tabBarLabel: () => <StyledText>دروسي</StyledText>,
           tabBarIcon: ({ focused }) => (
             <Icons
