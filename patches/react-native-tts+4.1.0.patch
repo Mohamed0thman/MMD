@@ -1,0 +1,22 @@
+diff --git a/node_modules/react-native-tts/android/src/main/java/net/no_mad/tts/TextToSpeechModule.java b/node_modules/react-native-tts/android/src/main/java/net/no_mad/tts/TextToSpeechModule.java
+index 6be44a4..9afff4e 100644
+--- a/node_modules/react-native-tts/android/src/main/java/net/no_mad/tts/TextToSpeechModule.java
++++ b/node_modules/react-native-tts/android/src/main/java/net/no_mad/tts/TextToSpeechModule.java
+@@ -194,6 +194,17 @@ public class TextToSpeechModule extends ReactContextBaseJavaModule {
+         return "TextToSpeech";
+     }
+ 
++    @ReactMethod
++    public void addListener(String eventName) {
++
++    }
++
++    @ReactMethod
++    public void removeListeners(Integer count) {
++
++    }
++
++
+     @ReactMethod
+     public void getInitStatus(Promise promise) {
+         synchronized(initStatusPromises) {

@@ -3,12 +3,13 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 
-import { ExamScreen } from './screens';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { BackHeaderIcon } from '../../navigation/components/Header';
+import { ExamPlaygroundScreen, ExamSettingsScreen } from './screens';
 
 type ExamNavigationScreenParamsList = {
-  examOptions: undefined;
+  ExamSettings: undefined;
+  ExamPlayground: undefined;
 };
 
 const ExamNavigationScreens: {
@@ -17,21 +18,29 @@ const ExamNavigationScreens: {
   options?: NativeStackNavigationOptions;
 }[] = [
   {
-    name: 'examOptions',
-    component: ExamScreen,
+    name: 'ExamSettings',
+    component: ExamSettingsScreen,
+    options: {
+      title: 'exam',
+    },
+  },
+  {
+    name: 'ExamPlayground',
+    component: ExamPlaygroundScreen,
     options: {
       title: 'exam',
     },
   },
 ];
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<ExamNavigationScreenParamsList>();
 
 const ExamStack = () => (
   <Stack.Navigator
     screenOptions={{
       headerLeft: BackHeaderIcon,
-    }}>
+    }}
+    initialRouteName="ExamSettings">
     {ExamNavigationScreens.map((screen, index) => (
       <Stack.Screen
         key={index}

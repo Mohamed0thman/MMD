@@ -12,26 +12,16 @@ import { useRestyleTheme } from '../../../../style/theme';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { Keyboard, Switch } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { useForm } from 'react-hook-form';
 import {
   ExamSettingDataKey,
   examSettingData,
   examSittings,
 } from '../../examSettingData';
 import { useExamSettingStore } from '../../../../store/examSetting';
+import { useExamNavigation } from '../../navigation';
 
-const FormValues = {
-  digits: 1,
-  showDelay: 15,
-  clearDelay: 15,
-  numOfOperations: 1,
-  level: 0,
-  subtraction: false,
-  sound: false,
-  showKeboard: false,
-};
-
-const ExamScreen = () => {
+const ExamSettingsScreen = () => {
+  const navigation = useExamNavigation();
   const { colors, spacing } = useRestyleTheme();
   const [selectedOption, setSelectedOtion] =
     useState<ExamSettingDataKey>('digits');
@@ -40,9 +30,6 @@ const ExamScreen = () => {
 
   const { changeExamSettings, examSettings } = useExamSettingStore();
 
-  const { control } = useForm({
-    defaultValues: examSettings,
-  });
   const handlePresentModalPress = useCallback((key: ExamSettingDataKey) => {
     setSelectedOtion(key);
     Keyboard.dismiss();
@@ -156,7 +143,13 @@ const ExamScreen = () => {
           paddingBottom: 200,
         }}
         ItemSeparatorComponent={() => <Box mb="l" />}
-        ListFooterComponent={() => <Button title="أبدأ" mt="l" />}
+        ListFooterComponent={() => (
+          <Button
+            title="أبدأ"
+            mt="l"
+            onPress={() => navigation.navigate('ExamPlayground')}
+          />
+        )}
         showsVerticalScrollIndicator={false}
       />
 
@@ -179,4 +172,4 @@ const ExamScreen = () => {
   );
 };
 
-export { ExamScreen };
+export { ExamSettingsScreen };

@@ -1,1 +1,2 @@
-export { ExamScreen } from './ExamScreen';
+export { ExamSettingsScreen } from './ExamSettingsScreen';
+export { ExamPlaygroundScreen } from './ExamPlaygroundScreen';
