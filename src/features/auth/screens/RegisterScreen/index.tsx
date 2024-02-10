@@ -12,7 +12,7 @@ import { RegisterValid } from '../../../../utils/validations';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ButtonDock } from '../../../../components/Button';
 import { showMessage } from 'react-native-flash-message';
-import { useAuthStore } from '../../../../store/authSlice';
+import { useAuthStore } from '../../../../store/authStore';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'> & {};
 

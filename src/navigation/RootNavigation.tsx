@@ -10,6 +10,7 @@ import {
   AuthNavigationScreens,
 } from '../features/auth/navigation';
 import { TabNavigator } from './TabNavigation';
+import { useAuthStore, useUserStore } from '../store/authStore';
 
 export type RootStackParamList = {
   main: undefined;
@@ -19,32 +20,39 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigation() {
+  const { token } = useAuthStore();
+  const { user } = useUserStore();
+
+  console.log('token && user?.email_verified_at', token, user);
+
+  console.log('tokentokentoken', token);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={
-          {
-            // headerShown: false,
-          }
-        }
-        initialRouteName="Welcome">
-        {OnboardingNavigationScreens.map((screen, index) => (
-          <Stack.Screen
-            key={index}
-            name={screen.name}
-            component={screen.component}
-            options={{ ...screen.options, headerShown: false }}
-          />
-        ))}
+      <Stack.Navigator initialRouteName="Welcome" screenOptions={{}}>
+        {!token || !user?.email_verified_at ? (
+          <>
+            {OnboardingNavigationScreens.map((screen, index) => (
+              <Stack.Screen
+                key={index}
+                name={screen.name}
+                component={screen.component}
+                options={{ ...screen.options, headerShown: false }}
+              />
+            ))}
 
-        {AuthNavigationScreens.map((screen, index) => (
-          <Stack.Screen
-            key={index}
-            name={screen.name}
-            component={screen.component}
-            options={screen.options}
-          />
-        ))}
+            {AuthNavigationScreens.map((screen, index) => (
+              <Stack.Screen
+                key={index}
+                name={screen.name}
+                component={screen.component}
+                options={screen.options}
+              />
+            ))}
+          </>
+        ) : (
+          <></>
+        )}
 
         <Stack.Screen
           name={'main'}

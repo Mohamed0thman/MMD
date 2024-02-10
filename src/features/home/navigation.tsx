@@ -3,36 +3,36 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 
-import { ExamScreen } from './screens';
+import { HomeScreen } from './screens';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { BackHeaderIcon } from '../../navigation/components/Header';
 
-type ExamNavigationScreenParamsList = {
-  examOptions: undefined;
+type HomeNavigationScreenParamsList = {
+  Home: undefined;
 };
 
-const ExamNavigationScreens: {
-  name: keyof ExamNavigationScreenParamsList;
+const HomeNavigationScreens: {
+  name: keyof HomeNavigationScreenParamsList;
   component: React.ComponentType<any>;
   options?: NativeStackNavigationOptions;
 }[] = [
   {
-    name: 'examOptions',
-    component: ExamScreen,
+    name: 'Home',
+    component: HomeScreen,
     options: {
-      title: 'exam',
+      headerTitleAlign: 'center',
     },
   },
 ];
 
 const Stack = createNativeStackNavigator();
 
-const ExamStack = () => (
+const HomeStack = () => (
   <Stack.Navigator
     screenOptions={{
-      headerLeft: BackHeaderIcon,
+      headerRight: BackHeaderIcon,
     }}>
-    {ExamNavigationScreens.map((screen, index) => (
+    {HomeNavigationScreens.map((screen, index) => (
       <Stack.Screen
         key={index}
         name={screen.name}
@@ -43,8 +43,8 @@ const ExamStack = () => (
   </Stack.Navigator>
 );
 
-const useExamNavigation = useNavigation<
-  NavigationProp<ExamNavigationScreenParamsList>
+const useHomeNavigation = useNavigation<
+  NavigationProp<HomeNavigationScreenParamsList>
 >;
 
-export { ExamStack, useExamNavigation };
+export { HomeStack, useHomeNavigation };

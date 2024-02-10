@@ -2,15 +2,19 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { Box } from '../../../../components';
 import Pdf from 'react-native-pdf';
+import { useRouteNavigation } from '../../navigation';
 
 const LessonScreen = () => {
+  const { lesson } = useRouteNavigation('Lesson').params;
+
   return (
     <Box style={styles.container}>
       <Pdf
         trustAllCerts={false}
         source={{
-          uri: 'https://tasks.mahmoud-mostafa.com/storage/lessons/tcdsUcrzPgXKCjWk5etqsuXo1dbFifTSquwTmoSJ.pdf',
+          uri: lesson.attachment_url,
         }}
+        enablePaging
         onLoadComplete={(numberOfPages, filePath) => {
           console.log(`Number of pages: ${numberOfPages}`);
         }}

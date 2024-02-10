@@ -15,13 +15,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@shopify/restyle';
 import { theme, pinkTheme } from './style/theme';
 
-import { useSettingStore } from './store';
+import { useSettingStore } from './store/settingStore';
 
 import './localization';
 import { RootScreen } from './layout';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import FlashMessage from 'react-native-flash-message';
-import { useAuthStore } from './store/authSlice';
+import { useAuthStore, useUserStore } from './store/authStore';
 
 export const queryClient = new QueryClient();
 
@@ -37,12 +37,13 @@ const themes = {
 
 function App(): React.JSX.Element {
   const { themeName } = useSettingStore();
-  const { fetchToken, token } = useAuthStore();
+
+  const { user } = useUserStore();
+  const { fetchToken } = useAuthStore();
 
   useEffect(() => {
-    fetchToken();
-  }, []);
-  console.log('token', token);
+    fetchToken(user?.name || '');
+  }, [user]);
 
   return (
     <ThemeProvider theme={themes[themeName as keyof typeof themes]}>

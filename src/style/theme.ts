@@ -7,6 +7,9 @@ const palette = {
   pinkPrimary: '#F16C91',
   pinkSecondary: '#FAC4D3',
 
+  orange: '#FFA800',
+  yellow: '#FFDA55',
+
   success100: '#E3FCEC',
   success300: '#92F2B8',
   success500: '#067647',
@@ -178,8 +181,6 @@ const theme = createTheme({
   },
   inputVariants: {
     defaults: {
-      // We can define defaults for the variant here.
-      // This will be applied after the defaults passed to createVariant and before the variant defined below.
       backgroundColor: 'textInputBackground',
       borderColor: 'textInputBorderColor',
       borderRadius: 'm',

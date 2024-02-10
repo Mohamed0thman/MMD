@@ -14,7 +14,7 @@ module.exports = {
     'react-native/no-color-literals': 'warn',
     'react-native/no-raw-text': 'warn',
     'react-native/no-single-element-style-arrays': 'warn',
-    'import/order': ['warn', {'newlines-between': 'always'}],
+    'import/order': ['warn', { 'newlines-between': 'always' }],
     'prettier/prettier': [
       'error',
       {

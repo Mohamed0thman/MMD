@@ -15,7 +15,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 
 import { IMAGES } from '../../../../constants';
-import { useSettingStore } from '../../../../store';
+import { useSettingStore } from '../../../../store/settingStore';
 import { useRestyleTheme } from '../../../../style/theme';
 import { RootStackParamList } from '../../../../navigation/RootNavigation';
 import { ButtonDock } from '../../../../components/Button';
@@ -31,19 +31,19 @@ const WelcomeScreen = ({ navigation }: Props) => {
   const options = [
     {
       id: 1,
-      title: 'فتاه',
-      icon: 'girl-head',
-      theme: 'pink',
-      fouce: colors.pinkPrimary,
-      blur: colors.pinkSecondary,
-    },
-    {
-      id: 2,
       title: 'صبي',
       icon: 'boy-head',
       theme: 'blue',
       fouce: colors.bluePrimary,
       blur: colors.blueSecondary,
+    },
+    {
+      id: 2,
+      title: 'فتاه',
+      icon: 'girl-head',
+      theme: 'pink',
+      fouce: colors.pinkPrimary,
+      blur: colors.pinkSecondary,
     },
   ];
 

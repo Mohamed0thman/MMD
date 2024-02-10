@@ -13,7 +13,7 @@ import {
 import { useRestyleTheme } from '../../../../style/theme';
 import { useVerifyMutation } from '../../hooks/useVerifyMutation';
 import { showMessage } from 'react-native-flash-message';
-import { useAuthStore } from '../../../../store/authSlice';
+import { useAuthStore } from '../../../../store/authStore';
 import { useResendCodeMutation } from '../../hooks/useResendCode';
 import { ButtonDock } from '../../../../components/Button';
 

@@ -28,7 +28,6 @@ const TabBar = ({ state, descriptors, navigation }: Props) => {
           shadowOpacity: 0.2,
           shadowRadius: 4,
         },
-        // { transform: [{ scaleX: isRtl ? -1 : 1 }] },
       ]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -61,12 +60,7 @@ const TabBar = ({ state, descriptors, navigation }: Props) => {
         if (index === 1) {
           return (
             <View
-              style={[
-                styles.middleBtnContainer,
-                // {
-                //   transform: [{ scaleX: isRtl ? -1 : 1 }],
-                // },
-              ]}
+              style={[styles.middleBtnContainer]}
               key={`${index}--${route.key}`}>
               <Svg width="100%" height="100%" viewBox="0 0 93 60">
                 <Path
@@ -93,14 +87,7 @@ const TabBar = ({ state, descriptors, navigation }: Props) => {
                 accessibilityState={isFocused ? { selected: true } : {}}
                 accessibilityLabel={options.tabBarAccessibilityLabel}
                 testID={options.tabBarTestID}
-                style={[
-                  styles.middleBtn,
-                  //   {
-                  //     backgroundColor: isFocused
-                  //       ? COLORS.primary
-                  //       : COLORS.lightPrimary,
-                  //   },
-                ]}
+                style={[styles.middleBtn]}
                 onPress={onPress}
                 onLongPress={onLongPress}>
                 {/* <Image source={images.logo} width={s(55)} height={vs(55)} /> */}
@@ -120,15 +107,7 @@ const TabBar = ({ state, descriptors, navigation }: Props) => {
             onLongPress={onLongPress}
             style={[styles.tabButton]}
             key={`${index}--${route.key}`}>
-            <View
-              style={[
-                styles.innerView,
-                // {
-                //   transform: [{ scaleX: isRtl ? -1 : 1 }],
-                //   backgroundColor: THEME[themeName].foreground,
-                // },
-                tabBarItemStyle,
-              ]}>
+            <View style={[styles.innerView, tabBarItemStyle]}>
               <TabIcon focused={isFocused} />
               <TabBarLabel />
             </View>
