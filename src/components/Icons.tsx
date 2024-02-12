@@ -1,4 +1,4 @@
-import React, { ReactSVG } from 'react';
+import React from 'react';
 import { SvgProps } from 'react-native-svg';
 import { ICONS } from '../constants';
 import { Box } from '.';

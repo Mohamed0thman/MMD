@@ -5,8 +5,7 @@ import {
 
 import { HomeScreen } from './screens';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { BackHeaderIcon } from '../../navigation/components/Header';
-import { useUserStore } from '../../store/authStore';
+import { MainHeaderIcon } from '../../navigation/components/Header';
 
 type HomeNavigationScreenParamsList = {
   Home: undefined;
@@ -21,7 +20,8 @@ const HomeNavigationScreens: {
     name: 'Home',
     component: HomeScreen,
     options: {
-      headerTitleAlign: 'left',
+      title: '',
+      headerLeft: MainHeaderIcon,
     },
   },
 ];
@@ -29,14 +29,8 @@ const HomeNavigationScreens: {
 const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
-  const { user } = useUserStore();
-
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerRight: () =>
-          BackHeaderIcon({ title: user?.name, icon: 'boy-head' }),
-      }}>
+    <Stack.Navigator>
       {HomeNavigationScreens.map((screen, index) => (
         <Stack.Screen
           key={index}

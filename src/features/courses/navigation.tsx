@@ -10,7 +10,10 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { BackHeaderIcon } from '../../navigation/components/Header';
+import {
+  BackHeaderIcon,
+  MainHeaderIcon,
+} from '../../navigation/components/Header';
 import { Lesson } from './types';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { TabParamList } from '../../navigation/TabNavigation';
@@ -32,7 +35,7 @@ const CoursesNavigationScreens: {
     component: LevelsScreen,
     options: {
       title: '',
-      headerLeft: () => <BackHeaderIcon title="الدروس" />,
+      headerLeft: MainHeaderIcon,
     },
   },
   {

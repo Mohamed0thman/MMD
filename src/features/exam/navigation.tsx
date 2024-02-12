@@ -4,7 +4,10 @@ import {
 } from '@react-navigation/native-stack';
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { BackHeaderIcon } from '../../navigation/components/Header';
+import {
+  BackHeaderIcon,
+  MainHeaderIcon,
+} from '../../navigation/components/Header';
 import { ExamPlaygroundScreen, ExamSettingsScreen } from './screens';
 
 type ExamNavigationScreenParamsList = {
@@ -21,16 +24,16 @@ const ExamNavigationScreens: {
     name: 'ExamSettings',
     component: ExamSettingsScreen,
     options: {
-      headerLeft: () =>
-        BackHeaderIcon({ title: 'اعدادات الأختبار', icon: 'boy-head' }),
+      headerLeft: MainHeaderIcon,
+      title: '',
     },
   },
   {
     name: 'ExamPlayground',
     component: ExamPlaygroundScreen,
     options: {
-      headerLeft: () =>
-        BackHeaderIcon({ title: ' الأختبار', icon: 'boy-head' }),
+      headerLeft: () => BackHeaderIcon({ title: ' الأختبار' }),
+      title: '',
     },
   },
 ];

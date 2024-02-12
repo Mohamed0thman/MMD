@@ -16,14 +16,19 @@ import {
 } from '../features/auth/navigation';
 import { TabNavigator, TabParamList } from './TabNavigation';
 import { useAuthStore, useUserStore } from '../store/authStore';
+import {
+  UserNavigationScreenParamsList,
+  UserStack,
+} from '../features/user/navigation';
 
-type RootStackParamList = {
-  main: undefined;
-  Auth: undefined;
-  Onboarding: undefined;
+type MainNavigationParamsList = {
+  Onboarding: NavigatorScreenParams<OnboardingNavigationScreenParamsList>;
+  Auth: NavigatorScreenParams<AuthNavigationScreenParamsList>;
+  main: NavigatorScreenParams<TabParamList>;
+  user: NavigatorScreenParams<UserNavigationScreenParamsList>;
 };
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<MainNavigationParamsList>();
 
 function RootNavigation() {
   const { token } = useAuthStore();
@@ -49,22 +54,20 @@ function RootNavigation() {
         ) : (
           <></>
         )}
-
         <Stack.Screen
           name={'main'}
           component={TabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={'user'}
+          component={UserStack}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-type MainNavigationParamsList = {
-  Onboarding: NavigatorScreenParams<OnboardingNavigationScreenParamsList>;
-  Auth: NavigatorScreenParams<AuthNavigationScreenParamsList>;
-  main: NavigatorScreenParams<TabParamList>;
-};
 
 const useMainNavigation = () =>
   useNavigation<NavigationProp<MainNavigationParamsList>>();
