@@ -1,12 +1,11 @@
 import React from 'react';
 import { Box, Button, StyledText } from '../../../../components';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../../navigation/RootNavigation';
+import { useMainNavigation } from '../../../../navigation/RootNavigation';
 import { ButtonDock } from '../../../../components/Button';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Onboarding'> & {};
+const OnboardingScreen = () => {
+  const { navigate } = useMainNavigation();
 
-const OnboardingScreen = ({ navigation }: Props) => {
   return (
     <Box flex={1} backgroundColor="mainBackground">
       <Box flex={1} paddingHorizontal="m" justifyContent="center">
@@ -26,21 +25,22 @@ const OnboardingScreen = ({ navigation }: Props) => {
       <ButtonDock>
         <Button
           title="انشاء حساب"
-          onPress={() => navigation.navigate('PresonalInfo')}
+          onPress={() =>
+            navigate('Auth', {
+              screen: 'PresonalInfo',
+            })
+          }
         />
         <Button
           title="لدي حساب بالفعل"
-          onPress={() => navigation.navigate('Login')}
+          onPress={() =>
+            navigate('Auth', {
+              screen: 'Login',
+            })
+          }
           variant="secondary"
         />
       </ButtonDock>
-      {/* <Box
-        style={{ marginTop: 'auto' }}
-        borderTopColor="gray200"
-        borderTopWidth={1}
-        paddingVertical="l"
-        paddingHorizontal="l"
-        gap="l"></Box> */}
     </Box>
   );
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, Pressable, StatusBar } from 'react-native';
 
-import { RootScreen } from '../../../../layout';
 import {
   Box,
   Button,
@@ -10,21 +9,15 @@ import {
   StyledText,
 } from '../../../../components';
 
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
-import { useTranslation } from 'react-i18next';
-
 import { IMAGES } from '../../../../constants';
 import { useSettingStore } from '../../../../store/settingStore';
 import { useRestyleTheme } from '../../../../style/theme';
-import { RootStackParamList } from '../../../../navigation/RootNavigation';
 import { ButtonDock } from '../../../../components/Button';
+import { useOnboardingNavigation } from '../../navigation';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Welcome'> & {};
-
-const WelcomeScreen = ({ navigation }: Props) => {
-  const { t } = useTranslation();
+const WelcomeScreen = () => {
   const { colors } = useRestyleTheme();
+  const navigation = useOnboardingNavigation();
 
   const { changeTheme, themeName } = useSettingStore();
 
@@ -133,7 +126,7 @@ const WelcomeScreen = ({ navigation }: Props) => {
           <ButtonDock>
             <Button
               title="أبدا"
-              onPress={() => navigation.navigate('Onboarding')}
+              onPress={() => navigation.navigate('SelectAccount')}
             />
           </ButtonDock>
         </Box>

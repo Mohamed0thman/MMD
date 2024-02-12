@@ -1,8 +1,11 @@
 import { StyleSheet, Text } from 'react-native';
 import React, { useState } from 'react';
-import { Box, Button, CountdownTimer } from '../../../../components';
-import { RootStackParamList } from '../../../../navigation/RootNavigation';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {
+  Box,
+  Button,
+  CountdownTimer,
+  StyledText,
+} from '../../../../components';
 
 import {
   CodeField,
@@ -13,16 +16,18 @@ import {
 import { useRestyleTheme } from '../../../../style/theme';
 import { useVerifyMutation } from '../../hooks/useVerifyMutation';
 import { showMessage } from 'react-native-flash-message';
-import { useAuthStore } from '../../../../store/authStore';
+import { useUserStore } from '../../../../store/authStore';
 import { useResendCodeMutation } from '../../hooks/useResendCode';
 import { ButtonDock } from '../../../../components/Button';
-
-type Props = NativeStackScreenProps<RootStackParamList, 'Otp'> & {};
+import { useAuthRoute } from '../../navigation';
+import { useMainNavigation } from '../../../../navigation/RootNavigation';
 
 const CELL_COUNT = 4;
 
-const OtpScreen = ({ navigation, route }: Props) => {
-  const user = route.params as User;
+const OtpScreen = () => {
+  const navigation = useMainNavigation();
+  const { params } = useAuthRoute('Otp');
+  const user = params!;
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -32,7 +37,7 @@ const OtpScreen = ({ navigation, route }: Props) => {
 
   const { colors } = useRestyleTheme();
 
-  const { setUser } = useAuthStore();
+  const { setUser } = useUserStore();
 
   const { isPending, mutate: verify } = useVerifyMutation({
     async onSuccess(data) {
@@ -42,7 +47,7 @@ const OtpScreen = ({ navigation, route }: Props) => {
           type: 'success',
         });
         setUser({ ...user, email_verified_at: new Date() });
-        navigation.replace('main');
+        navigation.navigate('main', { screen: 'Courses' });
       } else {
         showMessage({
           message: data.message,
@@ -80,17 +85,26 @@ const OtpScreen = ({ navigation, route }: Props) => {
     },
   });
 
+  console.log(value);
+
   const handleOnSubmit = () => {
     verify({ code: value });
   };
 
   return (
-    <Box flex={1} backgroundColor="mainBackground">
+    <Box flex={1} backgroundColor="mainBackground" paddingTop="l">
+      <StyledText
+        variant="headingM"
+        color="black"
+        textAlign="center"
+        marginHorizontal="m">
+        تم ارسال الكود الي {'\n'} {'\n'}{' '}
+        <StyledText color="primaryBackground"> {user.email}</StyledText>
+      </StyledText>
       <Box flex={1} justifyContent="center" paddingHorizontal="l">
         <CodeField
           ref={ref}
           {...props}
-          // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
           value={value}
           onChangeText={setValue}
           cellCount={CELL_COUNT}

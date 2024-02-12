@@ -1,8 +1,14 @@
-import { Text, View } from 'react-native';
-import { Button } from '.';
+import { StyleSheet, Text, View } from 'react-native';
+import { Box, Button, StyledText } from '.';
 import { useEffect, useState } from 'react';
 
-const CountdownTimer = ({ duration, onTimerFinish, onResendCode }: any) => {
+type Props = {
+  duration: number;
+  onTimerFinish?: () => void;
+  onResendCode?: () => void;
+};
+
+const CountdownTimer = ({ duration, onTimerFinish, onResendCode }: Props) => {
   const [time, setTime] = useState<number>(duration);
   const [timerActive, setTimerActive] = useState(true);
 
@@ -16,7 +22,7 @@ const CountdownTimer = ({ duration, onTimerFinish, onResendCode }: any) => {
         } else {
           setTimerActive(false);
           clearInterval(interval);
-          onTimerFinish();
+          onTimerFinish?.();
         }
       }, 1000);
     }
@@ -30,7 +36,7 @@ const CountdownTimer = ({ duration, onTimerFinish, onResendCode }: any) => {
       setTime(duration);
       setTimerActive(true);
       // Call the parent component's callback
-      onResendCode();
+      onResendCode?.();
     }
   };
 
@@ -44,14 +50,20 @@ const CountdownTimer = ({ duration, onTimerFinish, onResendCode }: any) => {
   };
 
   return (
-    <View>
-      <Text>{formatTime(time)}</Text>
-      <Button
-        title="Resend Code"
-        onPress={handleResendCode}
-        disabled={timerActive}
-      />
-    </View>
+    <Box alignItems="center" marginTop="xl">
+      {timerActive ? (
+        <StyledText variant="headingM" color="primaryBackground">
+          {formatTime(time)}
+        </StyledText>
+      ) : (
+        <StyledText
+          onPress={handleResendCode}
+          variant="headingM"
+          color="primaryBackground">
+          اعد الارسال
+        </StyledText>
+      )}
+    </Box>
   );
 };
 

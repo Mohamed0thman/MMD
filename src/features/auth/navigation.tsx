@@ -1,4 +1,7 @@
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationOptions,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 
 import {
   ForgetPasswordScreen,
@@ -8,6 +11,13 @@ import {
   RegisterScreen,
 } from './screens';
 import { Header } from './components/Header';
+import { BackHeaderIcon } from '../../navigation/components/Header';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
 type AuthNavigationScreenParamsList = {
   Login: undefined;
@@ -26,24 +36,24 @@ const AuthNavigationScreens: {
     name: 'Login',
     component: LoginScreen,
     options: {
-      header: props => <Header {...props} />,
-      title: 'تسجيل الدخول',
+      headerLeft: () => <BackHeaderIcon title="تسجيل الدخول" />,
+      headerTitle: '',
     },
   },
   {
     name: 'Register',
     component: RegisterScreen,
     options: {
-      header: props => <Header {...props} />,
-      title: 'انشاء حساب',
+      headerLeft: () => <BackHeaderIcon title="انشاء حساب" />,
+      headerTitle: '',
     },
   },
   {
     name: 'ForgetPassword',
     component: ForgetPasswordScreen,
     options: {
-      header: props => <Header {...props} />,
-      title: 'نسيت كلمة السر',
+      headerLeft: () => <BackHeaderIcon title="نسيت كلمة السر" />,
+      headerTitle: '',
     },
   },
 
@@ -51,18 +61,47 @@ const AuthNavigationScreens: {
     name: 'Otp',
     component: OtpScreen,
     options: {
-      header: props => <Header {...props} />,
-      title: 'تأكيد الحساب',
+      headerLeft: () => <BackHeaderIcon title="تأكيد الحساب" />,
+      headerTitle: '',
     },
   },
   {
     name: 'PresonalInfo',
     component: PresonalInfoScreen,
     options: {
-      header: props => <Header {...props} />,
-      title: 'انشاء حساب',
+      headerLeft: () => <BackHeaderIcon title="انشاء حساب" />,
+      headerTitle: '',
     },
   },
 ];
 
-export { AuthNavigationScreens, type AuthNavigationScreenParamsList };
+const Stack = createNativeStackNavigator();
+
+const AuthStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{}}>
+      {AuthNavigationScreens.map((screen, index) => (
+        <Stack.Screen
+          key={index}
+          name={screen.name}
+          component={screen.component}
+          options={screen.options}
+        />
+      ))}
+    </Stack.Navigator>
+  );
+};
+
+const useAuthNavigation = () =>
+  useNavigation<NavigationProp<AuthNavigationScreenParamsList>>();
+
+const useAuthRoute = <T extends keyof AuthNavigationScreenParamsList>(
+  _screenName: T,
+) => useRoute<RouteProp<AuthNavigationScreenParamsList, T>>();
+
+export {
+  AuthStack,
+  useAuthNavigation,
+  useAuthRoute,
+  type AuthNavigationScreenParamsList,
+};

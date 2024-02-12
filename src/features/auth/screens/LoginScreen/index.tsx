@@ -4,15 +4,12 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { ControlledInput } from '../../../../components/Input';
 import { convertObjectToObjectWithKeys } from '../../../../utils/Formats';
 import { Box, Button } from '../../../../components';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../../navigation/RootNavigation';
 import { ButtonDock } from '../../../../components/Button';
 import { useLoginMutation } from '../../hooks/useLoginMutation';
 import { useAuthStore, useUserStore } from '../../../../store/authStore';
 import * as Keychain from 'react-native-keychain';
 import { showMessage } from 'react-native-flash-message';
-
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'> & {};
+import { useMainNavigation } from '../../../../navigation/RootNavigation';
 
 const FormValues = {
   email: '',
@@ -21,7 +18,9 @@ const FormValues = {
 
 const FORM_VALUES = convertObjectToObjectWithKeys(FormValues);
 
-const LoginScreen = ({ navigation }: Props) => {
+const LoginScreen = () => {
+  const navigation = useMainNavigation();
+
   const formMethods = useForm({
     defaultValues: FormValues,
   });
@@ -36,11 +35,14 @@ const LoginScreen = ({ navigation }: Props) => {
         setToken(data.token);
 
         if (!data.data.email_verified_at)
-          return navigation.navigate('Otp', { ...data.data });
+          return navigation.navigate('Auth', {
+            screen: 'Otp',
+            params: { ...data.data },
+          });
 
         setUser(data.data);
 
-        navigation.navigate('main');
+        navigation.navigate('main', { screen: 'Courses' });
       } else {
         console.log(data.errors);
       }

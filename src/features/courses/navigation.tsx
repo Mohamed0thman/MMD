@@ -50,10 +50,7 @@ type Props = BottomTabScreenProps<TabParamList, 'Courses'> & {};
 
 const CoursesStack = ({ navigation }: Props) => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerLeft: BackHeaderIcon,
-      }}>
+    <Stack.Navigator>
       {CoursesNavigationScreens.map((screen, index) => (
         <Stack.Screen
           key={index}

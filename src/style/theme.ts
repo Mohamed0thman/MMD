@@ -102,7 +102,7 @@ const theme = createTheme({
   },
   buttonTextVariants: {
     defaults: {
-      fontSize: 14,
+      fontSize: 18,
       fontWeight: 'bold',
     },
     primary: {

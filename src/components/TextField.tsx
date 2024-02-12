@@ -52,7 +52,7 @@ const TextField: React.FC<Props> = props => {
               borderColor: color,
               color: COLORS.primary,
               paddingHorizontal: 20,
-              textAlign: 'right',
+              textAlign: 'left',
             },
           ]}
           ref={inputRef}
@@ -71,7 +71,7 @@ const TextField: React.FC<Props> = props => {
           <Animated.View
             style={[
               styles.labelContainer,
-              { backgroundColor: COLORS.white, alignSelf: 'flex-end' },
+              { backgroundColor: COLORS.white, alignSelf: 'flex-start' },
 
               {
                 transform: [
@@ -87,8 +87,6 @@ const TextField: React.FC<Props> = props => {
                       outputRange: [vs(0), vs(-25)],
                     }),
                   },
-
-                  { translateX: -20 },
                 ],
               },
             ]}>

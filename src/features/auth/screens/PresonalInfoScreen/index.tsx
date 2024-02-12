@@ -4,14 +4,12 @@ import { RootScreen } from '../../../../layout';
 import { Box, Button } from '../../../../components';
 import { ControlledInput } from '../../../../components/Input';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../../navigation/RootNavigation';
 import { convertObjectToObjectWithKeys } from '../../../../utils/Formats';
 import { ScrollView } from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PresonalInfoValid } from '../../../../utils/validations';
 import { ButtonDock } from '../../../../components/Button';
-
-type Props = NativeStackScreenProps<RootStackParamList, 'PresonalInfo'> & {};
+import { useAuthNavigation } from '../../navigation';
 
 const FormValues = {
   first_name: '',
@@ -20,7 +18,8 @@ const FormValues = {
 
 const FORM_VALUES = convertObjectToObjectWithKeys(FormValues);
 
-const PresonalInfoScreen = ({ navigation }: Props) => {
+const PresonalInfoScreen = () => {
+  const navigation = useAuthNavigation();
   const formMethods = useForm({
     defaultValues: FormValues,
     resolver: yupResolver(PresonalInfoValid),

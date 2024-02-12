@@ -8,7 +8,7 @@
 import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 
-import RootNavigation from './navigation/RootNavigation';
+import { RootNavigation } from './navigation/RootNavigation';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 

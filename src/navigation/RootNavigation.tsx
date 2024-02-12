@@ -1,54 +1,50 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigationProp,
+  NavigatorScreenParams,
+  useNavigation,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
-  OnboardingNavigationScreens,
   OnboardingNavigationScreenParamsList,
+  OnboardingStack,
 } from '../features/onboarding/navigation';
 import {
   AuthNavigationScreenParamsList,
-  AuthNavigationScreens,
+  AuthStack,
 } from '../features/auth/navigation';
-import { TabNavigator } from './TabNavigation';
+import { TabNavigator, TabParamList } from './TabNavigation';
 import { useAuthStore, useUserStore } from '../store/authStore';
 
-export type RootStackParamList = {
+type RootStackParamList = {
   main: undefined;
-} & OnboardingNavigationScreenParamsList &
-  AuthNavigationScreenParamsList;
+  Auth: undefined;
+  Onboarding: undefined;
+};
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export default function RootNavigation() {
+function RootNavigation() {
   const { token } = useAuthStore();
   const { user } = useUserStore();
 
-  console.log('token && user?.email_verified_at', token, user);
-
-  console.log('tokentokentoken', token);
-
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome" screenOptions={{}}>
+      <Stack.Navigator initialRouteName="Onboarding">
         {!token || !user?.email_verified_at ? (
           <>
-            {OnboardingNavigationScreens.map((screen, index) => (
-              <Stack.Screen
-                key={index}
-                name={screen.name}
-                component={screen.component}
-                options={{ ...screen.options, headerShown: false }}
-              />
-            ))}
+            <Stack.Screen
+              name={'Onboarding'}
+              component={OnboardingStack}
+              options={{ headerShown: false }}
+            />
 
-            {AuthNavigationScreens.map((screen, index) => (
-              <Stack.Screen
-                key={index}
-                name={screen.name}
-                component={screen.component}
-                options={screen.options}
-              />
-            ))}
+            <Stack.Screen
+              name={'Auth'}
+              component={AuthStack}
+              options={{ headerShown: false }}
+            />
           </>
         ) : (
           <></>
@@ -63,3 +59,14 @@ export default function RootNavigation() {
     </NavigationContainer>
   );
 }
+
+type MainNavigationParamsList = {
+  Onboarding: NavigatorScreenParams<OnboardingNavigationScreenParamsList>;
+  Auth: NavigatorScreenParams<AuthNavigationScreenParamsList>;
+  main: NavigatorScreenParams<TabParamList>;
+};
+
+const useMainNavigation = () =>
+  useNavigation<NavigationProp<MainNavigationParamsList>>();
+
+export { RootNavigation, useMainNavigation, type MainNavigationParamsList };

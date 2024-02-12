@@ -1,11 +1,14 @@
-import { ScrollView, StyleSheet } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Box, Button, StyledText } from '../../../../components';
 import { ControlledInput } from '../../../../components/Input';
 import { convertObjectToObjectWithKeys } from '../../../../utils/Formats';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../../navigation/RootNavigation';
 import { useRegisterMutation } from '../../hooks/useRegisterMutation';
 import * as Keychain from 'react-native-keychain';
 import { RegisterValid } from '../../../../utils/validations';
@@ -13,8 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ButtonDock } from '../../../../components/Button';
 import { showMessage } from 'react-native-flash-message';
 import { useAuthStore } from '../../../../store/authStore';
-
-type Props = NativeStackScreenProps<RootStackParamList, 'Register'> & {};
+import { useAuthNavigation, useAuthRoute } from '../../navigation';
 
 const FormValues = {
   email: '',
@@ -24,11 +26,11 @@ const FormValues = {
 
 const FORM_VALUES = convertObjectToObjectWithKeys(FormValues);
 
-const RegisterScreen = ({ navigation, route }: Props) => {
-  const { first_name, last_name } = route.params as {
-    first_name: string;
-    last_name: string;
-  };
+const RegisterScreen = () => {
+  const navigation = useAuthNavigation();
+
+  const { params } = useAuthRoute('Register');
+  const { first_name, last_name } = params!;
 
   const { setToken } = useAuthStore();
 
@@ -60,41 +62,42 @@ const RegisterScreen = ({ navigation, route }: Props) => {
   };
 
   return (
-    <Box flex={1} backgroundColor="mainBackground">
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled">
-        <StyledText
-          variant="headingL"
-          color="black"
-          marginHorizontal="m"
-          mt="m">
-          أهلا بك {first_name} {'\n'} في منصة MMD
-        </StyledText>
-        <FormProvider {...formMethods}>
-          <Box flex={1} justifyContent="center" paddingHorizontal="m">
-            <ControlledInput
-              label="البريد الالكتروني"
-              fieldName={FORM_VALUES.email}
-            />
-            <ControlledInput
-              label="كلمة السر"
-              fieldName={FORM_VALUES.password}
-            />
-            <ControlledInput
-              label="تأكيد كلمة السر"
-              fieldName={FORM_VALUES.password_confirmation}
-            />
-          </Box>
-          <ButtonDock>
-            <Button
-              title="تم"
-              isLoading={isPending}
-              onPress={formMethods.handleSubmit(handleOnSubmit)}
-            />
-          </ButtonDock>
-        </FormProvider>
+    <Box backgroundColor="mainBackground" flex={1}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Box gap="xl">
+          <StyledText
+            variant="headingL"
+            color="black"
+            marginHorizontal="m"
+            mt="m">
+            أهلا بك {first_name} {'\n'} في منصة{' '}
+            <StyledText color="primaryBackground">MMD</StyledText>
+          </StyledText>
+          <FormProvider {...formMethods}>
+            <Box flex={1} justifyContent="center" paddingHorizontal="m">
+              <ControlledInput
+                label="البريد الالكتروني"
+                fieldName={FORM_VALUES.email}
+              />
+              <ControlledInput
+                label="كلمة السر"
+                fieldName={FORM_VALUES.password}
+              />
+              <ControlledInput
+                label="تأكيد كلمة السر"
+                fieldName={FORM_VALUES.password_confirmation}
+              />
+            </Box>
+          </FormProvider>
+        </Box>
       </ScrollView>
+      <ButtonDock>
+        <Button
+          title="تم"
+          isLoading={isPending}
+          onPress={formMethods.handleSubmit(handleOnSubmit)}
+        />
+      </ButtonDock>
     </Box>
   );
 };
