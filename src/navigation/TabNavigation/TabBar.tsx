@@ -16,7 +16,7 @@ type Props = BottomTabBarProps & {};
 
 const TabBar = ({ state, descriptors, navigation }: Props) => {
   console.log();
-  
+
   return (
     <DropShadow
       style={[
@@ -111,7 +111,7 @@ const TabBar = ({ state, descriptors, navigation }: Props) => {
             key={`${index}--${route.key}`}>
             <View style={[styles.innerView, tabBarItemStyle]}>
               <TabIcon focused={isFocused} />
-              <TabBarLabel />
+              <TabBarLabel focused={isFocused} />
             </View>
           </TouchableWithoutFeedback>
         );

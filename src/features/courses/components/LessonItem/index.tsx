@@ -9,7 +9,7 @@ const LessonItem = ({ lesson, isEven, onPress }: LessonItemProps) => {
   return (
     <PressableBox
       onPress={onPress}
-      alignSelf={isEven ? 'flex-end' : 'flex-start'}
+      alignSelf={!isEven ? 'flex-end' : 'flex-start'}
       style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}>
       <DropShadow
         style={{

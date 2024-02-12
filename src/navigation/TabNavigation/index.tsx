@@ -62,7 +62,13 @@ const TabNavigator: React.FC = () => {
       <Tab.Screen
         options={{
           tabBarItemStyle: { borderTopLeftRadius: s(24) },
-          tabBarLabel: () => <StyledText>دروسي</StyledText>,
+          tabBarLabel: ({ focused }) => (
+            <StyledText
+              variant="headingM"
+              color={focused ? 'primaryBackground' : 'black'}>
+              دروسي
+            </StyledText>
+          ),
           tabBarIcon: ({ focused }) => (
             <Icons
               icon="book"
@@ -95,7 +101,13 @@ const TabNavigator: React.FC = () => {
       <Tab.Screen
         options={{
           tabBarItemStyle: { borderTopRightRadius: s(24) },
-          tabBarLabel: () => <StyledText>الأختبار</StyledText>,
+          tabBarLabel: ({ focused }) => (
+            <StyledText
+              variant="headingM"
+              color={focused ? 'bluePrimary' : 'black'}>
+              الأختبار
+            </StyledText>
+          ),
           tabBarIcon: ({ focused }) => (
             <Icons
               icon="pin"

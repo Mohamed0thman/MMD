@@ -10,7 +10,6 @@ import {
   PresonalInfoScreen,
   RegisterScreen,
 } from './screens';
-import { Header } from './components/Header';
 import { BackHeaderIcon } from '../../navigation/components/Header';
 import {
   NavigationProp,

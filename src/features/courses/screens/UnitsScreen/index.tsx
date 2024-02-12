@@ -1,4 +1,4 @@
-import { SectionList, SectionListData } from 'react-native';
+import { ActivityIndicator, SectionList, SectionListData } from 'react-native';
 import React from 'react';
 import { useCoursesNavigation, useRouteNavigation } from '../../navigation';
 import { useUnitsQuery } from '../../hooks/useUnitsQuery';
@@ -14,10 +14,7 @@ const UnitsScreen = () => {
   const { colors, spacing } = useRestyleTheme();
   const navigation = useCoursesNavigation();
 
-  const { data, isLoading, refetch, isRefetching, isSuccess } =
-    useUnitsQuery(levelId);
-
-  if (isLoading || isRefetching) return <StyledText>...loading</StyledText>;
+  const { data, isLoading, refetch, isRefetching } = useUnitsQuery(levelId);
 
   const sectionData = data?.data.map(item => {
     return {
@@ -89,6 +86,22 @@ const UnitsScreen = () => {
           paddingHorizontal: spacing.m,
         }}
         showsVerticalScrollIndicator={false}
+        refreshing={isLoading || isRefetching}
+        onRefresh={refetch}
+        ListEmptyComponent={() =>
+          isLoading || isRefetching ? (
+            <></>
+          ) : (
+            <Box
+              padding="l"
+              backgroundColor="primaryBackground"
+              borderRadius="l">
+              <StyledText variant="headingM" color="white">
+                سوف يتم رفع الدروس قريبا
+              </StyledText>
+            </Box>
+          )
+        }
       />
     </Box>
   );

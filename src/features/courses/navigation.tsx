@@ -32,15 +32,24 @@ const CoursesNavigationScreens: {
     component: LevelsScreen,
     options: {
       title: '',
+      headerLeft: () => <BackHeaderIcon title="الدروس" />,
     },
   },
   {
     name: 'Units',
     component: UnitsScreen,
+    options: {
+      title: '',
+      headerLeft: () => <BackHeaderIcon title="الوحدات" />,
+    },
   },
   {
     name: 'Lesson',
     component: LessonScreen,
+    options: {
+      title: '',
+      headerLeft: () => <BackHeaderIcon title="الدرس" />,
+    },
   },
 ];
 
