@@ -1,7 +1,9 @@
-import { StateCreator, create, useStore } from 'zustand';
+import { create } from 'zustand';
 import { getToken } from '../utils/protectedStore';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type FetchTokenFunction = (username: string) => Promise<void>;
 
 type UserSliced = {
   user: User | null;
@@ -11,7 +13,7 @@ type UserSliced = {
 type AuthSlice = {
   token: string | null;
   setToken: (token: string) => void;
-  fetchToken: (username: string) => void;
+  fetchToken: FetchTokenFunction;
 };
 
 export const useUserStore = create<

@@ -1,22 +1,46 @@
-import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import Share from 'react-native-share';
-import { Button } from '../../../../components';
+import { Box, StyledText } from '../../../../components';
+import Carousel from '../../../../components/Carousel';
 
 const HomeScreen = () => {
-  const shareURL = async () => {
-    try {
-      const result = await Share.open({});
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const renderItem = (item: any) => (
+    <Box
+      backgroundColor="primaryBackground"
+      paddingVertical="m"
+      paddingHorizontal="m"
+      gap="m"
+      borderRadius="m">
+      <StyledText variant="headingM" color="white">
+        أهلا بك في تطبيق MMD لتعليم الحساب الذهني
+      </StyledText>
+      <StyledText variant="labelL" color="white">
+        ابدا الان في تعلم الحساب الذهني
+      </StyledText>
+    </Box>
+  );
 
   return (
-    <View>
-      <Text>HomeScreen</Text>
-      <Button title="dssad" onPress={shareURL} />
-    </View>
+    <Box flex={1} backgroundColor="mainBackground">
+      <Carousel
+        data={[
+          {
+            id: 1,
+            title: 'أهلا بك في تطبيق MMD لتعليم الحساب الذهني',
+            subtitle: 'ابدا الان في تعلم الحساب الذهني',
+          },
+          {
+            id: 1,
+            title: 'أهلا بك في تطبيق MMD لتعليم الحساب الذهني',
+            subtitle: 'ابدا الان في تعلم الحساب الذهني',
+          },
+        ]}
+        carouselItem={renderItem}
+      />
+
+      <StyledText marginTop="l" color="mainBackground">
+        هذا الجزء مخص بالعروض والاشتراكات
+      </StyledText>
+    </Box>
   );
 };
 

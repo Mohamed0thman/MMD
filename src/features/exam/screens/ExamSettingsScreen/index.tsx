@@ -143,13 +143,13 @@ const ExamSettingsScreen = () => {
           paddingBottom: 200,
         }}
         ItemSeparatorComponent={() => <Box mb="l" />}
-        ListFooterComponent={() => (
-          <Button
-            title="أبدأ"
-            mt="l"
-            onPress={() => navigation.navigate('ExamPlayground')}
-          />
-        )}
+        // ListFooterComponent={() => (
+        //   <Button
+        //     title="أبدأ"
+        //     mt="l"
+        //     onPress={() => navigation.navigate('ExamPlayground')}
+        //   />
+        // )}
         showsVerticalScrollIndicator={false}
       />
 

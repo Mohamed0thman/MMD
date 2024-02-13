@@ -24,6 +24,8 @@ import FlashMessage from 'react-native-flash-message';
 import { useAuthStore, useUserStore } from './store/authStore';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import SplashScreen from 'react-native-splash-screen';
+// import { useStore } from 'your-zustand-store'; // Import your Zustand store
 
 export const queryClient = new QueryClient();
 
@@ -36,6 +38,9 @@ const themes = {
   blue: theme,
   pink: pinkTheme,
 };
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function App(): React.JSX.Element {
   const { themeName } = useSettingStore();
@@ -44,6 +49,7 @@ function App(): React.JSX.Element {
   const { fetchToken } = useAuthStore();
 
   useEffect(() => {
+    sleep(1000).then(() => SplashScreen.hide());
     fetchToken(user?.name || '');
   }, [user]);
 

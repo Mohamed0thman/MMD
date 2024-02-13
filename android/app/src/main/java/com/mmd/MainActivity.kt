@@ -7,6 +7,7 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate
 import com.facebook.react.modules.i18nmanager.I18nUtil
 import android.os.Bundle;
 import android.content.Context
+import org.devio.rn.splashscreen.SplashScreen; // Add this here
 
 
 
@@ -25,6 +26,7 @@ class MainActivity : ReactActivity() {
 
 
   override fun onCreate(savedInstanceState: Bundle?) {
+    SplashScreen.show(this)
     super.onCreate(null)
     val sharedI18nUtilInstance = I18nUtil.getInstance()
     sharedI18nUtilInstance.allowRTL(this, true)
