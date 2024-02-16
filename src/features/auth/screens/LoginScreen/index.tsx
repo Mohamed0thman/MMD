@@ -44,7 +44,13 @@ const LoginScreen = () => {
 
         navigation.navigate('main', { screen: 'Courses' });
       } else {
-        console.log(data.errors);
+        showMessage({
+          message:
+            (data.errors?.email as string) ||
+            (data.errors?.password as string) ||
+            'حصل خطا ما',
+          type: 'danger',
+        });
       }
     },
     onError(error) {

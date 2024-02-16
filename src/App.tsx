@@ -59,9 +59,13 @@ function App(): React.JSX.Element {
         <GestureHandlerRootView style={{ flex: 1 }}>
           <BottomSheetModalProvider>
             <QueryClientProvider client={queryClient}>
+              <FlashMessage
+                style={{
+                  paddingVertical: 20,
+                }}
+              />
               <RootScreen>
                 <RootNavigation />
-                <FlashMessage />
               </RootScreen>
             </QueryClientProvider>
           </BottomSheetModalProvider>

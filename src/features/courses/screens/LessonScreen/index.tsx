@@ -1,12 +1,25 @@
 import { Dimensions, StyleSheet } from 'react-native';
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { Box } from '../../../../components';
 import Pdf from 'react-native-pdf';
 import { useRouteNavigation } from '../../navigation';
 import { useAppStore } from '../../../../store/appStore';
+import { uselessonsRead } from '../../hooks/uselessonsRead';
+import { showMessage } from 'react-native-flash-message';
 
 const LessonScreen = () => {
   const { lesson } = useRouteNavigation('Lesson').params;
+  const [isRead, setIsRead] = useState(false);
+
+  const { isPending, mutate: lessonRead } = uselessonsRead({
+    async onSuccess(data) {
+      setIsRead(true);
+      showMessage({
+        message: data.message as string,
+        type: 'success',
+      });
+    },
+  });
 
   const { toggleTabBar } = useAppStore();
 
@@ -28,6 +41,9 @@ const LessonScreen = () => {
         }}
         onPageChanged={(page, numberOfPages) => {
           console.log(`Current page: ${page}`);
+          if (page === numberOfPages && !isRead && !isPending) {
+            lessonRead(lesson.id);
+          }
         }}
         onError={error => {
           console.log(error);

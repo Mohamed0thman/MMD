@@ -4,31 +4,19 @@ import { AxiosError } from 'axios';
 import { apiClient } from '../../../services/axios/apiClient';
 import { APIError } from '../../../../types/api';
 
-type LoginMutationParams = {
-  email: string;
-  password: string;
-};
-
 type LoginResponse = {
   success: boolean;
-  data: {
-    id: number;
-    name: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    email_verified_at: Date | null;
-  };
-  errors: { email: string; password: string };
+  data: [];
+  errors: [];
   message: string;
   token: string;
 };
 
-const loginUser = async (body: LoginMutationParams) => {
-  return await apiClient.post<LoginResponse>('/login', body);
+const lessonRead = async (lessonId: number) => {
+  return await apiClient.post<LoginResponse>(`/lessons/${lessonId}/read`);
 };
 
-export const useLoginMutation = ({
+export const uselessonsRead = ({
   onError,
   onSuccess,
 }: {
@@ -36,7 +24,7 @@ export const useLoginMutation = ({
   onSuccess?: (data: LoginResponse) => void;
 } = {}) =>
   useMutation({
-    mutationFn: (params: LoginMutationParams) => loginUser(params),
+    mutationFn: (lessonId: number) => lessonRead(lessonId),
     onError(error) {
       onError?.(error as AxiosError<APIError>);
     },

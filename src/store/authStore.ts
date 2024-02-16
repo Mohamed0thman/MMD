@@ -8,6 +8,7 @@ type FetchTokenFunction = (username: string) => Promise<void>;
 type UserSliced = {
   user: User | null;
   setUser: (user: User) => void;
+  logout: () => void;
 };
 
 type AuthSlice = {
@@ -24,6 +25,7 @@ export const useUserStore = create<
     set => ({
       user: null,
       setUser: (user: User) => set({ user }),
+      logout: () => set({ user: null }),
     }),
     {
       name: 'user-store',

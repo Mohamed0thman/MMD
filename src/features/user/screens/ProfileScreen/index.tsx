@@ -11,10 +11,15 @@ import { useUserStore } from '../../../../store/authStore';
 import { useSettingStore } from '../../../../store/settingStore';
 import { useRestyleTheme } from '../../../../style/theme';
 import Share from 'react-native-share';
+import { useMainNavigation } from '../../../../navigation/RootNavigation';
 
 const ProfileScreen = () => {
   const { user } = useUserStore();
   const { themeName } = useSettingStore();
+
+  const { logout } = useUserStore();
+
+  const navigation = useMainNavigation();
 
   const { colors } = useRestyleTheme();
 
@@ -24,7 +29,12 @@ const ProfileScreen = () => {
       label: 'شارك مع أصدقائق',
       icon: <Icons icon="share" />,
       onPress: () =>
-        Share.open({})
+        Share.open({
+          title: 'مرحبا صديقي',
+          message:
+            'انا استخدم ابلكيشن MMD للتدرب علي الحساب الذهني أبدا معي الأن',
+          url: 'https://play.google.com/store/apps/details?id=com.belahedod.academy ',
+        })
           .then(res => {
             console.log(res);
           })
@@ -61,7 +71,10 @@ const ProfileScreen = () => {
       id: 1,
       label: 'الخروج',
       icon: <Icons icon="logout" />,
-      onPress: () => '',
+      onPress: () => {
+        logout();
+        // navigation.navigate('Onboarding', { screen: 'Welcome' });
+      },
     },
   ];
 

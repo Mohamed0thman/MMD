@@ -3,7 +3,23 @@ import { Box, PressableBox, StyledText } from '../../../../components';
 import { LevelItemProps } from '../../types';
 import DropShadow from 'react-native-drop-shadow';
 
+function calculatePercentage(lessonsCount: number, userLessonReads: number) {
+  if (lessonsCount === 0) {
+    return 0; // Avoid division by zero
+  }
+
+  const percentage = (userLessonReads / lessonsCount) * 100;
+  return Math.round(percentage); // Round the percentage to a whole number
+}
+
 const LevelItem = ({ level, onPress }: LevelItemProps) => {
+  const percentage = calculatePercentage(
+    level.lessons_count,
+    level.user_lesson_reads,
+  );
+
+  console.log(percentage);
+
   return (
     <DropShadow
       style={{
@@ -61,6 +77,19 @@ const LevelItem = ({ level, onPress }: LevelItemProps) => {
             <StyledText color="black" variant="headingS">
               {level.user_lesson_reads} / {level.lessons_count}
             </StyledText>
+          </Box>
+          <Box
+            backgroundColor="gray400"
+            flex={1}
+            height={5}
+            borderRadius="m"
+            marginTop="m">
+            <Box
+              backgroundColor="primaryBackground"
+              position="absolute"
+              top={0}
+              height={5}
+              width={`${percentage}%`}></Box>
           </Box>
         </Box>
       </PressableBox>

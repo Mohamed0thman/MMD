@@ -52,18 +52,19 @@ function RootNavigation() {
             />
           </>
         ) : (
-          <></>
+          <>
+            <Stack.Screen
+              name={'main'}
+              component={TabNavigator}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name={'user'}
+              component={UserStack}
+              options={{ headerShown: false }}
+            />
+          </>
         )}
-        <Stack.Screen
-          name={'main'}
-          component={TabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name={'user'}
-          component={UserStack}
-          options={{ headerShown: false }}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );
