@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { RootNavigation } from './navigation/RootNavigation';
@@ -45,13 +45,26 @@ function sleep(ms: number) {
 function App(): React.JSX.Element {
   const { themeName } = useSettingStore();
 
-  const { user } = useUserStore();
+  const [loading, setLoading] = useState(true);
+
+  const { user, hasHydrated } = useUserStore();
   const { fetchToken } = useAuthStore();
 
+  // useEffect(() => {
+  //   sleep(1000).then(() => SplashScreen.hide());
+  // }, [user]);
+
+  const getToken = async () => await fetchToken(user?.name || '');
+
   useEffect(() => {
-    sleep(1000).then(() => SplashScreen.hide());
-    fetchToken(user?.name || '');
-  }, [user]);
+    if (hasHydrated) {
+      SplashScreen.hide();
+      getToken();
+      setLoading(false);
+    }
+  }, [hasHydrated]);
+
+  if (loading) return <></>;
 
   return (
     <ThemeProvider theme={themes[themeName as keyof typeof themes]}>

@@ -7,6 +7,8 @@ type FetchTokenFunction = (username: string) => Promise<void>;
 
 type UserSliced = {
   user: User | null;
+  hasHydrated: boolean;
+
   setUser: (user: User) => void;
   logout: () => void;
 };
@@ -24,12 +26,16 @@ export const useUserStore = create<
   persist(
     set => ({
       user: null,
+      hasHydrated: false,
       setUser: (user: User) => set({ user }),
       logout: () => set({ user: null }),
     }),
     {
       name: 'user-store',
       storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => () => {
+        useUserStore.setState({ hasHydrated: true });
+      },
     },
   ),
 );

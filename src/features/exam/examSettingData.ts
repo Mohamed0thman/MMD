@@ -14,8 +14,8 @@ export const examSittings = [
   { id: 4, title: 'عدد العمليات', type: 'options', name: 'numOfOperations' },
   { id: 5, title: 'المستوي', type: 'options', name: 'level' },
   { id: 6, title: 'الطرح', type: 'switch', name: 'subtraction' },
-  { id: 7, title: 'لوحة المفاتيح', type: 'switch', name: 'sound' },
-  { id: 8, title: 'الصوت', type: 'switch', name: 'showKeboard' },
+  { id: 7, title: 'لوحة المفاتيح', type: 'switch', name: 'showKeboard' },
+  { id: 8, title: 'الصوت', type: 'switch', name: 'sound' },
 ];
 
 export const examSettingData = {

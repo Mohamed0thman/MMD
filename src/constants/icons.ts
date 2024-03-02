@@ -14,6 +14,12 @@ import supportIcon from '../assets/icons/supportIcon.svg';
 import shieldIcon from '../assets/icons/shieldIcon.svg';
 import shareIcon from '../assets/icons/shareIcon.svg';
 import settingIcon from '../assets/icons/settingIcon.svg';
+import CorrectIcon from '../assets/icons/correct.svg';
+import WrongIcon from '../assets/icons/wrong.svg';
+import ClockIcon from '../assets/icons/clock.svg';
+import VolumeIcon from '../assets/icons/volume.svg';
+import MicIcon from '../assets/icons/microphone.svg';
+import SoundIcon from '../assets/icons/sound.svg';
 
 const icons = {
   'girl-head': GirlHeadIcon,
@@ -32,6 +38,12 @@ const icons = {
   shield: shieldIcon,
   share: shareIcon,
   setting: settingIcon,
+  correct: CorrectIcon,
+  wrong: WrongIcon,
+  clock: ClockIcon,
+  volume: VolumeIcon,
+  mic: MicIcon,
+  sound: SoundIcon,
 };
 
 export default icons;

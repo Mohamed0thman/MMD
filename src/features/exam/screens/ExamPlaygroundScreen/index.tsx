@@ -1,213 +1,260 @@
-import React, { useEffect, useState } from 'react';
-import { Box } from '../../../../components';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+import {
+  Box,
+  Button,
+  Icons,
+  StyledText,
+  WaveButton,
+} from '../../../../components';
+import { generateRandomNumber, sleep } from '../../../../utils/helpers';
+import {
+  ExamSettingType,
+  useExamSettingStore,
+} from '../../../../store/examSetting';
+import { useAppStore } from '../../../../store/appStore';
+import { TextInput } from 'react-native-gesture-handler';
+import { theme } from '../../../../style/theme';
+import { useTextToSpeech } from '../../hooks/useTextToSpeech';
+import { CountdownTimer } from '../../components/CountdownTimer';
+import { TouchableOpacity } from '@gorhom/bottom-sheet';
+import { View } from 'react-native';
 import { useSpeach } from '../../../../hooks';
 
-import Tts from 'react-native-tts';
-import {
-  FlatList,
-  Keyboard,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Slider from '@react-native-community/slider';
+type Hestory = {
+  correct: number;
+  wrong: number;
+};
 
 const ExamPlaygroundScreen = () => {
-  const { startRecognition, results } = useSpeach();
-  console.log(results);
+  const { examSettings } = useExamSettingStore();
 
-  const [voices, setVoices] = useState([]);
-  const [ttsStatus, setTtsStatus] = useState('initiliazing');
-  const [selectedVoice, setSelectedVoice] = useState(null);
-  const [speechRate, setSpeechRate] = useState(0.5);
-  const [speechPitch, setSpeechPitch] = useState(1);
-  const [text, setText] = useState('Enter Text like Hello About React');
+  const { toggleTabBar } = useAppStore();
+  const [number, setNumber] = useState<number | null>(null);
+
+  const [userAnswer, setUserAnswer] = useState<string>('');
+  const [canAnswer, setCanAnswer] = useState<boolean>(false);
+
+  const inputRef = useRef<TextInput>(null);
+
+  const [correactAnswer, setCorrectAnswer] = useState<number | null>(null);
+
+  const [start, setStart] = useState(false);
+  const [time, setTime] = useState(0);
+
+  const [hestory, setHestory] = useState<Hestory>({
+    correct: 0,
+    wrong: 0,
+  });
+  const { readText, voiceStart } = useTextToSpeech();
+
+  const { results, startRecognition, started, stopRecognition } =
+    useSpeach('ar');
+
+  const correctAnswer = async (answer: string) => {
+    console.log('answer', answer);
+
+    if (correactAnswer && Number(answer) === correactAnswer) {
+      setHestory(prev => ({
+        ...prev,
+        correct: prev.correct + 1,
+      }));
+      examSettings.sound && (await readText('أحسنت'));
+    } else {
+      setHestory(prev => ({
+        ...prev,
+        wrong: prev.wrong + 1,
+      }));
+      examSettings.sound && (await readText('خطأ'));
+    }
+    await sleep(500);
+    setStart(false);
+  };
+
+  const handleOnStart = () => {
+    setStart(true);
+    // setTime(30);
+  };
+
+  const gameProcess = useCallback(
+    async (
+      _examSettings: ExamSettingType,
+      isMountedRef: { current: boolean },
+    ) => {
+      setCanAnswer(false);
+      console.log('_examSettings', _examSettings.showDelay);
+      const randomNumbers: number[] = [];
+
+      for (let i = 0; i < _examSettings.numOfOperations; i++) {
+        if (!isMountedRef.current) {
+          return; // Stop the loop if the component is unmounted
+        }
+
+        const generateRandom = generateRandomNumber(
+          _examSettings.digits,
+          _examSettings.subtraction,
+        );
+
+        randomNumbers.push(generateRandom);
+
+        console.log('generateRandom', generateRandom);
+
+        setNumber(generateRandom);
+
+        await readText(generateRandom.toString());
+        await sleep(_examSettings.showDelay * 200);
+
+        if (!isMountedRef.current) {
+          return; // Stop the loop if the component is unmounted
+        }
+
+        setNumber(null);
+        await sleep(_examSettings.clearDelay * 200);
+      }
+      const sum = randomNumbers.reduce((acc, current) => acc + current, 0);
+
+      setCorrectAnswer(sum);
+
+      setCanAnswer(true);
+    },
+    [],
+  );
 
   useEffect(() => {
-    Tts.addEventListener('tts-start', _event => setTtsStatus('started'));
-    Tts.addEventListener('tts-finish', _event => setTtsStatus('finished'));
-    Tts.addEventListener('tts-cancel', _event => setTtsStatus('cancelled'));
-    Tts.setDefaultRate(speechRate);
-    Tts.setDefaultPitch(speechPitch);
-    Tts.getInitStatus().then(initTts);
-    return () => {
-      Tts.removeEventListener('tts-start', _event => setTtsStatus('started'));
-      Tts.removeEventListener('tts-finish', _event => setTtsStatus('finished'));
-      Tts.removeEventListener('tts-cancel', _event =>
-        setTtsStatus('cancelled'),
-      );
+    if (results?.length) {
+      const numbersArray = results.filter(item => !isNaN(parseInt(item, 10)));
+
+      correctAnswer(numbersArray?.[0] as string);
+    }
+  }, [results]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const isMountedRef = { current: true };
+
+    const cleanup = () => {
+      isMounted = false;
+      isMountedRef.current = false;
     };
+    if (start) {
+      gameProcess(examSettings, isMountedRef);
+    }
+
+    return cleanup;
+  }, [examSettings, start]);
+
+  useLayoutEffect(() => {
+    toggleTabBar(true);
+    return () => toggleTabBar(false);
   }, []);
 
-  const initTts = async () => {
-    const voices = await Tts.voices();
-    const availableVoices = voices
-      .filter(v => !v.networkConnectionRequired && !v.notInstalled)
-      .map(v => {
-        return { id: v.id, name: v.name, language: v.language };
-      });
-    let selectedVoice = null;
-    if (voices && voices.length > 0) {
-      selectedVoice = voices[0].id;
-      try {
-        await Tts.setDefaultLanguage(voices[0].language);
-      } catch (err) {
-        //Samsung S9 has always this error:
-        //"Language is not supported"
-        console.log(`setDefaultLanguage error `, err);
-      }
-      await Tts.setDefaultVoice(voices[0].id);
-      setVoices(availableVoices);
-      setSelectedVoice(selectedVoice);
-      setTtsStatus('initialized');
-    } else {
-      setTtsStatus('initialized');
-    }
-  };
+  useEffect(() => {
+    if (canAnswer) inputRef.current?.focus();
+  }, [canAnswer]);
 
-  const readText = async () => {
-    Tts.stop();
-    Tts.speak(text);
-  };
-
-  const updateSpeechRate = async rate => {
-    await Tts.setDefaultRate(rate);
-    setSpeechRate(rate);
-  };
-
-  const updateSpeechPitch = async rate => {
-    await Tts.setDefaultPitch(rate);
-    setSpeechPitch(rate);
-  };
-
-  const onVoicePress = async voice => {
-    try {
-      await Tts.setDefaultLanguage(voice.language);
-    } catch (err) {
-      // Samsung S9 has always this error:
-      // "Language is not supported"
-      console.log(`setDefaultLanguage error `, err);
-    }
-    await Tts.setDefaultVoice(voice.id);
-    setSelectedVoice(voice.id);
-  };
-
-  const renderVoiceItem = ({ item }) => {
-    return (
-      <TouchableOpacity
-        style={{
-          backgroundColor: selectedVoice === item.id ? '#DDA0DD' : '#5F9EA0',
-        }}
-        onPress={() => onVoicePress(item)}>
-        <Text style={styles.buttonTextStyle}>
-          {`${item.language} - ${item.name || item.id}`}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
+  console.log('results', results);
 
   return (
-    <Box flex={1}>
-      <View style={styles.container}>
-        <Text style={styles.titleText}>
-          Text to Speech Conversion with Natural Voices
-        </Text>
-        <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>
-            {`Speed: ${speechRate.toFixed(2)}`}
-          </Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={0.01}
-            maximumValue={0.99}
-            value={speechRate}
-            onSlidingComplete={updateSpeechRate}
-          />
-        </View>
-        <View style={styles.sliderContainer}>
-          <Text style={styles.sliderLabel}>
-            {`Pitch: ${speechPitch.toFixed(2)}`}
-          </Text>
-          <Slider
-            style={styles.slider}
-            minimumValue={0.5}
-            maximumValue={2}
-            value={speechPitch}
-            onSlidingComplete={updateSpeechPitch}
-          />
-        </View>
-        <Text style={styles.sliderContainer}>
-          {`Selected Voice: ${selectedVoice || ''}`}
-        </Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={text => setText(text)}
-          value={text}
-          onSubmitEditing={Keyboard.dismiss}
-        />
-        <TouchableOpacity style={styles.buttonStyle} onPress={readText}>
-          <Text style={styles.buttonTextStyle}>
-            Click to Read Text ({`Status: ${ttsStatus || ''}`})
-          </Text>
-        </TouchableOpacity>
-        <Text style={styles.sliderLabel}>Select the Voice from below</Text>
-        <FlatList
-          style={{ width: '100%', marginTop: 5 }}
-          keyExtractor={item => item.id}
-          renderItem={renderVoiceItem}
-          extraData={selectedVoice}
-          data={voices}
-        />
-      </View>
+    <Box flex={1} backgroundColor="mainBackground" paddingHorizontal="l">
+      <Box flexDirection="row" justifyContent="space-between" paddingTop="m">
+        <Box flexDirection="row" gap="s">
+          <Box flexDirection="row" gap="s">
+            <Icons icon="wrong" />
+            <StyledText color="black">{hestory.wrong}</StyledText>
+          </Box>
+          <Box flexDirection="row" gap="s">
+            <Icons icon="correct" />
+            <StyledText color="black">{hestory.correct}</StyledText>
+          </Box>
+        </Box>
+        {/* <CountdownTimer duration={time} /> */}
+        <Box />
+      </Box>
+
+      {!start ? (
+        <Box flex={1} justifyContent="center" alignItems="center">
+          <TouchableOpacity onPress={handleOnStart}>
+            <View
+              style={{
+                width: 200,
+                height: 200,
+                borderRadius: 200,
+                backgroundColor: theme.colors.primaryBackground,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <StyledText color="white" fontSize={50}>
+                أبدا
+              </StyledText>
+            </View>
+          </TouchableOpacity>
+        </Box>
+      ) : (
+        <>
+          {/* render top */}
+          {!canAnswer && (
+            <>
+              {examSettings.sound ? (
+                <WaveButton
+                  wave={voiceStart}
+                  onPressIn={() => {}}
+                  onPressOut={() => {}}
+                  icon={<Icons icon="sound" color={'white'} />}
+                />
+              ) : (
+                <Box flex={1} justifyContent="center" alignItems="center">
+                  {number && (
+                    <StyledText fontSize={50} color="primaryBackground">
+                      {number.toString()}
+                    </StyledText>
+                  )}
+                </Box>
+              )}
+            </>
+          )}
+
+          <Box flex={1} justifyContent="center" alignItems="center">
+            {canAnswer && examSettings.showKeboard && (
+              <TextInput
+                ref={inputRef}
+                keyboardType="decimal-pad"
+                onChangeText={text => setUserAnswer(text)}
+                style={{
+                  fontSize: 50,
+                  fontWeight: 'bold',
+                  color: theme.colors.primaryBackground,
+                }}
+              />
+            )}
+          </Box>
+
+          <>
+            {examSettings.showKeboard ? (
+              <Button
+                title="اجب"
+                disabled={!canAnswer || !userAnswer.length}
+                onPress={() => correctAnswer(userAnswer)}
+                marginTop="auto"
+                marginBottom="l"
+              />
+            ) : (
+              <WaveButton
+                wave={started}
+                onPressIn={startRecognition}
+                onPressOut={stopRecognition}
+                icon={<Icons icon="mic" />}
+              />
+            )}
+          </>
+        </>
+      )}
     </Box>
   );
 };
 
 export { ExamPlaygroundScreen };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    padding: 5,
-  },
-  titleText: {
-    fontSize: 22,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  buttonStyle: {
-    justifyContent: 'center',
-    marginTop: 15,
-    padding: 10,
-    backgroundColor: '#8ad24e',
-  },
-  buttonTextStyle: {
-    color: '#fff',
-    textAlign: 'center',
-  },
-  sliderContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 300,
-    padding: 5,
-  },
-  sliderLabel: {
-    textAlign: 'center',
-    marginRight: 20,
-  },
-  slider: {
-    flex: 1,
-  },
-  textInput: {
-    borderColor: 'gray',
-    borderWidth: 1,
-    color: 'black',
-    width: '100%',
-    textAlign: 'center',
-    height: 40,
-  },
-});

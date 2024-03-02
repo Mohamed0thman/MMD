@@ -1,3 +1,4 @@
+export { WaveButton } from './WaveButton';
 export { RadioIndicator } from './RadioIndicator';
 export { Icons } from './Icons';
 export { Button } from './Button';
