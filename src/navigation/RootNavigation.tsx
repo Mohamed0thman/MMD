@@ -36,7 +36,12 @@ function RootNavigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Onboarding">
+      <Stack.Navigator initialRouteName="main">
+        <Stack.Screen
+          name={'main'}
+          component={TabNavigator}
+          options={{ headerShown: false }}
+        />
         {!token || !user?.email_verified_at ? (
           <>
             <Stack.Screen

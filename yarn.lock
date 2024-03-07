@@ -6634,6 +6634,11 @@ react-native-keychain@^8.1.2:
   resolved "https://registry.npmjs.org/react-native-keychain/-/react-native-keychain-8.1.2.tgz"
   integrity sha512-bhHEui+yMp3Us41NMoRGtnWEJiBE0g8tw5VFpq4mpmXAx6XJYahuM6K3WN5CsUeUl83hYysSL9oFZNKSTPSvYw==
 
+react-native-localize@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-3.0.6.tgz#6df2e317038c0cafe051184b2f0280f89ef8050c"
+  integrity sha512-pfwwNKRfXcxp0LZEzj5oW2/uo5oZOhiQ4PYlg8uLlsl9pDLcWg03yLCHohTWKX02vE/BFz9hkrHT/nQtlO/iFg==
+
 react-native-pdf@^6.7.4:
   version "6.7.4"
   resolved "https://registry.npmjs.org/react-native-pdf/-/react-native-pdf-6.7.4.tgz"

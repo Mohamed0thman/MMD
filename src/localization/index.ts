@@ -1,26 +1,31 @@
 import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
-import enapp from './locales/en/app.json';
-import arapp from './locales/ar/app.json';
+import { initReactI18next } from 'react-i18next';
+import en from './en.json';
+import ar from './ar.json';
+import { useSettingStore } from '../store/settingStore';
+import * as RNLocalize from 'react-native-localize';
 
-export const locales = {
+export const resources = {
   en: {
-    translation: enapp,
+    translation: en,
   },
-
   ar: {
-    translation: arapp,
+    translation: ar,
   },
-};
+} as const;
 
-i18n.use(initReactI18next).init({
-  compatibilityJSON: 'v3',
-  resources: locales,
-  fallbackLng: 'en',
-  lng: 'en', // Default language
-  interpolation: {
-    escapeValue: false,
-  },
-});
-
+export async function initI18Next() {
+  await i18n.use(initReactI18next).init({
+    compatibilityJSON: 'v3',
+    resources,
+    lng:
+      useSettingStore.getState().lang ||
+      RNLocalize.getLocales()[0].languageCode, // Default language
+    supportedLngs: ['ar', 'en'],
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false, // not needed for react!!
+    },
+  });
+}
 export default i18n;

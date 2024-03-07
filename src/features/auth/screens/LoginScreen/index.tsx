@@ -79,6 +79,7 @@ const LoginScreen = () => {
             <ControlledInput
               label="كلمة السر"
               fieldName={FORM_VALUES.password}
+              secureTextEntry
             />
           </Box>
 

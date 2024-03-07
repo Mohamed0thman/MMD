@@ -21,10 +21,10 @@ import { useAppStore } from '../../../../store/appStore';
 import { TextInput } from 'react-native-gesture-handler';
 import { theme } from '../../../../style/theme';
 import { useTextToSpeech } from '../../hooks/useTextToSpeech';
-import { CountdownTimer } from '../../components/CountdownTimer';
 import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import { View } from 'react-native';
 import { useSpeach } from '../../../../hooks';
+import { showMessage } from 'react-native-flash-message';
 
 type Hestory = {
   correct: number;
@@ -45,34 +45,40 @@ const ExamPlaygroundScreen = () => {
   const [correactAnswer, setCorrectAnswer] = useState<number | null>(null);
 
   const [start, setStart] = useState(false);
-  const [time, setTime] = useState(0);
 
   const [hestory, setHestory] = useState<Hestory>({
     correct: 0,
     wrong: 0,
   });
+
   const { readText, voiceStart } = useTextToSpeech();
 
   const { results, startRecognition, started, stopRecognition } =
     useSpeach('ar');
 
   const correctAnswer = async (answer: string) => {
-    console.log('answer', answer);
-
     if (correactAnswer && Number(answer) === correactAnswer) {
       setHestory(prev => ({
         ...prev,
         correct: prev.correct + 1,
       }));
-      examSettings.sound && (await readText('أحسنت'));
+      await readText('أحسنت');
+      showMessage({
+        message: 'أحسنت أجابة صحيحة',
+        type: 'success',
+      });
     } else {
       setHestory(prev => ({
         ...prev,
         wrong: prev.wrong + 1,
       }));
-      examSettings.sound && (await readText('خطأ'));
+      showMessage({
+        message: 'للأسف جابة خاطئة',
+        type: 'danger',
+      });
+
+      await readText('خطأ');
     }
-    await sleep(500);
     setStart(false);
   };
 
@@ -90,7 +96,7 @@ const ExamPlaygroundScreen = () => {
       console.log('_examSettings', _examSettings.showDelay);
       const randomNumbers: number[] = [];
 
-      for (let i = 0; i < _examSettings.numOfOperations; i++) {
+      for (let i = 0; i < _examSettings.numOfOperations + 1; i++) {
         if (!isMountedRef.current) {
           return; // Stop the loop if the component is unmounted
         }
@@ -107,14 +113,14 @@ const ExamPlaygroundScreen = () => {
         setNumber(generateRandom);
 
         await readText(generateRandom.toString());
-        await sleep(_examSettings.showDelay * 200);
+        await sleep(_examSettings.showDelay * 100);
 
         if (!isMountedRef.current) {
           return; // Stop the loop if the component is unmounted
         }
 
         setNumber(null);
-        await sleep(_examSettings.clearDelay * 200);
+        await sleep(_examSettings.clearDelay * 100);
       }
       const sum = randomNumbers.reduce((acc, current) => acc + current, 0);
 

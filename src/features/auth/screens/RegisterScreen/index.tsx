@@ -82,10 +82,12 @@ const RegisterScreen = () => {
               <ControlledInput
                 label="كلمة السر"
                 fieldName={FORM_VALUES.password}
+                secureTextEntry
               />
               <ControlledInput
                 label="تأكيد كلمة السر"
                 fieldName={FORM_VALUES.password_confirmation}
+                secureTextEntry
               />
             </Box>
           </FormProvider>
