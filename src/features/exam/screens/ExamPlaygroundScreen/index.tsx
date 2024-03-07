@@ -108,8 +108,6 @@ const ExamPlaygroundScreen = () => {
 
         randomNumbers.push(generateRandom);
 
-        console.log('generateRandom', generateRandom);
-
         setNumber(generateRandom);
 
         await readText(generateRandom.toString());
