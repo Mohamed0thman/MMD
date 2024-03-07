@@ -215,7 +215,7 @@ const ExamPlaygroundScreen = () => {
               ) : (
                 <Box flex={1} justifyContent="center" alignItems="center">
                   {number && (
-                    <StyledText fontSize={50} color="primaryBackground">
+                    <StyledText fontSize={70} color="primaryBackground">
                       {number.toString()}
                     </StyledText>
                   )}
@@ -231,7 +231,7 @@ const ExamPlaygroundScreen = () => {
                 keyboardType="decimal-pad"
                 onChangeText={text => setUserAnswer(text)}
                 style={{
-                  fontSize: 50,
+                  fontSize: 70,
                   fontWeight: 'bold',
                   color: theme.colors.primaryBackground,
                 }}

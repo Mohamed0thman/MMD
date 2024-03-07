@@ -22,7 +22,7 @@ export const examSettingData = {
   digits: arrayFromTo(1, 9),
   showDelay: arrayFromTo(3, 15),
   clearDelay: arrayFromTo(3, 15),
-  numOfOperations: arrayFromTo(1, 15),
+  numOfOperations: arrayFromTo(2, 15),
   level: [
     { label: 'بسيط', value: 0 },
     { label: 'مركب 5', value: 1 },
