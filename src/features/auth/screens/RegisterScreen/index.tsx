@@ -17,6 +17,7 @@ import { ButtonDock } from '../../../../components/Button';
 import { showMessage } from 'react-native-flash-message';
 import { useAuthStore } from '../../../../store/authStore';
 import { useAuthNavigation, useAuthRoute } from '../../navigation';
+import { useSettingStore } from '../../../../store/settingStore';
 
 const FormValues = {
   email: '',
@@ -34,6 +35,8 @@ const RegisterScreen = () => {
 
   const { setToken } = useAuthStore();
 
+  const { themeName } = useSettingStore();
+
   const formMethods = useForm({
     defaultValues: FormValues,
     resolver: yupResolver(RegisterValid),
@@ -47,6 +50,12 @@ const RegisterScreen = () => {
         navigation.navigate('Otp', { ...data.data });
       } else {
         console.log(data.errors);
+
+        Object.entries(data.errors).map(([key, value]) => {
+          formMethods.setError(key as keyof typeof FormValues, {
+            message: value as string,
+          });
+        });
       }
     },
     onError(error) {
@@ -58,7 +67,12 @@ const RegisterScreen = () => {
   });
 
   const handleOnSubmit = (data: typeof FormValues) => {
-    register({ ...data, first_name, last_name });
+    register({
+      ...data,
+      first_name,
+      last_name,
+      gender: themeName === 'blue' ? 'male' : 'female',
+    });
   };
 
   return (
@@ -82,10 +96,12 @@ const RegisterScreen = () => {
               <ControlledInput
                 label="كلمة السر"
                 fieldName={FORM_VALUES.password}
+                secureTextEntry
               />
               <ControlledInput
                 label="تأكيد كلمة السر"
                 fieldName={FORM_VALUES.password_confirmation}
+                secureTextEntry
               />
             </Box>
           </FormProvider>
