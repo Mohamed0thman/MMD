@@ -18,7 +18,6 @@ const LevelItem = ({ level, onPress }: LevelItemProps) => {
     level.user_lesson_reads,
   );
 
-  console.log(percentage);
 
   return (
     <DropShadow

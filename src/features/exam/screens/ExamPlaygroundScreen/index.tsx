@@ -35,7 +35,7 @@ const ExamPlaygroundScreen = () => {
   const { examSettings } = useExamSettingStore();
 
   const { toggleTabBar } = useAppStore();
-  const [number, setNumber] = useState<number | null>(null);
+  const [number, setNumber] = useState<number | string | null>(null);
 
   const [userAnswer, setUserAnswer] = useState<string>('');
   const [canAnswer, setCanAnswer] = useState<boolean>(false);
@@ -95,18 +95,26 @@ const ExamPlaygroundScreen = () => {
       setCanAnswer(false);
       console.log('_examSettings', _examSettings.showDelay);
       const randomNumbers: number[] = [];
+      let firstNum = true;
 
       for (let i = 0; i < _examSettings.numOfOperations + 1; i++) {
         if (!isMountedRef.current) {
           return; // Stop the loop if the component is unmounted
         }
-
-        const generateRandom = generateRandomNumber(
+        let generateRandom = generateRandomNumber(
           _examSettings.digits,
           _examSettings.subtraction,
         );
 
-        randomNumbers.push(generateRandom);
+        console.log('firstNum', firstNum);
+
+        if (Number(generateRandom) > 0 && firstNum) {
+          firstNum = false;
+        } else {
+          generateRandom = '+' + generateRandom;
+        }
+
+        randomNumbers.push(Number(generateRandom));
 
         setNumber(generateRandom);
 

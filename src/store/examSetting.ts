@@ -32,7 +32,7 @@ const useExamSettingStore = create<
         level: 0,
         subtraction: false,
         sound: false,
-        showKeboard: false,
+        showKeboard: true,
       },
       changeExamSettings: (newSetting: { [x: string]: any }) =>
         set({ examSettings: { ...get().examSettings, ...newSetting } }),

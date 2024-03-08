@@ -20,9 +20,7 @@ type Props = {
 const WaveButton = ({ wave, icon, onPressIn, onPressOut }: Props) => {
   return (
     <PressableBox
-      onLongPress={() => {
-        console.log('Long Press');
-      }}
+     
       onPressIn={onPressIn}
       onPressOut={onPressOut}
       width={200}

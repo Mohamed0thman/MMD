@@ -24,7 +24,6 @@ const Message = ({}: Props) => {
     },
     [],
   );
-  console.log('data', data);
 
   useEffect(() => {
     flashMessageManager.register(messageRef.current);

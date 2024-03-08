@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
 
   middleBtnContainer: {
     flex: 1,
-    marginHorizontal: s(-15),
+    marginHorizontal: s(-20),
     zIndex: 1000,
     justifyContent: 'center',
     alignItems: 'center',

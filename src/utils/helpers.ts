@@ -8,7 +8,7 @@ export function sleep(ms: number) {
 export function generateRandomNumber(
   maxDigits: number,
   allowNegative: boolean = false,
-) {
+): string | number {
   let result = 0;
 
   while (result === 0) {

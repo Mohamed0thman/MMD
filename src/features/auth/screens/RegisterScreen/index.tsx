@@ -49,7 +49,6 @@ const RegisterScreen = () => {
         setToken(data.token);
         navigation.navigate('Otp', { ...data.data });
       } else {
-        console.log(data.errors);
 
         Object.entries(data.errors).map(([key, value]) => {
           formMethods.setError(key as keyof typeof FormValues, {

@@ -85,7 +85,6 @@ const OtpScreen = () => {
     },
   });
 
-  console.log(value);
 
   const handleOnSubmit = () => {
     verify({ code: value });
