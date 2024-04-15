@@ -12,7 +12,13 @@ import {
   StyledText,
   WaveButton,
 } from '../../../../components';
-import { generateRandomNumber, sleep } from '../../../../utils/helpers';
+import {
+  generateOneHandArithmeticProblems,
+  generateOneHandArithmeticProblems2,
+  generateRandomNumber,
+  main,
+  sleep,
+} from '../../../../utils/helpers';
 import {
   ExamSettingType,
   useExamSettingStore,
@@ -86,6 +92,49 @@ const ExamPlaygroundScreen = () => {
     setStart(true);
     // setTime(30);
   };
+  const gameProcessLevel0 = useCallback(
+    async (
+      _examSettings: ExamSettingType,
+      isMountedRef: { current: boolean },
+    ) => {
+      setCanAnswer(false);
+
+      const { result, sum } = main(
+        _examSettings.numOfOperations,
+        _examSettings.digits,
+      );
+      let numbers: number[];
+      if (examSettings.subtraction) {
+        numbers = result as number[];
+      } else {
+        numbers = result as number[];
+      }
+
+      for (let i = 0; i < numbers.length; i++) {
+        if (!isMountedRef.current) {
+          return; // Stop the loop if the component is unmounted
+        }
+
+        setNumber(numbers[i]);
+
+        await readText(numbers[i].toString());
+        await sleep(_examSettings.showDelay * 100);
+
+        if (!isMountedRef.current) {
+          return; // Stop the loop if the component is unmounted
+        }
+
+        setNumber(null);
+        await sleep(_examSettings.clearDelay * 100);
+      }
+      // const sum = numbers.reduce((acc, current) => acc + current, 0);
+
+      setCorrectAnswer(sum);
+
+      setCanAnswer(true);
+    },
+    [],
+  );
 
   const gameProcess = useCallback(
     async (
@@ -93,7 +142,6 @@ const ExamPlaygroundScreen = () => {
       isMountedRef: { current: boolean },
     ) => {
       setCanAnswer(false);
-      console.log('_examSettings', _examSettings.showDelay);
       const randomNumbers: number[] = [];
       let firstNum = true;
 
@@ -106,12 +154,16 @@ const ExamPlaygroundScreen = () => {
           _examSettings.subtraction,
         );
 
-        console.log('firstNum', firstNum);
+        if (firstNum) {
+          generateRandom = generateRandom;
 
-        if (Number(generateRandom) > 0 && firstNum) {
           firstNum = false;
         } else {
-          generateRandom = '+' + generateRandom;
+          if (Number(generateRandom) > 0) {
+            generateRandom = '+' + generateRandom;
+          } else {
+            generateRandom = generateRandom;
+          }
         }
 
         randomNumbers.push(Number(generateRandom));
@@ -154,7 +206,11 @@ const ExamPlaygroundScreen = () => {
       isMountedRef.current = false;
     };
     if (start) {
-      gameProcess(examSettings, isMountedRef);
+      if (examSettings.level === 0) {
+        gameProcessLevel0(examSettings, isMountedRef);
+      } else {
+        gameProcess(examSettings, isMountedRef);
+      }
     }
 
     return cleanup;
@@ -168,8 +224,6 @@ const ExamPlaygroundScreen = () => {
   useEffect(() => {
     if (canAnswer) inputRef.current?.focus();
   }, [canAnswer]);
-
-  console.log('results', results);
 
   return (
     <Box flex={1} backgroundColor="mainBackground" paddingHorizontal="l">
