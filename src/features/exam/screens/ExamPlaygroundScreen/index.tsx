@@ -15,6 +15,7 @@ import {
 import {
   generateOneHandArithmeticProblems,
   generateOneHandArithmeticProblems2,
+  generateRandomAbacusNumber,
   generateRandomNumber,
   main,
   sleep,
@@ -200,6 +201,8 @@ const ExamPlaygroundScreen = () => {
   useEffect(() => {
     let isMounted = true;
     const isMountedRef = { current: true };
+    const res = generateRandomAbacusNumber(5);
+    console.log(res);
 
     const cleanup = () => {
       isMounted = false;

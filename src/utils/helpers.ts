@@ -26,21 +26,35 @@ export function generateRandomNumber(
 }
 export function generateRandomAbacusNumber(
   maxDigits: number,
-  minValue: number = -9,
+  minValue: number = 1,
   maxValue: number = 9,
 ): number[] {
   const result = [];
+  let sum = 0;
 
   // Generate random digits within the specified range
   for (let i = 0; i < maxDigits; i++) {
-    const digit =
+    let digit =
       Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
+
+    // Ensure the digit is strictly greater than 0
+    if (digit <= 0) {
+      digit = 1;
+    }
+
+    // Adjust the digit if necessary to ensure the sum falls between 1 and 9
+    if (sum + digit > 9) {
+      digit = 9 - sum; // Set the digit to the remaining value needed to reach 9
+    } else if (sum + digit < 1) {
+      digit = 1 - sum; // Set the digit to the remaining value needed to reach 1
+    }
+
     result.push(digit);
+    sum += digit;
   }
 
   return result;
 }
-
 function getRandomElementFromArray() {
   return Math.floor(Math.random() * 9) + 1;
 }
