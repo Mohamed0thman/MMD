@@ -16,7 +16,6 @@ import Slider from '@react-native-community/slider';
 
 const ExamPlaygroundScreen = () => {
   const { startRecognition, results } = useSpeach();
-  console.log(results);
 
   const [voices, setVoices] = useState<string[]>([]);
   const [ttsStatus, setTtsStatus] = useState('initiliazing');

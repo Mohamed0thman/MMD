@@ -15,7 +15,6 @@ const { SC_Width, s, vs, ms } = SCALE;
 type Props = BottomTabBarProps & {};
 
 const TabBar = ({ state, descriptors, navigation }: Props) => {
-  console.log();
 
   return (
     <DropShadow

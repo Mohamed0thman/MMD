@@ -13,12 +13,12 @@ import {
   WaveButton,
 } from '../../../../components';
 import {
-  generateOneHandArithmeticProblems,
-  generateOneHandArithmeticProblems2,
   generateRandomAbacusNumber,
   generateRandomNumber,
-  main,
+  main0,
   sleep,
+  main1,
+  main2,
 } from '../../../../utils/helpers';
 import {
   ExamSettingType,
@@ -32,6 +32,7 @@ import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import { View } from 'react-native';
 import { useSpeach } from '../../../../hooks';
 import { showMessage } from 'react-native-flash-message';
+import { log } from 'console';
 
 type Hestory = {
   correct: number;
@@ -93,6 +94,82 @@ const ExamPlaygroundScreen = () => {
     setStart(true);
     // setTime(30);
   };
+
+  const gameProcessLevel2 = useCallback(
+    async (
+      _examSettings: ExamSettingType,
+      isMountedRef: { current: boolean },
+    ) => {
+      setCanAnswer(false);
+
+      const { result, sum } = main2(
+        _examSettings.numOfOperations,
+        _examSettings.digits,
+      );
+
+      for (let i = 0; i < result.length; i++) {
+        if (!isMountedRef.current) {
+          return; // Stop the loop if the component is unmounted
+        }
+
+        setNumber(result[i]);
+
+        await readText(result[i].toString());
+        await sleep(_examSettings.showDelay * 100);
+
+        if (!isMountedRef.current) {
+          return; // Stop the loop if the component is unmounted
+        }
+
+        setNumber(null);
+        await sleep(_examSettings.clearDelay * 100);
+      }
+      // const sum = numbers.reduce((acc, current) => acc + current, 0);
+
+      setCorrectAnswer(sum);
+
+      setCanAnswer(true);
+    },
+    [],
+  );
+  const gameProcessLevel1 = useCallback(
+    async (
+      _examSettings: ExamSettingType,
+      isMountedRef: { current: boolean },
+    ) => {
+      setCanAnswer(false);
+
+      const { result, sum } = main1(
+        _examSettings.numOfOperations,
+        _examSettings.digits,
+      );
+
+      for (let i = 0; i < result.length; i++) {
+        if (!isMountedRef.current) {
+          return; // Stop the loop if the component is unmounted
+        }
+        console.log('result[i]', result[i]);
+
+        setNumber(result[i]);
+
+        await readText(result[i].toString());
+        await sleep(_examSettings.showDelay * 100);
+
+        if (!isMountedRef.current) {
+          return; // Stop the loop if the component is unmounted
+        }
+
+        setNumber(null);
+        await sleep(_examSettings.clearDelay * 100);
+      }
+      // const sum = numbers.reduce((acc, current) => acc + current, 0);
+
+      setCorrectAnswer(sum);
+
+      setCanAnswer(true);
+    },
+    [],
+  );
   const gameProcessLevel0 = useCallback(
     async (
       _examSettings: ExamSettingType,
@@ -100,25 +177,19 @@ const ExamPlaygroundScreen = () => {
     ) => {
       setCanAnswer(false);
 
-      const { result, sum } = main(
+      const { result, sum } = main0(
         _examSettings.numOfOperations,
         _examSettings.digits,
       );
-      let numbers: number[];
-      if (examSettings.subtraction) {
-        numbers = result as number[];
-      } else {
-        numbers = result as number[];
-      }
 
-      for (let i = 0; i < numbers.length; i++) {
+      for (let i = 0; i < result.length; i++) {
         if (!isMountedRef.current) {
           return; // Stop the loop if the component is unmounted
         }
 
-        setNumber(numbers[i]);
+        setNumber(result[i]);
 
-        await readText(numbers[i].toString());
+        await readText(result[i].toString());
         await sleep(_examSettings.showDelay * 100);
 
         if (!isMountedRef.current) {
@@ -201,8 +272,6 @@ const ExamPlaygroundScreen = () => {
   useEffect(() => {
     let isMounted = true;
     const isMountedRef = { current: true };
-    const res = generateRandomAbacusNumber(5);
-    console.log(res);
 
     const cleanup = () => {
       isMounted = false;
@@ -210,9 +279,16 @@ const ExamPlaygroundScreen = () => {
     };
     if (start) {
       if (examSettings.level === 0) {
+        console.log('examSettings.level[i]', examSettings.level);
+
         gameProcessLevel0(examSettings, isMountedRef);
+      } else if (examSettings.level === 1) {
+        console.log('examSettings.level[i]', examSettings.level);
+
+        gameProcessLevel1(examSettings, isMountedRef);
       } else {
-        gameProcess(examSettings, isMountedRef);
+        console.log('examSettings.level[i]', examSettings.level);
+        gameProcessLevel2(examSettings, isMountedRef);
       }
     }
 
@@ -277,11 +353,9 @@ const ExamPlaygroundScreen = () => {
                 />
               ) : (
                 <Box flex={1} justifyContent="center" alignItems="center">
-                  {number && (
-                    <StyledText fontSize={70} color="primaryBackground">
-                      {number.toString()}
-                    </StyledText>
-                  )}
+                  <StyledText fontSize={70} color="primaryBackground">
+                    {number?.toString()}
+                  </StyledText>
                 </Box>
               )}
             </>

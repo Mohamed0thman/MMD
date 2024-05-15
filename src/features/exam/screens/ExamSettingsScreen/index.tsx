@@ -36,8 +36,6 @@ const ExamSettingsScreen = () => {
     bottomSheetModalRef.current?.present();
   }, []);
 
-  console.log('examSettings', examSettings);
-
   const renderItem = ({ item }: { item: (typeof examSittings)[0] }) => {
     return (
       <Box
@@ -72,7 +70,6 @@ const ExamSettingsScreen = () => {
               examSettings[item.name as keyof typeof examSettings] as boolean
             }
             onValueChange={switchValue => {
-              console.log('switchValue', item.name, switchValue);
 
               changeExamSettings({
                 [item.name]: switchValue,

@@ -2,7 +2,7 @@
 const arrayFromTo = (start: number, end: number) => {
   const result: { label: string; value: number }[] = [];
   for (let i = start; i <= end; i++) {
-    result.push({ label: 'مستوي' + ' ' + i, value: i });
+    result.push({ label: '' + ' ' + i, value: i });
   }
   return result;
 };
