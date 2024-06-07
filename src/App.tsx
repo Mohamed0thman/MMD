@@ -25,8 +25,6 @@ import { useAuthStore, useUserStore } from './store/authStore';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import SplashScreen from 'react-native-splash-screen';
-import './utils/helpers';
-import { main } from './utils/helpers';
 
 export const queryClient = new QueryClient();
 

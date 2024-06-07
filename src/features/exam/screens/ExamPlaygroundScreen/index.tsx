@@ -13,11 +13,9 @@ import {
   WaveButton,
 } from '../../../../components';
 import {
-  generateRandomAbacusNumber,
   generateRandomNumber,
   main0,
   sleep,
-  main1,
   main2,
 } from '../../../../utils/helpers';
 import {
@@ -32,7 +30,8 @@ import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import { View } from 'react-native';
 import { useSpeach } from '../../../../hooks';
 import { showMessage } from 'react-native-flash-message';
-import { log } from 'console';
+import { leve_1 } from '../../../../utils/levelOne';
+import Modal from 'react-native-modal';
 
 type Hestory = {
   correct: number;
@@ -49,8 +48,10 @@ const ExamPlaygroundScreen = () => {
   const [canAnswer, setCanAnswer] = useState<boolean>(false);
 
   const inputRef = useRef<TextInput>(null);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const [correactAnswer, setCorrectAnswer] = useState<number | null>(null);
+  const [genratedNumbers, setGenratedNumbers] = useState<number[]>([]);
 
   const [start, setStart] = useState(false);
 
@@ -65,7 +66,7 @@ const ExamPlaygroundScreen = () => {
     useSpeach('ar');
 
   const correctAnswer = async (answer: string) => {
-    if (correactAnswer && Number(answer) === correactAnswer) {
+    if (Number(answer) === correactAnswer) {
       setHestory(prev => ({
         ...prev,
         correct: prev.correct + 1,
@@ -87,6 +88,7 @@ const ExamPlaygroundScreen = () => {
 
       await readText('خطأ');
     }
+    setShowAlert(true);
     setStart(false);
   };
 
@@ -94,7 +96,6 @@ const ExamPlaygroundScreen = () => {
     setStart(true);
     // setTime(30);
   };
-
   const gameProcessLevel2 = useCallback(
     async (
       _examSettings: ExamSettingType,
@@ -106,6 +107,7 @@ const ExamPlaygroundScreen = () => {
         _examSettings.numOfOperations,
         _examSettings.digits,
       );
+      setGenratedNumbers(result);
 
       for (let i = 0; i < result.length; i++) {
         if (!isMountedRef.current) {
@@ -139,17 +141,15 @@ const ExamPlaygroundScreen = () => {
     ) => {
       setCanAnswer(false);
 
-      const { result, sum } = main1(
+      const { result, sum } = leve_1(
         _examSettings.numOfOperations,
         _examSettings.digits,
       );
-
+      setGenratedNumbers(result);
       for (let i = 0; i < result.length; i++) {
         if (!isMountedRef.current) {
           return; // Stop the loop if the component is unmounted
         }
-        console.log('result[i]', result[i]);
-
         setNumber(result[i]);
 
         await readText(result[i].toString());
@@ -181,6 +181,7 @@ const ExamPlaygroundScreen = () => {
         _examSettings.numOfOperations,
         _examSettings.digits,
       );
+      setGenratedNumbers(result);
 
       for (let i = 0; i < result.length; i++) {
         if (!isMountedRef.current) {
@@ -279,15 +280,10 @@ const ExamPlaygroundScreen = () => {
     };
     if (start) {
       if (examSettings.level === 0) {
-        console.log('examSettings.level[i]', examSettings.level);
-
         gameProcessLevel0(examSettings, isMountedRef);
       } else if (examSettings.level === 1) {
-        console.log('examSettings.level[i]', examSettings.level);
-
         gameProcessLevel1(examSettings, isMountedRef);
       } else {
-        console.log('examSettings.level[i]', examSettings.level);
         gameProcessLevel2(examSettings, isMountedRef);
       }
     }
@@ -303,9 +299,46 @@ const ExamPlaygroundScreen = () => {
   useEffect(() => {
     if (canAnswer) inputRef.current?.focus();
   }, [canAnswer]);
+  const operationText = genratedNumbers
+    .map((num, i) =>
+      num >= 0 && i > 0 ? `+ ${num}` : num.toString().replace('-', '- '),
+    )
+    .join(' ');
 
   return (
     <Box flex={1} backgroundColor="mainBackground" paddingHorizontal="l">
+      <Modal isVisible={showAlert}>
+        <Box
+          flex={0.5}
+          backgroundColor="white"
+          borderRadius="l"
+          alignItems="center"
+          paddingHorizontal="m"
+          paddingVertical="l">
+          <Icons
+            icon={
+              userAnswer.toString() === correactAnswer?.toString()
+                ? 'circle-check'
+                : 'circle-xmark'
+            }
+            width={80}
+            height={80}
+          />
+          <Box marginTop="l" />
+          <StyledText color="black" marginVertical="l" variant="headingL">
+            العملية: {operationText}
+          </StyledText>
+          <StyledText color="black" variant="headingL">
+            الاجابة: {correactAnswer}
+          </StyledText>
+
+          <Button
+            marginTop="auto"
+            title="حسنا"
+            onPress={() => setShowAlert(false)}
+          />
+        </Box>
+      </Modal>
       <Box flexDirection="row" justifyContent="space-between" paddingTop="m">
         <Box flexDirection="row" gap="s">
           <Box flexDirection="row" gap="s">
@@ -343,22 +376,18 @@ const ExamPlaygroundScreen = () => {
         <>
           {/* render top */}
           {!canAnswer && (
-            <>
-              {examSettings.sound ? (
-                <WaveButton
-                  wave={voiceStart}
-                  onPressIn={() => {}}
-                  onPressOut={() => {}}
-                  icon={<Icons icon="sound" color={'white'} />}
-                />
-              ) : (
-                <Box flex={1} justifyContent="center" alignItems="center">
-                  <StyledText fontSize={70} color="primaryBackground">
-                    {number?.toString()}
-                  </StyledText>
-                </Box>
-              )}
-            </>
+            <Box
+              width={'100%'}
+              flex={1}
+              justifyContent="center"
+              alignItems="center">
+              <StyledText
+                fontWeight="700"
+                fontSize={70}
+                color="primaryBackground">
+                {number?.toString()}
+              </StyledText>
+            </Box>
           )}
 
           <Box flex={1} justifyContent="center" alignItems="center">

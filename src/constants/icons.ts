@@ -20,8 +20,12 @@ import ClockIcon from '../assets/icons/clock.svg';
 import VolumeIcon from '../assets/icons/volume.svg';
 import MicIcon from '../assets/icons/microphone.svg';
 import SoundIcon from '../assets/icons/sound.svg';
+import CircleXmarkIcon from '../assets/icons/CircleXmark.svg';
+import CircleCheckIcon from '../assets/icons/CircleCheck.svg';
 
 const icons = {
+  'circle-check': CircleCheckIcon,
+  'circle-xmark': CircleXmarkIcon,
   'girl-head': GirlHeadIcon,
   'boy-head': BoyHeadIcon,
   book: BookIcon,
