@@ -32,6 +32,7 @@ import { useSpeach } from '../../../../hooks';
 import { showMessage } from 'react-native-flash-message';
 import { leve_1 } from '../../../../utils/levelOne';
 import Modal from 'react-native-modal';
+import { levelTwo } from '../../../../utils/levelTwo';
 
 type Hestory = {
   correct: number;
@@ -103,7 +104,9 @@ const ExamPlaygroundScreen = () => {
     ) => {
       setCanAnswer(false);
 
-      const { result, sum } = main2(
+      const { result, sum } = levelTwo(
+
+        
         _examSettings.numOfOperations,
         _examSettings.digits,
       );
