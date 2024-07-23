@@ -81,7 +81,6 @@ export default ({ data, carouselItem, time }: Props) => {
 const styles = StyleSheet.create({
   itemContainer: {
     width: SC_Width,
-    paddingHorizontal: ms(SIZES.base),
     paddingVertical: mvs(SIZES.base),
     alignSelf: 'center',
   },

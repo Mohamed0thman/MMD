@@ -20,12 +20,19 @@ import {
   UserNavigationScreenParamsList,
   UserStack,
 } from '../features/user/navigation';
+import {
+  ForgetNavigationScreenParamsList,
+  ForgetStack,
+} from '../features/forgetPassword/navigation';
+import { SplashScreen } from '../features/SplashScreen';
 
 type MainNavigationParamsList = {
+  Splash: undefined;
   Onboarding: NavigatorScreenParams<OnboardingNavigationScreenParamsList>;
   Auth: NavigatorScreenParams<AuthNavigationScreenParamsList>;
   main: NavigatorScreenParams<TabParamList>;
   user: NavigatorScreenParams<UserNavigationScreenParamsList>;
+  Forget: NavigatorScreenParams<ForgetNavigationScreenParamsList>;
 };
 
 const Stack = createNativeStackNavigator<MainNavigationParamsList>();
@@ -36,10 +43,12 @@ function RootNavigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="main">
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Splash">
         <Stack.Screen
-          name={'main'}
-          component={TabNavigator}
+          name={'Splash'}
+          component={SplashScreen}
           options={{ headerShown: false }}
         />
         {!token || !user?.email_verified_at ? (
@@ -49,10 +58,14 @@ function RootNavigation() {
               component={OnboardingStack}
               options={{ headerShown: false }}
             />
-
             <Stack.Screen
               name={'Auth'}
               component={AuthStack}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name={'Forget'}
+              component={ForgetStack}
               options={{ headerShown: false }}
             />
           </>

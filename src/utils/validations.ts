@@ -22,4 +22,12 @@ const RegisterValid = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords must match'),
 });
 
-export { PresonalInfoValid, RegisterValid };
+const RequestValid = yup.object().shape({
+  email: yup
+    .string()
+    .email('البريد الألكتروني غير صحيح')
+    .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'البريد الألكتروني غير صحيح')
+    .required('البريد الألكتروني مطلوب'),
+});
+
+export { PresonalInfoValid, RegisterValid, RequestValid };

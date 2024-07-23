@@ -3,12 +3,14 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 
-import { HomeScreen } from './screens';
+import { HomeScreen, PaymentScreen, SelectPaymentScreen } from './screens';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MainHeaderIcon } from '../../navigation/components/Header';
 
-type HomeNavigationScreenParamsList = {
+export type HomeNavigationScreenParamsList = {
   Home: undefined;
+  Payment: { url: string };
+  Select: undefined;
 };
 
 const HomeNavigationScreens: {
@@ -19,6 +21,24 @@ const HomeNavigationScreens: {
   {
     name: 'Home',
     component: HomeScreen,
+    options: {
+      title: '',
+      headerLeft: MainHeaderIcon,
+    },
+  },
+
+  {
+    name: 'Payment',
+    component: PaymentScreen,
+    options: {
+      title: '',
+      headerLeft: MainHeaderIcon,
+    },
+  },
+
+  {
+    name: 'Select',
+    component: SelectPaymentScreen,
     options: {
       title: '',
       headerLeft: MainHeaderIcon,

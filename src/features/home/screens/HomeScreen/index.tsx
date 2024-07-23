@@ -4,6 +4,9 @@ import Carousel from '../../../../components/Carousel';
 import { FlatList, Image } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 import { COLORS, IMAGES } from '../../../../constants';
+import { useHomeNavigation } from '../../navigation';
+
+import { API_URL } from '@env';
 
 const meza = [
   'توفير حزمة شاملة للتعلم الذهني تشمل موارد متعددة ومتنوعة',
@@ -13,6 +16,7 @@ const meza = [
 ];
 
 const HomeScreen = () => {
+  const { navigate } = useHomeNavigation();
   const renderItem = (item: any) => (
     <Box backgroundColor="primaryBackground" borderRadius="m" overflow="hidden">
       <Image
@@ -60,42 +64,44 @@ const HomeScreen = () => {
 
   return (
     <Box flex={1} backgroundColor="mainBackground">
-      <Carousel
-        data={[
-          {
-            id: 1,
-            title: 'أهلا بك في تطبيق MMD لتعليم الحساب الذهني',
-            subtitle: 'ابدا الان في تعلم الحساب الذهني',
-            image: IMAGES.boyPuzzles,
-          },
-          {
-            id: 2,
-            title: 'أهلا بك في تطبيق MMD لتعليم الحساب الذهني',
-            subtitle: 'ابدا الان في تعلم الحساب الذهني',
-            image: IMAGES.boyToys,
-          },
-          {
-            id: 3,
-            title: 'أهلا بك في تطبيق MMD لتعليم الحساب الذهني',
-            subtitle: 'ابدا الان في تعلم الحساب الذهني',
-            image: IMAGES.shcoolGirl,
-          },
-        ]}
-        carouselItem={renderItem}
-      />
       <Box flex={1}>
         <FlatList
           data={meza}
           showsVerticalScrollIndicator={false}
           renderItem={renderMezaItem}
           ListHeaderComponent={() => (
-            <StyledText
-              marginHorizontal="m"
-              marginVertical="l"
-              color="black"
-              variant="headingL">
-              منصة MMD تضمن لك
-            </StyledText>
+            <>
+              <Carousel
+                data={[
+                  {
+                    id: 1,
+                    title: 'أهلا بك في تطبيق MMD لتعليم الحساب الذهني',
+                    subtitle: 'ابدا الان في تعلم الحساب الذهني',
+                    image: IMAGES.boyPuzzles,
+                  },
+                  {
+                    id: 2,
+                    title: 'أهلا بك في تطبيق MMD لتعليم الحساب الذهني',
+                    subtitle: 'ابدا الان في تعلم الحساب الذهني',
+                    image: IMAGES.boyToys,
+                  },
+                  {
+                    id: 3,
+                    title: 'أهلا بك في تطبيق MMD لتعليم الحساب الذهني',
+                    subtitle: 'ابدا الان في تعلم الحساب الذهني',
+                    image: IMAGES.shcoolGirl,
+                  },
+                ]}
+                carouselItem={renderItem}
+              />
+              <StyledText
+                marginHorizontal="m"
+                marginVertical="l"
+                color="black"
+                variant="headingL">
+                منصة MMD تضمن لك
+              </StyledText>
+            </>
           )}
           contentContainerStyle={{
             paddingHorizontal: 15,
@@ -104,7 +110,13 @@ const HomeScreen = () => {
           }}
           ItemSeparatorComponent={() => <Box marginTop="l" />}
           ListFooterComponent={() => (
-            <Button title="اشترك الان" marginTop="l" />
+            <>
+              <Button
+                title="اشترك الان"
+                marginTop="l"
+                onPress={() => navigate('Select')}
+              />
+            </>
           )}
         />
       </Box>

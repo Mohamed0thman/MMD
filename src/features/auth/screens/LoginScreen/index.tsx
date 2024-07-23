@@ -1,9 +1,9 @@
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { ControlledInput } from '../../../../components/Input';
 import { convertObjectToObjectWithKeys } from '../../../../utils/Formats';
-import { Box, Button } from '../../../../components';
+import { Box, Button, StyledText } from '../../../../components';
 import { ButtonDock } from '../../../../components/Button';
 import { useLoginMutation } from '../../hooks/useLoginMutation';
 import { useAuthStore, useUserStore } from '../../../../store/authStore';
@@ -42,7 +42,7 @@ const LoginScreen = () => {
 
         setUser(data.data);
 
-        navigation.navigate('main', { screen: 'Courses' });
+        navigation.navigate('main', { screen: 'Main' });
       } else {
         showMessage({
           message:
@@ -81,6 +81,15 @@ const LoginScreen = () => {
               fieldName={FORM_VALUES.password}
               secureTextEntry
             />
+
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Forget', { screen: 'Request' })
+              }>
+              <StyledText color="primaryBackground" variant="headingM">
+                هل نسيت كلمة السر ؟
+              </StyledText>
+            </TouchableOpacity>
           </Box>
 
           <ButtonDock>

@@ -49,7 +49,6 @@ const RegisterScreen = () => {
         setToken(data.token);
         navigation.navigate('Otp', { ...data.data });
       } else {
-
         Object.entries(data.errors).map(([key, value]) => {
           formMethods.setError(key as keyof typeof FormValues, {
             message: value as string,
@@ -118,5 +117,3 @@ const RegisterScreen = () => {
 };
 
 export { RegisterScreen };
-
-const styles = StyleSheet.create({});
