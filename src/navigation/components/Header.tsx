@@ -3,9 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import { PressableProps } from 'react-native';
 import { Box, Icons, PressableBox, StyledText } from '../../components';
 import { useRestyleTheme } from '../../style/theme';
-import { ICONS } from '../../constants';
-import { HeaderBackButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types';
-import { useProfileNavigation } from '../../features/user/navigation';
 import { useUserStore } from '../../store/authStore';
 import { useSettingStore } from '../../store/settingStore';
 import { useMainNavigation } from '../RootNavigation';
@@ -16,11 +13,7 @@ function HeaderIconBox({
 }: React.PropsWithChildren<PressableProps>) {
   return (
     <PressableBox
-      flex={1}
-      backgroundColor="mainBackground"
-      borderRadius="xl"
-      marginHorizontal="m"
-      marginVertical="m"
+      backgroundColor="white"
       alignItems="center"
       flexDirection="row"
       paddingHorizontal="m"
@@ -61,7 +54,11 @@ function MainHeaderIcon() {
       <Box
         backgroundColor="secondaryBackground"
         padding="m"
-        style={{ borderRadius: 10000 }}>
+        borderRadius="xl"
+        width={40}
+        height={40}
+        justifyContent="center"
+        alignItems="center">
         <Icons
           icon={themeName === 'blue' ? 'boy-head' : 'girl-head'}
           height={20}

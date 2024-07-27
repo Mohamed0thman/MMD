@@ -9,7 +9,6 @@ export const getToken = async (username: string) => {
       const token = credentials.password;
 
       if (savedUsername === username) {
-        console.log(`Retrieved Token for ${username}:`, token);
         return token;
       } else {
         console.log(`No token found for ${username}.`);

@@ -1,10 +1,11 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { RootScreen } from '../../../../layout';
-import { Box, Button } from '../../../../components';
+import { Box, Button, StyledText } from '../../../../components';
 import { ControlledInput } from '../../../../components/Input';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { convertObjectToObjectWithKeys } from '../../../../utils/Formats';
+import {
+  convertObjectToObjectWithKeys,
+  openURL,
+} from '../../../../utils/Formats';
 import { ScrollView } from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PresonalInfoValid } from '../../../../utils/validations';
@@ -46,6 +47,29 @@ const PresonalInfoScreen = () => {
               fieldName={FORM_VALUES.last_name}
               // error={formMethods.formState.errors.lastName?.message}
             />
+          </Box>
+
+          <Box justifyContent="center" alignItems="center" marginBottom="l">
+            <StyledText variant="paragraphsL">
+              باستخدامك هذا التطبيق فانك توافق علي{' '}
+            </StyledText>
+
+            <Box flexDirection="row">
+              <StyledText
+                color="bluePrimary"
+                variant="headingM"
+                onPress={() =>
+                  openURL('http://mmdoaa.com/terms-and-conditions')
+                }>
+                شروط الاستخدام و{' '}
+              </StyledText>
+              <StyledText
+                color="bluePrimary"
+                variant="headingM"
+                onPress={() => openURL('https://mmdoaa.com/privacy')}>
+                اتفاقيه الخصوصيه{' '}
+              </StyledText>
+            </Box>
           </Box>
           <ButtonDock>
             <Button

@@ -8,7 +8,10 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Box, Button, StyledText } from '../../../../components';
 import { ControlledInput } from '../../../../components/Input';
-import { convertObjectToObjectWithKeys } from '../../../../utils/Formats';
+import {
+  convertObjectToObjectWithKeys,
+  openURL,
+} from '../../../../utils/Formats';
 import { useRegisterMutation } from '../../hooks/useRegisterMutation';
 import * as Keychain from 'react-native-keychain';
 import { RegisterValid } from '../../../../utils/validations';
@@ -105,6 +108,27 @@ const RegisterScreen = () => {
           </FormProvider>
         </Box>
       </ScrollView>
+      <Box justifyContent="center" alignItems="center" marginBottom="l">
+        <StyledText variant="paragraphsL">
+          باستخدامك هذا التطبيق فانك توافق علي{' '}
+        </StyledText>
+
+        <Box flexDirection="row">
+          <StyledText
+            color="bluePrimary"
+            variant="headingM"
+            onPress={() => openURL('http://mmdoaa.com/terms-and-conditions')}>
+            شروط الاستخدام و{' '}
+          </StyledText>
+          <StyledText
+            color="bluePrimary"
+            variant="headingM"
+            onPress={() => openURL('https://mmdoaa.com/privacy')}>
+            اتفاقيه الخصوصيه{' '}
+          </StyledText>
+        </Box>
+      </Box>
+
       <ButtonDock>
         <Button
           title="تم"

@@ -1,8 +1,16 @@
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  Linking,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { ControlledInput } from '../../../../components/Input';
-import { convertObjectToObjectWithKeys } from '../../../../utils/Formats';
+import {
+  convertObjectToObjectWithKeys,
+  openURL,
+} from '../../../../utils/Formats';
 import { Box, Button, StyledText } from '../../../../components';
 import { ButtonDock } from '../../../../components/Button';
 import { useLoginMutation } from '../../hooks/useLoginMutation';
@@ -90,6 +98,29 @@ const LoginScreen = () => {
                 هل نسيت كلمة السر ؟
               </StyledText>
             </TouchableOpacity>
+          </Box>
+
+          <Box justifyContent="center" alignItems="center" marginBottom="l">
+            <StyledText variant="paragraphsL">
+              باستخدامك هذا التطبيق فانك توافق علي{' '}
+            </StyledText>
+
+            <Box flexDirection="row">
+              <StyledText
+                color="bluePrimary"
+                variant="headingM"
+                onPress={() =>
+                  openURL('http://mmdoaa.com/terms-and-conditions')
+                }>
+                شروط الاستخدام و{' '}
+              </StyledText>
+              <StyledText
+                color="bluePrimary"
+                variant="headingM"
+                onPress={() => openURL('https://mmdoaa.com/privacy')}>
+                اتفاقيه الخصوصيه{' '}
+              </StyledText>
+            </Box>
           </Box>
 
           <ButtonDock>

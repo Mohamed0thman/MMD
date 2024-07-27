@@ -4,7 +4,7 @@ import React from 'react';
 const ForgetPasswordScreen = () => {
   return (
     <View>
-      <Text>ForgetPasswordScreen</Text>
+      <Text style={{textAlign:"left"}}>ForgetPasswordScreen</Text>
     </View>
   );
 };

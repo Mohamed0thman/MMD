@@ -1,4 +1,5 @@
 import { createTheme, useTheme } from '@shopify/restyle';
+import { isIos } from '../utils/platform';
 
 const palette = {
   bluePrimary: '#0477C0',
@@ -32,6 +33,15 @@ const palette = {
   white: '#FFFFFF',
 
   transparent: 'transparent',
+};
+
+const fonts = {
+  light: isIos ? 'NotoKufiArabic-Regular' : 'NotoKufiArabic-Regular',
+  regular: isIos ? 'NotoKufiArabic-Regular' : 'NotoKufiArabic_Regular',
+  medium: isIos ? 'NotoKufiArabic_SemiBold' : 'NotoKufiArabic_SemiBold',
+  semiBold: isIos ? 'NotoKufiArabic_SemiBold' : 'NotoKufiArabic_SemiBold',
+  bold: isIos ? 'NotoKufiArabic-Bold' : 'NotoKufiArabic-Bold',
+  black: isIos ? 'NotoKufiArabic-Bold' : 'NotoKufiArabic-Bold',
 };
 
 const theme = createTheme({
@@ -103,7 +113,7 @@ const theme = createTheme({
   buttonTextVariants: {
     defaults: {
       fontSize: 18,
-      fontWeight: 'bold',
+      fontFamily: fonts.bold,
     },
     primary: {
       color: 'white',
@@ -123,54 +133,58 @@ const theme = createTheme({
   },
 
   textVariants: {
-    defaults: {},
+    defaults: {
+      fontSize: 14,
+      fontFamily: fonts.regular,
+      textAlign: 'left',
+    },
     headingXL: {
-      fontSize: 32,
-      fontWeight: 'bold',
+      fontSize: 28,
+      fontFamily: fonts.bold,
     },
     headingL: {
-      fontSize: 24,
-      fontWeight: 'bold',
+      fontSize: 20,
+      fontFamily: fonts.bold,
     },
     headingM: {
       fontSize: 16,
-      fontWeight: 'bold',
+      fontFamily: fonts.semiBold,
     },
     headingS: {
       fontSize: 14,
-      fontWeight: 'bold',
+      fontFamily: fonts.semiBold,
     },
     headingXS: {
       fontSize: 12,
-      fontWeight: 'bold',
+      fontFamily: fonts.semiBold,
     },
     labelL: {
       fontSize: 16,
-      fontWeight: '500',
+      fontFamily: fonts.semiBold,
     },
     labelM: {
       fontSize: 14,
-      fontWeight: '500',
+      fontFamily: fonts.semiBold,
     },
     labelMB: {
       fontSize: 14,
-      fontWeight: 'bold',
+      fontFamily: fonts.bold,
     },
     labelS: {
       fontSize: 12,
-      fontWeight: '500',
+      fontFamily: fonts.semiBold,
     },
     paragraphsL: {
       fontSize: 16,
-      fontWeight: '400',
+      fontFamily: fonts.regular,
     },
     paragraphsM: {
       fontSize: 14,
-      fontWeight: '400',
+      fontFamily: fonts.regular,
     },
     paragraphsS: {
       fontSize: 12,
-      fontWeight: '500',
+      fontFamily: fonts.semiBold,
     },
   },
   borderRadii: {

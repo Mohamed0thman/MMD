@@ -35,7 +35,9 @@ const CoursesNavigationScreens: {
     component: LevelsScreen,
     options: {
       title: '',
-      headerLeft: MainHeaderIcon,
+      header: MainHeaderIcon,
+      headerBackVisible: true,
+      navigationBarColor: 'white',
     },
   },
   {
@@ -43,7 +45,7 @@ const CoursesNavigationScreens: {
     component: UnitsScreen,
     options: {
       title: '',
-      headerLeft: () => <BackHeaderIcon title="الوحدات" />,
+      header: () => <BackHeaderIcon title="الوحدات" />,
     },
   },
   {
@@ -51,7 +53,7 @@ const CoursesNavigationScreens: {
     component: LessonScreen,
     options: {
       title: '',
-      headerLeft: () => <BackHeaderIcon title="الدرس" />,
+      header: () => <BackHeaderIcon title="الدرس" />,
     },
   },
 ];

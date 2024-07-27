@@ -28,7 +28,6 @@ export const PaymentScreen = ({ route }: Props) => {
         style={{ flex: 1 }}
         scalesPageToFit={false}
         onNavigationStateChange={navState => {
-          console.log('navState.url ', navState);
 
           const containsApproved = navState.url.includes('APPROVED');
           const containsFailed = navState.url.includes('failed');

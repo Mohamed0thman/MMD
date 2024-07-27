@@ -6,18 +6,31 @@ import { LevelItem } from '../../components/LevelItem';
 import { Level } from '../../types';
 import { useCoursesNavigation } from '../../navigation';
 import { useRestyleTheme } from '../../../../style/theme';
+import { useUserStore } from '../../../../store/authStore';
+import { isSubscriptionActive } from '../../../../utils/Formats';
+import { showMessage } from 'react-native-flash-message';
 
 const LevelsScreen = () => {
   const { data, isLoading, refetch, isRefetching } = useLevelsQuery();
 
   const navigation = useCoursesNavigation();
-  const { colors } = useRestyleTheme();
+  const { user } = useUserStore();
 
   const renderItem = useCallback(
     ({ item }: { item: Level }) => (
       <LevelItem
         level={item}
-        onPress={() => navigation.navigate('Units', { levelId: item.id })}
+        onPress={() => {
+          const isActive = isSubscriptionActive(
+            user?.subscription_expires_at as string,
+          );
+
+          if (isActive) {
+            navigation.navigate('Units', { levelId: item.id });
+          } else {
+            showMessage({ message: 'انتهي مده الاشتراك', type: 'danger' });
+          }
+        }}
       />
     ),
     [],

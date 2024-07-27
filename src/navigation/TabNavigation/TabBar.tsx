@@ -10,12 +10,11 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Path, Svg } from 'react-native-svg';
 import DropShadow from 'react-native-drop-shadow';
 
-const { SC_Width, s, vs, ms } = SCALE;
+const { SC_Width, s, vs } = SCALE;
 
 type Props = BottomTabBarProps & {};
 
 const TabBar = ({ state, descriptors, navigation }: Props) => {
-
   return (
     <DropShadow
       style={[
@@ -151,9 +150,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   middleBtn: {
-    width: s(66),
-    height: vs(66),
-    borderRadius: s(66),
+    width: s(70),
+    height: s(70),
+    borderRadius: s(70),
     position: 'absolute',
     top: vs(-40),
     overflow: 'hidden',

@@ -12,6 +12,7 @@ import { useSettingStore } from '../../../../store/settingStore';
 import { useRestyleTheme } from '../../../../style/theme';
 import Share from 'react-native-share';
 import { useMainNavigation } from '../../../../navigation/RootNavigation';
+import { openURL } from '../../../../utils/Formats';
 
 const ProfileScreen = () => {
   const { user } = useUserStore();
@@ -53,13 +54,13 @@ const ProfileScreen = () => {
       id: 1,
       label: 'سياسة الاستخدام',
       icon: <Icons icon="list" />,
-      onPress: () => '',
+      onPress: () => openURL('http://mmdoaa.com/terms-and-conditions'),
     },
     {
       id: 1,
       label: 'سياسة الخصوصية',
       icon: <Icons icon="shield" />,
-      onPress: () => '',
+      onPress: () => openURL('https://mmdoaa.com/privacy'),
     },
     {
       id: 1,

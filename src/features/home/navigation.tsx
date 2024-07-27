@@ -23,7 +23,8 @@ const HomeNavigationScreens: {
     component: HomeScreen,
     options: {
       title: '',
-      headerLeft: MainHeaderIcon,
+      header: MainHeaderIcon,
+      headerBackVisible: true,
     },
   },
 
@@ -32,7 +33,7 @@ const HomeNavigationScreens: {
     component: PaymentScreen,
     options: {
       title: '',
-      headerLeft: MainHeaderIcon,
+      header: MainHeaderIcon,
     },
   },
 
@@ -41,7 +42,7 @@ const HomeNavigationScreens: {
     component: SelectPaymentScreen,
     options: {
       title: '',
-      headerLeft: MainHeaderIcon,
+      header: MainHeaderIcon,
     },
   },
 ];
