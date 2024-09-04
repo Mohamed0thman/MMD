@@ -1,4 +1,4 @@
-package com.mmd
+package com.mmdoaa
 
 import android.app.Application
 import com.facebook.react.PackageList
