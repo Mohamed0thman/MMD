@@ -17,7 +17,6 @@ import {
 import { Lesson } from './types';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { TabParamList } from '../../navigation/TabNavigation';
-import { useState } from 'react';
 
 type CoursesNavigationScreenParamsList = {
   Levels: undefined;
@@ -45,7 +44,8 @@ const CoursesNavigationScreens: {
     component: UnitsScreen,
     options: {
       title: '',
-      header: () => <BackHeaderIcon title="الوحدات" />,
+      headerRight: () => <BackHeaderIcon title="الوحدات" />,
+      headerLeft: () => <></>,
     },
   },
   {
@@ -53,7 +53,8 @@ const CoursesNavigationScreens: {
     component: LessonScreen,
     options: {
       title: '',
-      header: () => <BackHeaderIcon title="الدرس" />,
+      headerRight: () => <BackHeaderIcon title="الدرس" />,
+      headerLeft: () => <></>,
     },
   },
 ];

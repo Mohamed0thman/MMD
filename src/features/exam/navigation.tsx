@@ -24,15 +24,16 @@ const ExamNavigationScreens: {
     name: 'ExamSettings',
     component: ExamSettingsScreen,
     options: {
-      headerLeft: MainHeaderIcon,
       title: '',
+      header: MainHeaderIcon,
     },
   },
   {
     name: 'ExamPlayground',
     component: ExamPlaygroundScreen,
     options: {
-      headerLeft: () => BackHeaderIcon({ title: ' الأختبار' }),
+      headerRight: () => BackHeaderIcon({ title: ' الأختبار' }),
+      headerLeft: () => <></>,
       title: '',
     },
   },

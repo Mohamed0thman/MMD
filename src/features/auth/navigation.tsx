@@ -35,7 +35,9 @@ const AuthNavigationScreens: {
     name: 'Login',
     component: LoginScreen,
     options: {
-      headerLeft: () => <BackHeaderIcon title="تسجيل الدخول" />,
+      headerRight: () => BackHeaderIcon({ title: 'تسجيل الدخول' }),
+      headerLeft: () => <></>,
+
       headerTitle: '',
     },
   },
@@ -43,7 +45,8 @@ const AuthNavigationScreens: {
     name: 'Register',
     component: RegisterScreen,
     options: {
-      headerLeft: () => <BackHeaderIcon title="انشاء حساب" />,
+      headerRight: () => BackHeaderIcon({ title: 'انشاء حساب' }),
+      headerLeft: () => <></>,
       headerTitle: '',
     },
   },
@@ -51,7 +54,8 @@ const AuthNavigationScreens: {
     name: 'ForgetPassword',
     component: ForgetPasswordScreen,
     options: {
-      headerLeft: () => <BackHeaderIcon title="نسيت كلمة السر" />,
+      headerRight: () => BackHeaderIcon({ title: 'نسيت كلمة السر' }),
+      headerLeft: () => <></>,
       headerTitle: '',
     },
   },
@@ -60,7 +64,8 @@ const AuthNavigationScreens: {
     name: 'Otp',
     component: OtpScreen,
     options: {
-      headerLeft: () => <BackHeaderIcon title="تأكيد الحساب" />,
+      headerRight: () => BackHeaderIcon({ title: 'تأكيد الحساب' }),
+      headerLeft: () => <></>,
       headerTitle: '',
     },
   },
@@ -68,7 +73,8 @@ const AuthNavigationScreens: {
     name: 'PresonalInfo',
     component: PresonalInfoScreen,
     options: {
-      headerLeft: () => <BackHeaderIcon title="انشاء حساب" />,
+      headerRight: () => BackHeaderIcon({ title: 'انشاء حساب' }),
+      headerLeft: () => <></>,
       headerTitle: '',
     },
   },

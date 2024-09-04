@@ -15,8 +15,10 @@ function HeaderIconBox({
     <PressableBox
       backgroundColor="white"
       alignItems="center"
+      justifyContent="flex-start"
       flexDirection="row"
       paddingHorizontal="m"
+      paddingVertical="m"
       gap="s"
       {...rest}>
       {children}
@@ -53,7 +55,6 @@ function MainHeaderIcon() {
     <HeaderIconBox onPress={() => navigate('user', { screen: 'Profile' })}>
       <Box
         backgroundColor="secondaryBackground"
-        padding="m"
         borderRadius="xl"
         width={40}
         height={40}

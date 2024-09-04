@@ -31,7 +31,8 @@ const OnboardingNavigationScreens: {
     name: 'SelectAccount',
     component: OnboardingScreen,
     options: {
-      headerLeft: () => <BackHeaderIcon title="الاعداد" />,
+      headerRight: () => BackHeaderIcon({ title: ' الاعداد' }),
+      headerLeft: () => <></>,
       headerTitle: '',
     },
   },

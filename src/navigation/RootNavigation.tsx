@@ -25,6 +25,7 @@ import {
   ForgetStack,
 } from '../features/forgetPassword/navigation';
 import { SplashScreen } from '../features/SplashScreen';
+import { PaymentScreen, SelectPaymentScreen } from '../features/home/screens';
 
 type MainNavigationParamsList = {
   Splash: undefined;
@@ -33,6 +34,8 @@ type MainNavigationParamsList = {
   main: NavigatorScreenParams<TabParamList>;
   user: NavigatorScreenParams<UserNavigationScreenParamsList>;
   Forget: NavigatorScreenParams<ForgetNavigationScreenParamsList>;
+  // Payment: undefined;
+  // Select: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainNavigationParamsList>();
@@ -83,6 +86,16 @@ function RootNavigation() {
             />
           </>
         )}
+        {/* <Stack.Screen
+          name={'Payment'}
+          component={PaymentScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={'Select'}
+          component={SelectPaymentScreen}
+          options={{ headerShown: false }}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

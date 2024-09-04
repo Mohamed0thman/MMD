@@ -19,7 +19,8 @@ const UsergNavigationScreens: {
     name: 'Profile',
     component: ProfileScreen,
     options: {
-      headerLeft: () => <BackHeaderIcon title="الشخصية" />,
+      headerRight: () => <BackHeaderIcon title="الشخصية" />,
+      headerLeft: () => <></>,
       headerTitle: '',
     },
   },
