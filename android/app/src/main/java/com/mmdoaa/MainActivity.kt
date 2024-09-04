@@ -1,4 +1,4 @@
-package com.mmd
+package com.mmdoaa
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
