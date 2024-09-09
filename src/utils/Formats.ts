@@ -20,18 +20,9 @@ function isSubscriptionActive(expirationDate: string) {
 
 const openURL = async (url: string) => {
   try {
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      Alert.alert(`Don't know how to open this URL: ${url}`);
-    }
+    await Linking.openURL(url);
   } catch (error) {
-    Alert.alert(
-      'Error',
-      'An error occurred while trying to open the URL. Please try again later.',
-    );
-    console.error('Failed to open URL:', error);
+    Alert.alert(`Don't know how to open this URL: ${url}`);
   }
 };
 

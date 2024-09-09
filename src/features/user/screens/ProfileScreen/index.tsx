@@ -34,7 +34,7 @@ const ProfileScreen = () => {
           title: 'مرحبا صديقي',
           message:
             'انا استخدم ابلكيشن MMD للتدرب علي الحساب الذهني أبدا معي الأن',
-          url: 'https://play.google.com/store/apps/details?id=com.belahedod.academy ',
+          url: 'https://play.google.com/store/apps/details?id=com.belahedod.academy',
         })
           .then(res => {
             console.log(res);
@@ -48,34 +48,39 @@ const ProfileScreen = () => {
       id: 2,
       label: 'تواصل مع الدعم',
       icon: <Icons icon="support" />,
-      onPress: () => '',
+      onPress: () => openURL('http://mmdoaa.com/'),
     },
     {
-      id: 1,
+      id: 3,
       label: 'سياسة الاستخدام',
       icon: <Icons icon="list" />,
       onPress: () => openURL('http://mmdoaa.com/terms-and-conditions'),
     },
     {
-      id: 1,
+      id: 4,
       label: 'سياسة الخصوصية',
       icon: <Icons icon="shield" />,
       onPress: () => openURL('https://mmdoaa.com/privacy'),
     },
     {
-      id: 1,
+      id: 5,
       label: 'الأعدادت',
       icon: <Icons icon="setting" />,
       onPress: () => '',
     },
     {
-      id: 1,
+      id: 6,
       label: 'الخروج',
       icon: <Icons icon="logout" />,
       onPress: () => {
         logout();
-        // navigation.navigate('Onboarding', { screen: 'Welcome' });
       },
+    },
+    {
+      id: 7,
+      label: 'حذف الحساب',
+      icon: <Icons icon="logout" />,
+      onPress: () => openURL('http://mmdoaa.com/'),
     },
   ];
 
