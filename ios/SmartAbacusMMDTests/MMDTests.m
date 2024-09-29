@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface MMDTests : XCTestCase
+@interface SmartAbacusMMDTests : XCTestCase
 
 @end
 
-@implementation MMDTests
+@implementation SmartAbacusMMDTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {
