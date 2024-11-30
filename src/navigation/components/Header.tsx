@@ -13,13 +13,14 @@ function HeaderIconBox({
 }: React.PropsWithChildren<PressableProps>) {
   return (
     <PressableBox
-      backgroundColor="white"
+      // backgroundColor="black"
       alignItems="center"
-      justifyContent="flex-start"
+      // justifyContent="flex-start"
       flexDirection="row"
-      paddingHorizontal="m"
-      paddingVertical="m"
+      // paddingHorizontal="m"
+      // paddingVertical="m"
       gap="s"
+    
       {...rest}>
       {children}
     </PressableBox>

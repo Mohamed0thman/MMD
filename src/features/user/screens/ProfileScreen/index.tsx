@@ -62,12 +62,12 @@ const ProfileScreen = () => {
       icon: <Icons icon="shield" />,
       onPress: () => openURL('https://mmdoaa.com/privacy'),
     },
-    {
-      id: 5,
-      label: 'الأعدادت',
-      icon: <Icons icon="setting" />,
-      onPress: () => '',
-    },
+    // {
+    //   id: 5,
+    //   label: 'الأعدادت',
+    //   icon: <Icons icon="setting" />,
+    //   onPress: () => '',
+    // },
     {
       id: 6,
       label: 'الخروج',
